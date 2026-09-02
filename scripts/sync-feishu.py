@@ -140,9 +140,9 @@ for idx, row in enumerate(all_rows):
     else:
         tags = [t.strip() for t in str(tags_str).split(',') if t.strip()]
 
-    # source
+    # source - sync ALL Feishu records to website
     src = get_field('来源', row) or []
-    community = isinstance(src, list) and len(src) > 0 and str(src[0]) == '社区提交'
+    community = True  # All records from Feishu are synced
 
     # salary
     s_min = get_field('最低薪资K', row) or 0
@@ -178,14 +178,10 @@ for idx, row in enumerate(all_rows):
     }
     jobs.append(job)
 
-# Only export community-submitted jobs
-community = [j for j in jobs if j.get('community')]
+# Export all Feishu records as community jobs
 with open('community-jobs.json', 'w') as fp:
-    json.dump(community, fp, ensure_ascii=False, indent=2)
-print('Saved %d community jobs to community-jobs.json (total %d from Feishu)'
-      % (len(community), len(jobs)))
-if len(community) == 0:
-    print('No community jobs found - nothing to sync.')
+    json.dump(jobs, fp, ensure_ascii=False, indent=2)
+print('Saved %d jobs to community-jobs.json from Feishu' % len(jobs))
 
 # Also export validity data for ALL records
 # Read existing validity.json to preserve any local-only entries
