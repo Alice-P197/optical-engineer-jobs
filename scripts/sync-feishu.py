@@ -32,7 +32,19 @@ resp = requests.get(
     proxies=proxies, timeout=30,
 )
 resp.raise_for_status()
-body = resp.json()
+raw_text = resp.text
+try:
+    body = resp.json()
+except json.JSONDecodeError as e:
+    print(f'JSON parse error: {e}', file=os.sys.stderr)
+    start = max(0, e.pos - 200)
+    end = min(len(raw_text), e.pos + 200)
+    print(f'Raw response near error (pos {e.pos}):',
+          file=os.sys.stderr)
+    print(repr(raw_text[start:end]), file=os.sys.stderr)
+    print(f'Full response length: {len(raw_text)}', file=os.sys.stderr)
+    print(f'Response starts with: {raw_text[:200]}', file=os.sys.stderr)
+    exit(1)
 code = body.get('code', -1)
 if code != 0:
     print(f'API error: {body}', file=os.sys.stderr)
