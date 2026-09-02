@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Sync jobs from Feishu Base (v3 columnar API) to jobs-data.json."""
+"""Sync community jobs from Feishu Base (v3 columnar API) to community-jobs.json.
+
+This script only exports records marked as '社区提交' (community-submitted).
+It does NOT overwrite jobs-data.json (the 200 base jobs).
+"""
 import json, os, sys
 import urllib.request
 import urllib.error
@@ -167,6 +171,11 @@ for idx, row in enumerate(all_rows):
     }
     jobs.append(job)
 
-with open('jobs-data.json', 'w') as fp:
-    json.dump(jobs, fp, ensure_ascii=False, indent=2)
-print('Saved %d jobs to jobs-data.json' % len(jobs))
+# Only export community-submitted jobs
+community = [j for j in jobs if j.get('community')]
+with open('community-jobs.json', 'w') as fp:
+    json.dump(community, fp, ensure_ascii=False, indent=2)
+print('Saved %d community jobs to community-jobs.json (total %d from Feishu)'
+      % (len(community), len(jobs)))
+if len(community) == 0:
+    print('No community jobs found - nothing to sync.')

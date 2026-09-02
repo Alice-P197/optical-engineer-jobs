@@ -1,8 +1,6 @@
-name: Sync Feishu Jobs
+name: Sync Feishu Community Jobs
 
 on:
-  push:
-    branches: [main, master]
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
@@ -26,11 +24,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add jobs-data.json
+          git add community-jobs.json
           if git diff --staged --quiet; then
-            echo "No changes"
+            echo "No community job changes"
           else
-            git commit -m "Sync jobs from Feishu ($(date +%Y-%m-%dT%H:%M))"
+            git commit -m "Sync community jobs from Feishu ($(date +%Y-%m-%dT%H:%M))"
             git push
-            echo "Pushed updated jobs-data.json"
+            echo "Pushed updated community-jobs.json"
           fi
