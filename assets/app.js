@@ -332,9 +332,11 @@
   var COMMUNITY_TS_KEY = 'optical_jobs_community_ts';
   var GITHUB_REPO = 'alice-p197/optical-engineer-jobs';
   var GITHUB_FILE = 'jobs-community.json';
-  // Replace with your Cloudflare Worker URL after deployment:
+  // Replace with your Cloudflare Worker URL after deploying:
   // npx wrangler deploy  →  https://optical-engineer-jobs.YOUR-SUBDOMAIN.workers.dev
   var WORKER_URL = 'https://optical-engineer-jobs.REPLACE-ME.workers.dev';
+  // Feishu form for new job submissions
+  var FEISHU_FORM_URL = 'https://ocn7ru7e2e1o.feishu.cn/share/base/shrcnaZdWtF1xJWqIdHQnpQAiVb';
   var communityJobs = [];
 
   function loadCommunityJobs() {
@@ -352,6 +354,33 @@
 
   function mergeAllJobs() {
     jobs = baseJobs.concat(communityJobs);
+  }
+
+  // Fetch jobs from Feishu Worker (via Cloudflare Worker proxy)
+  var feishuJobsLoaded = false;
+  function fetchFromFeishu() {
+    if (!WORKER_URL || WORKER_URL.indexOf('REPLACE-ME') !== -1) return;
+    var url = WORKER_URL + '/jobs?t=' + Date.now();
+    try {
+      fetch(url, { cache: 'no-store' })
+        .then(function(r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function(data) {
+          if (data.ok && Array.isArray(data.jobs) && data.jobs.length > 0) {
+            baseJobs = data.jobs;
+            feishuJobsLoaded = true;
+            refreshAll();
+            var el = document.getElementById('feishuStatus');
+            if (el) { el.textContent = '飞书同步 · ' + data.jobs.length + ' 岗位'; el.className = 'feishu-status live'; }
+          }
+        })
+        .catch(function() {
+          var el = document.getElementById('feishuStatus');
+          if (el) { el.textContent = '离线模式'; el.className = 'feishu-status offline'; }
+        });
+    } catch(e) { /* ignore */ }
   }
 
   function updateStats() {
@@ -459,6 +488,7 @@
   // ===== Job Submission via GitHub Issue =====
   document.getElementById('addJobForm').addEventListener('submit', function(e) {
     e.preventDefault();
+    // Save locally immediately
     var city = document.getElementById('fjCity').value;
     var company = document.getElementById('fjCompany').value.trim();
     var position = document.getElementById('fjPosition').value.trim();
@@ -508,45 +538,14 @@
     // Save locally immediately
     communityJobs.unshift(newJob);
     saveCommunityJobs();
-    refreshAll();
     closeAddJobModal();
+    refreshAll();
     window.scrollTo({top: 0, behavior: 'smooth'});
 
-    // Sync to Cloudflare Worker → GitHub
-    var statusEl = document.getElementById('syncStatus');
-    if (statusEl) {
-      statusEl.textContent = '正在同步到云端...';
-      statusEl.className = 'sync-status';
-    }
-    var submitBtn = document.querySelector('#addJobForm button[type=submit]');
-    if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = '提交中...'; }
-
-    fetch(WORKER_URL + '/submit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newJob)
-    })
-    .then(function(r) { return r.json(); })
-    .then(function(result) {
-      if (result.ok) {
-        if (statusEl) {
-          statusEl.textContent = '已同步到云端！其他用户刷新后即可看到';
-          statusEl.className = 'sync-status success';
-        }
-      } else {
-        throw new Error(result.error || '同步失败');
-      }
-    })
-    .catch(function(err) {
-      if (statusEl) {
-        statusEl.textContent = '云端同步失败（已保存到本地）：' + err.message;
-        statusEl.className = 'sync-status error';
-      }
-      console.error('Sync error:', err);
-    })
-    .finally(function() {
-      if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = '提交岗位'; }
-    });
+    // Open Feishu form for cloud sync
+    setTimeout(function() {
+      window.open(FEISHU_FORM_URL, '_blank');
+    }, 300);
   });
 
   function fetchCommunityFromGitHub() {
@@ -592,6 +591,7 @@
   loadCommunityJobs();
   mergeAllJobs();
   fetchCommunityFromGitHub();
+  fetchFromFeishu();
   updateStats();
   generateRegionChips();
   filterJobs();

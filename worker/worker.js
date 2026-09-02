@@ -1,15 +1,16 @@
 /**
- * Cloudflare Worker — optical-engineer-jobs sync backend
+ * Cloudflare Worker — optical-engineer-jobs Feishu backend
  * Deploy: npx wrangler deploy
- * Set secret: npx wrangler secret put GITHUB_TOKEN
+ * Set secrets:
+ *   npx wrangler secret put FEISHU_APP_ID
+ *   npx wrangler secret put FEISHU_APP_SECRET
  *
- * Receives job submissions from the website, pushes them to
- * jobs-community.json on the GitHub repo so all visitors see updates.
+ * Proxies Feishu Base API calls so the website can read job data
+ * without exposing credentials to the client.
  */
 
-const GITHUB_REPO = 'alice-p197/optical-engineer-jobs';
-const GITHUB_FILE = 'jobs-community.json';
-const BRANCH = 'main';
+const BASE_TOKEN = 'YPSTbjYSGaKXvLsSQ3wcxilYnDd';
+const TABLE_ID = 'tblXG6CvIWsapTND';
 
 const CORS_HEADERS = {
   'Access-Control-Allow-Origin': '*',
@@ -25,35 +26,97 @@ function json(data, status) {
   });
 }
 
-async function githubAPI(path, opts) {
-  const token = opts.token; // pass through
-  const res = await fetch('https://api.github.com' + path, {
-    method: opts.method || 'GET',
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'Accept': 'application/vnd.github.v3+json',
-      'User-Agent': 'optical-engineer-jobs-worker',
-      ...(opts.body ? { 'Content-Type': 'application/json; charset=utf-8' } : {}),
-    },
-    body: opts.body ? JSON.stringify(opts.body) : undefined,
-  });
-  const data = await res.json();
-  if (!res.ok) {
-    throw new Error('GitHub API error ' + res.status + ': ' + JSON.stringify(data));
+let cachedToken = null;
+let tokenExpiry = 0;
+
+async function getTenantToken(env) {
+  if (cachedToken && Date.now() < tokenExpiry) {
+    return cachedToken;
   }
-  return data;
+  const res = await fetch(
+    'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      body: JSON.stringify({
+        app_id: env.FEISHU_APP_ID,
+        app_secret: env.FEISHU_APP_SECRET,
+      }),
+    }
+  );
+  const data = await res.json();
+  if (data.code !== 0) {
+    throw new Error('Feishu auth error: ' + JSON.stringify(data));
+  }
+  cachedToken = data.tenant_access_token;
+  // Cache for 90 min (token lifetime is 2 hours)
+  tokenExpiry = Date.now() + 90 * 60 * 1000;
+  return cachedToken;
 }
 
-async function fetchExistingFile(token) {
-  try {
-    const data = await githubAPI(
-      '/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE + '?ref=' + BRANCH,
-      { token }
-    );
-    return data;
-  } catch (e) {
-    return null; // file doesn't exist yet
-  }
+async function listAllRecords(token) {
+  let allItems = [];
+  let pageToken = null;
+  do {
+    let url = 'https://open.feishu.cn/open-apis/base/v3/bases/' +
+      BASE_TOKEN + '/tables/' + TABLE_ID + '/records?page_size=200';
+    if (pageToken) url += '&page_token=' + encodeURIComponent(pageToken);
+    const res = await fetch(url, {
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json; charset=utf-8',
+      },
+    });
+    const data = await res.json();
+    if (data.code !== 0) {
+      throw new Error('Feishu API error: ' + JSON.stringify(data));
+    }
+    if (data.data && data.data.items) {
+      allItems = allItems.concat(data.data.items);
+    }
+    pageToken = data.data && data.data.has_more ? data.data.page_token : null;
+  } while (pageToken);
+  return allItems;
+}
+
+// Convert Feishu record to website job format
+function recordToJob(record) {
+  const f = record.fields || {};
+  const dirStr = Array.isArray(f['研究方向']) ? f['研究方向'].join(',') : (f['研究方向'] || '');
+  const dirList = Array.isArray(f['研究方向']) ? f['研究方向'] : [];
+
+  return {
+    id: record.record_id || '',
+    city: Array.isArray(f['城市']) ? f['城市'][0] || '' : (f['城市'] || ''),
+    company: f['公司'] || '',
+    position: f['岗位'] || '',
+    dir: dirStr,
+    dirList: dirList,
+    salary: f['薪资范围'] || '面议',
+    sMin: f['最低薪资K'] || 0,
+    sMax: f['最高薪资K'] || 0,
+    edu: f['学历要求'] || '未注明',
+    exp: f['经验要求'] || '未注明',
+    date: f['发布日期'] || '',
+    fresh: f['是否最新'] === true || f['是否最新'] === 'true',
+    desc: f['岗位描述'] || '',
+    tags: f['技能标签'] ? f['技能标签'].split(',').map(function(t) { return t.trim(); }) : [],
+    link: extractUrl(f['招聘链接']),
+    linkText: f['链接文字'] || '查看详情',
+    email: f['邮箱'] || null,
+    phone: f['电话'] || null,
+    community: Array.isArray(f['来源']) && f['来源'][0] === '社区提交',
+  };
+}
+
+// Extract URL from Feishu url field (markdown format: [text](url))
+function extractUrl(val) {
+  if (!val) return null;
+  var m = val.match(/\]\(([^)]+)\)/);
+  if (m) return m[1];
+  // If it's a plain URL
+  if (/^https?:\/\//.test(val)) return val;
+  return null;
 }
 
 export default {
@@ -65,83 +128,24 @@ export default {
       return new Response(null, { status: 204, headers: CORS_HEADERS });
     }
 
-    // POST /submit — add a new job
-    if (request.method === 'POST' && url.pathname === '/submit') {
+    // GET /jobs — list all jobs from Feishu Base
+    if (request.method === 'GET' && url.pathname === '/jobs') {
       try {
-        const token = env.GITHUB_TOKEN;
-        if (!token) {
-          return json({ ok: false, error: 'Worker not configured: GITHUB_TOKEN secret missing' }, 500);
+        if (!env.FEISHU_APP_ID || !env.FEISHU_APP_SECRET) {
+          return json({ ok: false, error: 'Worker not configured: FEISHU_APP_ID / FEISHU_APP_SECRET missing' }, 500);
         }
 
-        const body = await request.json();
-        if (!body || !body.company || !body.position || !body.city) {
-          return json({ ok: false, error: 'Missing required fields: company, position, city' }, 400);
-        }
+        const token = await getTenantToken(env);
+        const items = await listAllRecords(token);
+        const jobs = items.map(recordToJob);
 
-        // Read existing community jobs
-        const existingFile = await fetchExistingFile(token);
-        let existing = [];
-        let sha = null;
-        if (existingFile && existingFile.content) {
-          sha = existingFile.sha;
-          const decoded = atob(existingFile.content.replace(/\n/g, ''));
-          try {
-            existing = JSON.parse(decoded);
-            if (!Array.isArray(existing)) existing = [];
-          } catch (e) {
-            existing = [];
-          }
-        }
-
-        // Ensure required fields
-        const job = {
-          id: body.id || ('cm-' + Date.now().toString(36)),
-          city: body.city,
-          company: body.company,
-          position: body.position,
-          dir: body.dir || '',
-          dirList: body.dirList || [],
-          salary: body.salary || '面议',
-          sMin: body.sMin || 0,
-          sMax: body.sMax || 0,
-          edu: body.edu || '未注明',
-          exp: body.exp || '未注明',
-          date: body.date || new Date().toISOString().slice(0, 10),
-          fresh: true,
-          desc: body.desc || '',
-          tags: body.tags || [],
-          link: body.link || null,
-          linkText: body.linkText || '查看详情',
-          email: body.email || null,
-          phone: body.phone || null,
-          community: true,
-        };
-
-        // Prepend to list
-        existing.unshift(job);
-
-        // Push to GitHub
-        const content = Buffer.from(JSON.stringify(existing, null, 2)).toString('base64');
-        const commitMsg = 'Add community job: ' + job.company + ' - ' + job.position;
-
-        await githubAPI('/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE, {
-          method: 'PUT',
-          token,
-          body: {
-            message: commitMsg,
-            content: content,
-            branch: BRANCH,
-            ...(sha ? { sha } : {}),
-          },
-        });
-
-        return json({ ok: true, job: job, total: existing.length });
+        return json({ ok: true, count: jobs.length, jobs: jobs });
       } catch (e) {
         return json({ ok: false, error: e.message }, 500);
       }
     }
 
     // GET / — health check
-    return json({ ok: true, service: 'optical-engineer-jobs-worker', version: '1.0.0' });
+    return json({ ok: true, service: 'optical-engineer-jobs-feishu', version: '2.0.0' });
   },
 };

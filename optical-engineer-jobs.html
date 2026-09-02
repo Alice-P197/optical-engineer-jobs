@@ -513,6 +513,14 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); 
   flex: 1; text-align: left; line-height: 1.4;
 }
 
+.feishu-status {
+  font-size: 0.7rem; color: var(--muted); margin-left: 0.5rem;
+  padding: 0.2rem 0.5rem; border-radius: 10px;
+  background: var(--card-bg); white-space: nowrap;
+}
+.feishu-status.live { color: var(--accent2); }
+.feishu-status.offline { color: var(--muted); }
+
 .community-badge {
   display: inline-block; background: var(--accent2-light);
   color: var(--accent2); font-size: 0.65rem; font-weight: 700;
@@ -567,6 +575,7 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); 
       <button class="add-job-btn" id="addJobBtn" title="添加新岗位">
         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> 添加岗位
       </button>
+      <span class="feishu-status" id="feishuStatus" title="飞书多维表格同步状态">飞书同步中...</span>
     </div>
     <div style="width:100%;">
       <div class="filter-group">
@@ -687,7 +696,7 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); 
       </div>
       <div class="form-actions">
         <span class="sync-status" id="syncStatus"></span>
-        <span class="sync-hint">提交后自动同步到云端，所有访问者刷新即可看到</span>
+        <span class="sync-hint">提交后弹出飞书表单完成云端同步，无需注册</span>
         <button type="button" class="btn-secondary" id="addJobCancel">取消</button>
         <button type="submit" class="btn-primary">提交岗位</button>
       </div>
