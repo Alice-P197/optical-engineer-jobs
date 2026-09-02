@@ -1,0 +1,8 @@
+name = "optical-engineer-jobs"
+main = "worker.js"
+compatibility_date = "2025-09-01"
+
+# Free tier: 100,000 requests/day
+# After deploying, set the GitHub token secret:
+#   npx wrangler secret put GITHUB_TOKEN
+# The token needs repo scope to read/write jobs-community.json
