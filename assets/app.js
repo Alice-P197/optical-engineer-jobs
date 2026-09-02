@@ -329,7 +329,7 @@
 
   // ===== Community Jobs =====
   var COMMUNITY_KEY = 'optical_jobs_community';
-  var GITHUB_TOKEN_KEY = 'optical_jobs_gh_token';
+  var COMMUNITY_TS_KEY = 'optical_jobs_community_ts';
   var GITHUB_REPO = 'alice-p197/optical-engineer-jobs';
   var GITHUB_FILE = 'jobs-community.json';
   var communityJobs = [];
@@ -437,50 +437,6 @@
     if (e.target === this) closeAddJobModal();
   });
 
-  // Token setup
-  document.getElementById('tokenSetup').addEventListener('click', function() {
-    var current = localStorage.getItem(GITHUB_TOKEN_KEY) || '';
-    var token = prompt(
-      '请输入 GitHub Personal Access Token（classic）：\n\n' +
-      '创建步骤：\n' +
-      '1. 打开 https://github.com/settings/tokens\n' +
-      '2. 点击 Generate new token (classic)\n' +
-      '3. 勾选 repo 权限\n' +
-      '4. 生成后粘贴到此处\n\n' +
-      '当前 Token：' + (current ? current.slice(0,8) + '...' : '未设置'),
-      current
-    );
-    if (token !== null) {
-      if (token.trim()) {
-        localStorage.setItem(GITHUB_TOKEN_KEY, token.trim());
-        document.getElementById('syncStatus').textContent = 'Token 已设置 ✓';
-        document.getElementById('syncStatus').className = 'sync-status success';
-        this.textContent = '已设置 Token';
-        this.style.color = 'var(--accent2)';
-      } else {
-        localStorage.removeItem(GITHUB_TOKEN_KEY);
-        document.getElementById('syncStatus').textContent = '';
-        this.textContent = '设置 Token';
-        this.style.color = 'var(--muted)';
-      }
-    }
-  });
-
-  // Show token status on form open
-  var origOpenAddJobModal = openAddJobModal;
-  openAddJobModal = function() {
-    origOpenAddJobModal();
-    var token = localStorage.getItem(GITHUB_TOKEN_KEY);
-    var setupEl = document.getElementById('tokenSetup');
-    if (token) {
-      setupEl.textContent = '已设置 Token';
-      setupEl.style.color = 'var(--accent2)';
-    } else {
-      setupEl.textContent = '设置 Token';
-      setupEl.style.color = 'var(--muted)';
-    }
-  };
-
   // Custom city handler
   document.getElementById('fjCity').addEventListener('change', function() {
     if (this.value === '__custom__') {
@@ -497,6 +453,7 @@
     }
   });
 
+  // ===== Job Submission via GitHub Issue =====
   document.getElementById('addJobForm').addEventListener('submit', function(e) {
     e.preventDefault();
     var city = document.getElementById('fjCity').value;
@@ -513,7 +470,6 @@
     var phone = document.getElementById('fjPhone').value.trim();
     var desc = document.getElementById('fjDesc').value.trim();
 
-    // Directions
     var dirs = [];
     document.querySelectorAll('#fjDirGroup input:checked').forEach(function(cb) {
       dirs.push(cb.value);
@@ -524,20 +480,15 @@
     }
     if (dirs.length === 0) { alert('请至少选择一个研究方向'); return; }
 
-    // Tags
     var tags = document.getElementById('fjTags').value.trim()
       .split(',').map(function(t){return t.trim();}).filter(Boolean);
 
-    // Salary string
     var salaryStr = '面议';
     if (sMin > 0 && sMax > 0) salaryStr = sMin + 'K-' + sMax + 'K';
     else if (sMax > 0) salaryStr = '最高' + sMax + 'K';
     else if (sMin > 0) salaryStr = sMin + 'K起';
 
-    // Date string
     var dateStr = date || new Date().toISOString().slice(0, 10);
-
-    // Generate ID
     var id = 'cm-' + Date.now().toString(36);
 
     var newJob = {
@@ -551,83 +502,53 @@
       community: true
     };
 
+    // Save locally immediately
     communityJobs.unshift(newJob);
     saveCommunityJobs();
     refreshAll();
     closeAddJobModal();
-    // Scroll to top
     window.scrollTo({top: 0, behavior: 'smooth'});
-    // Try GitHub sync
-    syncToGitHub();
+
+    // Open GitHub issue for cloud sync
+    var issueTitle = '[岗位提交] ' + company + ' - ' + position;
+    var jobJson = JSON.stringify(newJob, null, 2);
+    var issueBody = '## 岗位提交\n\n' +
+      '以下岗位由光学就业网用户提交。\n\n' +
+      '```json\n' + jobJson + '\n```\n\n' +
+      '> 提交时间：' + new Date().toISOString() + '\n';
+    var issueUrl = 'https://github.com/' + GITHUB_REPO +
+      '/issues/new?title=' + encodeURIComponent(issueTitle) +
+      '&body=' + encodeURIComponent(issueBody) +
+      '&labels=job-submission';
+    setTimeout(function() { window.open(issueUrl, '_blank'); }, 600);
   });
 
-  // ===== GitHub Sync =====
-  function syncToGitHub() {
-    var token = localStorage.getItem(GITHUB_TOKEN_KEY);
-    if (!token) {
-      document.getElementById('syncStatus').textContent = '已保存到本地';
-      document.getElementById('syncStatus').className = 'sync-status success';
-      return;
-    }
-    document.getElementById('syncStatus').textContent = '正在同步到云端…';
-    document.getElementById('syncStatus').className = 'sync-status';
-
-    var apiUrl = 'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE;
-    var content = JSON.stringify(communityJobs, null, 2);
-    var body = {
-      message: 'Update community jobs (' + communityJobs.length + ' total)',
-      content: btoa(unescape(encodeURIComponent(content)))
-    };
-
-    // First get existing file SHA
-    fetch(apiUrl, {
-      headers: { 'Authorization': 'token ' + token, 'Accept': 'application/vnd.github.v3+json' }
-    }).then(function(r) {
-      if (r.ok) return r.json().then(function(d) { body.sha = d.sha; return body; });
-      return body;
-    }).then(function(bodyWithSha) {
-      return fetch(apiUrl, {
-        method: 'PUT',
-        headers: {
-          'Authorization': 'token ' + token,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(bodyWithSha)
-      });
-    }).then(function(r) {
-      if (r.ok) {
-        document.getElementById('syncStatus').textContent = '已同步到云端 ✓';
-        document.getElementById('syncStatus').className = 'sync-status success';
-      } else {
-        document.getElementById('syncStatus').textContent = '同步失败，已保存到本地';
-        document.getElementById('syncStatus').className = 'sync-status error';
-      }
-    }).catch(function() {
-      document.getElementById('syncStatus').textContent = '网络错误，已保存到本地';
-      document.getElementById('syncStatus').className = 'sync-status error';
-    });
-  }
-
   function fetchCommunityFromGitHub() {
-    var apiUrl = 'https://api.github.com/repos/' + GITHUB_REPO + '/contents/' + GITHUB_FILE;
-    fetch(apiUrl, {
-      headers: { 'Accept': 'application/vnd.github.v3+json' }
-    }).then(function(r) {
-      if (!r.ok) return null;
-      return r.json();
-    }).then(function(d) {
-      if (d && d.content) {
-        try {
-          var decoded = JSON.parse(decodeURIComponent(escape(atob(d.content.replace(/\s/g, '')))));
-          if (Array.isArray(decoded) && decoded.length > 0) {
-            communityJobs = decoded;
-            saveCommunityJobs();
-            refreshAll();
+    // Use raw.githubusercontent.com — no auth needed for public repos
+    var rawUrl = 'https://raw.githubusercontent.com/' + GITHUB_REPO +
+      '/main/' + GITHUB_FILE;
+    // Add cache-busting param to avoid stale responses
+    fetch(rawUrl + '?t=' + Date.now(), { cache: 'no-store' })
+      .then(function(r) {
+        if (!r.ok) throw new Error('Not found');
+        return r.json();
+      })
+      .then(function(remote) {
+        if (!Array.isArray(remote) || remote.length === 0) return;
+        // Merge: remote data wins for same ID, keep local-only jobs
+        var localIds = {};
+        communityJobs.forEach(function(j) { localIds[j.id] = true; });
+        var merged = remote.slice();
+        communityJobs.forEach(function(j) {
+          if (!remote.some(function(rj) { return rj.id === j.id; })) {
+            merged.push(j);
           }
-        } catch(e) { /* ignore */ }
-      }
-    }).catch(function() { /* offline - use localStorage */ });
+        });
+        communityJobs = merged;
+        saveCommunityJobs();
+        refreshAll();
+      })
+      .catch(function() { /* offline — use localStorage */ });
   }
 
   // ===== Community badge in cards =====
