@@ -437,6 +437,50 @@
     if (e.target === this) closeAddJobModal();
   });
 
+  // Token setup
+  document.getElementById('tokenSetup').addEventListener('click', function() {
+    var current = localStorage.getItem(GITHUB_TOKEN_KEY) || '';
+    var token = prompt(
+      '请输入 GitHub Personal Access Token（classic）：\n\n' +
+      '创建步骤：\n' +
+      '1. 打开 https://github.com/settings/tokens\n' +
+      '2. 点击 Generate new token (classic)\n' +
+      '3. 勾选 repo 权限\n' +
+      '4. 生成后粘贴到此处\n\n' +
+      '当前 Token：' + (current ? current.slice(0,8) + '...' : '未设置'),
+      current
+    );
+    if (token !== null) {
+      if (token.trim()) {
+        localStorage.setItem(GITHUB_TOKEN_KEY, token.trim());
+        document.getElementById('syncStatus').textContent = 'Token 已设置 ✓';
+        document.getElementById('syncStatus').className = 'sync-status success';
+        this.textContent = '已设置 Token';
+        this.style.color = 'var(--accent2)';
+      } else {
+        localStorage.removeItem(GITHUB_TOKEN_KEY);
+        document.getElementById('syncStatus').textContent = '';
+        this.textContent = '设置 Token';
+        this.style.color = 'var(--muted)';
+      }
+    }
+  });
+
+  // Show token status on form open
+  var origOpenAddJobModal = openAddJobModal;
+  openAddJobModal = function() {
+    origOpenAddJobModal();
+    var token = localStorage.getItem(GITHUB_TOKEN_KEY);
+    var setupEl = document.getElementById('tokenSetup');
+    if (token) {
+      setupEl.textContent = '已设置 Token';
+      setupEl.style.color = 'var(--accent2)';
+    } else {
+      setupEl.textContent = '设置 Token';
+      setupEl.style.color = 'var(--muted)';
+    }
+  };
+
   // Custom city handler
   document.getElementById('fjCity').addEventListener('change', function() {
     if (this.value === '__custom__') {
