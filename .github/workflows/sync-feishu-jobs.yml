@@ -1,0 +1,167 @@
+name: Sync Feishu Jobs
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # every 5 minutes
+  workflow_dispatch:        # manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Fetch from Feishu Base
+        run: |
+          # Step 1: Get tenant access token
+          TOKEN_RESP=$(curl -s -X POST \
+            'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal' \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"app_id\":\"${{ secrets.FEISHU_APP_ID }}\",\"app_secret\":\"${{ secrets.FEISHU_APP_SECRET }}\"}")
+
+          TOKEN=$(echo "$TOKEN_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['tenant_access_token'])")
+          echo "Got token: ${TOKEN:0:10}..."
+
+          # Step 2: List all records from Feishu Base
+          BASE_TOKEN="YPSTbjYSGaKXvLsSQ3wcxilYnDd"
+          TABLE_ID="tblXG6CvIWsapTND"
+          PAGE_TOKEN=""
+          ALL_ITEMS="[]"
+
+          while true; do
+            URL="https://open.feishu.cn/open-apis/base/v3/bases/${BASE_TOKEN}/tables/${TABLE_ID}/records?page_size=200"
+            if [ -n "$PAGE_TOKEN" ]; then
+              URL="${URL}&page_token=${PAGE_TOKEN}"
+            fi
+
+            RESP=$(curl -s "$URL" \
+              -H "Authorization: Bearer ${TOKEN}" \
+              -H 'Content-Type: application/json; charset=utf-8')
+
+            ITEMS=$(echo "$RESP" | python3 -c "
+import sys, json
+data = json.load(sys.stdin)
+if data.get('code') != 0:
+    print('[]', file=sys.stderr)
+    sys.exit(1)
+items = data.get('data', {}).get('items', [])
+print(json.dumps(items))
+")
+
+            ALL_ITEMS=$(python3 -c "
+import sys, json
+all_items = json.loads('''$ALL_ITEMS''')
+new_items = json.loads('''$ITEMS''')
+all_items.extend(new_items)
+print(json.dumps(all_items, ensure_ascii=False))
+")
+
+            HAS_MORE=$(echo "$RESP" | python3 -c "
+import sys, json
+d = json.load(sys.stdin)
+print(d.get('data', {}).get('has_more', False))
+")
+
+            if [ "$HAS_MORE" != "True" ]; then
+              break
+            fi
+            PAGE_TOKEN=$(echo "$RESP" | python3 -c "
+import sys, json
+print(json.load(sys.stdin)['data']['page_token'])
+")
+          done
+
+          echo "Fetched $(echo "$ALL_ITEMS" | python3 -c 'import sys,json; print(len(json.load(sys.stdin)))') records"
+
+          # Step 3: Convert to website format
+          JOBS_JSON=$(python3 -c "
+import json, sys
+
+items = json.loads('''$ALL_ITEMS''')
+jobs = []
+
+for item in items:
+    f = item.get('fields', {})
+    rid = item.get('record_id', '')
+
+    # Extract city from select field
+    city = ''
+    cv = f.get('城市')
+    if isinstance(cv, list) and len(cv) > 0:
+        city = cv[0]
+    elif isinstance(cv, str):
+        city = cv
+
+    # Extract directions from multi-select
+    dirs = f.get('研究方向', [])
+    if isinstance(dirs, list):
+        dir_list = dirs
+        dir_str = ','.join(dirs)
+    else:
+        dir_list = [dirs] if dirs else []
+        dir_str = dirs or ''
+
+    # Extract URL from link field
+    link_val = f.get('招聘链接', '')
+    link = None
+    if link_val:
+        import re
+        m = re.search(r'\]\(([^)]+)\)', link_val)
+        if m:
+            link = m.group(1)
+        elif link_val.startswith('http'):
+            link = link_val
+
+    # Tags
+    tags_str = f.get('技能标签', '') or ''
+    tags = [t.strip() for t in tags_str.split(',') if t.strip()] if tags_str else []
+
+    # Source
+    src = f.get('来源', ['系统收录'])
+    community = isinstance(src, list) and len(src) > 0 and src[0] == '社区提交'
+
+    job = {
+        'id': rid,
+        'city': city,
+        'company': f.get('公司', '') or '',
+        'position': f.get('岗位', '') or '',
+        'dir': dir_str,
+        'dirList': dir_list,
+        'salary': f.get('薪资范围', '面议') or '面议',
+        'sMin': f.get('最低薪资K', 0) or 0,
+        'sMax': f.get('最高薪资K', 0) or 0,
+        'edu': f.get('学历要求', '未注明') or '未注明',
+        'exp': f.get('经验要求', '未注明') or '未注明',
+        'date': f.get('发布日期', '') or '',
+        'fresh': f.get('是否最新') == True,
+        'desc': f.get('岗位描述', '') or '',
+        'tags': tags,
+        'link': link,
+        'linkText': f.get('链接文字', '查看详情') or '查看详情',
+        'email': f.get('邮箱', None),
+        'phone': f.get('电话', None),
+        'community': community,
+    }
+    jobs.append(job)
+
+with open('jobs-data.json', 'w') as fp:
+    json.dump(jobs, fp, ensure_ascii=False, indent=2)
+
+print(f'Converted {len(jobs)} jobs')
+")
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add jobs-data.json
+          if git diff --staged --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Sync jobs from Feishu ($(date +%Y-%m-%dT%H:%M))"
+            git push
+            echo "Pushed updated jobs-data.json"
+          fi

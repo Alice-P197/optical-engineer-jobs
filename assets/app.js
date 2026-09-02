@@ -332,9 +332,8 @@
   var COMMUNITY_TS_KEY = 'optical_jobs_community_ts';
   var GITHUB_REPO = 'alice-p197/optical-engineer-jobs';
   var GITHUB_FILE = 'jobs-community.json';
-  // Replace with your Cloudflare Worker URL after deploying:
-  // npx wrangler deploy  →  https://optical-engineer-jobs.YOUR-SUBDOMAIN.workers.dev
-  var WORKER_URL = 'https://optical-engineer-jobs.REPLACE-ME.workers.dev';
+  // GitHub Action syncs Feishu data to this file every 5 minutes
+  var GITHUB_DATA_URL = 'https://raw.githubusercontent.com/Alice-P197/optical-engineer-jobs/main/jobs-data.json';
   // Feishu form for new job submissions
   var FEISHU_FORM_URL = 'https://ocn7ru7e2e1o.feishu.cn/share/base/shrcnaZdWtF1xJWqIdHQnpQAiVb';
   var communityJobs = [];
@@ -356,11 +355,10 @@
     jobs = baseJobs.concat(communityJobs);
   }
 
-  // Fetch jobs from Feishu Worker (via Cloudflare Worker proxy)
+  // Fetch jobs from GitHub (synced from Feishu by GitHub Action every 5 min)
   var feishuJobsLoaded = false;
-  function fetchFromFeishu() {
-    if (!WORKER_URL || WORKER_URL.indexOf('REPLACE-ME') !== -1) return;
-    var url = WORKER_URL + '/jobs?t=' + Date.now();
+  function fetchFromGitHub() {
+    var url = GITHUB_DATA_URL + '?t=' + Date.now();
     try {
       fetch(url, { cache: 'no-store' })
         .then(function(r) {
@@ -368,12 +366,12 @@
           return r.json();
         })
         .then(function(data) {
-          if (data.ok && Array.isArray(data.jobs) && data.jobs.length > 0) {
-            baseJobs = data.jobs;
+          if (Array.isArray(data) && data.length > 0) {
+            baseJobs = data;
             feishuJobsLoaded = true;
             refreshAll();
             var el = document.getElementById('feishuStatus');
-            if (el) { el.textContent = '飞书同步 · ' + data.jobs.length + ' 岗位'; el.className = 'feishu-status live'; }
+            if (el) { el.textContent = '飞书同步 · ' + data.length + ' 岗位'; el.className = 'feishu-status live'; }
           }
         })
         .catch(function() {
@@ -591,7 +589,7 @@
   loadCommunityJobs();
   mergeAllJobs();
   fetchCommunityFromGitHub();
-  fetchFromFeishu();
+  fetchFromGitHub();
   updateStats();
   generateRegionChips();
   filterJobs();
