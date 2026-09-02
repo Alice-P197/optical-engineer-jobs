@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Sync jobs from Feishu Base to jobs-data.json."""
+"""Sync jobs from Feishu Bitable to jobs-data.json using v1 API."""
 import json, os, re, requests
 
 APP_ID = os.environ['FEISHU_APP_ID']
 APP_SECRET = os.environ['FEISHU_APP_SECRET']
-BASE_TOKEN = 'YPSTbjYSGaKXvLsSQ3wcxilYnDd'
+# Bitable app_token (same as BASE_TOKEN)
+APP_TOKEN = 'YPSTbjYSGaKXvLsSQ3wcxilYnDd'
 TABLE_ID = 'tblXG6CvIWsapTND'
 
 PROXY = os.environ.get('https_proxy') or os.environ.get('HTTPS_PROXY') or ''
@@ -24,103 +25,136 @@ if token_data.get('code') != 0:
 TOKEN = token_data['tenant_access_token']
 print('Token acquired')
 
-# Step 2: Fetch all records (single request - API returns all rows)
-resp = requests.get(
-    f'https://open.feishu.cn/open-apis/base/v3/bases/{BASE_TOKEN}'
-    f'/tables/{TABLE_ID}/records?page_size=500',
-    headers={'Authorization': f'Bearer {TOKEN}'},
-    proxies=proxies, timeout=30,
-)
-resp.raise_for_status()
-raw_text = resp.text
-try:
-    body = resp.json()
-except json.JSONDecodeError as e:
-    print(f'JSON parse error: {e}', file=os.sys.stderr)
-    start = max(0, e.pos - 200)
-    end = min(len(raw_text), e.pos + 200)
-    print(f'Raw response near error (pos {e.pos}):',
-          file=os.sys.stderr)
-    print(repr(raw_text[start:end]), file=os.sys.stderr)
-    print(f'Full response length: {len(raw_text)}', file=os.sys.stderr)
-    print(f'Response starts with: {raw_text[:200]}', file=os.sys.stderr)
-    exit(1)
-code = body.get('code', -1)
-if code != 0:
-    print(f'API error: {body}', file=os.sys.stderr)
-    exit(1)
+# Step 2: Fetch all records using v1 Bitable API
+headers = {
+    'Authorization': f'Bearer {TOKEN}',
+    'Content-Type': 'application/json',
+}
+all_items = []
+page_token = ''
+while True:
+    url = (
+        f'https://open.feishu.cn/open-apis/bitable/v1/apps/{APP_TOKEN}'
+        f'/tables/{TABLE_ID}/records?page_size=500'
+    )
+    if page_token:
+        url += f'&page_token={page_token}'
+    resp = requests.get(url, headers=headers, proxies=proxies, timeout=30)
+    resp.raise_for_status()
+    raw_text = resp.text
+    try:
+        body = resp.json()
+    except json.JSONDecodeError as e:
+        start = max(0, e.pos - 200)
+        end = min(len(raw_text), e.pos + 200)
+        print(f'JSON parse error at pos {e.pos}: {e}', file=os.sys.stderr)
+        print(f'Raw near error: {repr(raw_text[start:end])}', file=os.sys.stderr)
+        print(f'Response starts: {raw_text[:300]}', file=os.sys.stderr)
+        exit(1)
+    code = body.get('code', -1)
+    if code != 0:
+        print(f'API error: {body}', file=os.sys.stderr)
+        exit(1)
+    data = body.get('data', {})
+    items = data.get('items', [])
+    all_items.extend(items)
+    if not data.get('has_more'):
+        break
+    page_token = data.get('page_token', '')
 
-data = body['data']
-all_fields = data['fields']
-all_rows = data['data']
-all_rids = data['record_id_list']
+print(f'Fetched {len(all_items)} rows')
 
-print(f'Fetched {len(all_rows)} rows, {len(all_fields)} fields')
-
-# Step 3: Convert columnar to record format
-field_idx = {name: i for i, name in enumerate(all_fields)}
-
-def get_field(f, row):
-    i = field_idx.get(f)
-    if i is None or i >= len(row):
-        return None
-    return row[i]
-
+# Step 3: Convert record format to website format
 jobs = []
+for item in all_items:
+    fields = item.get('fields', {})
+    record_id = item.get('record_id', '')
 
-for idx, row in enumerate(all_rows):
-    rid = all_rids[idx] if idx < len(all_rids) else ''
-    company = get_field('公司', row) or ''
-    position = get_field('岗位', row) or ''
+    company = fields.get('公司', '') or ''
+    position = fields.get('岗位', '') or ''
     if not company or not position:
         continue
 
-    cv = get_field('城市', row)
+    # City
+    cv = fields.get('城市', '')
     city = ''
     if isinstance(cv, list) and len(cv) > 0:
-        city = cv[0]
+        if isinstance(cv[0], dict):
+            city = cv[0].get('text', '')
+        else:
+            city = str(cv[0])
     elif isinstance(cv, str):
         city = cv
 
-    dirs = get_field('研究方向', row) or []
-    dir_list = dirs if isinstance(dirs, list) else ([dirs] if dirs else [])
+    # Direction
+    dirs = fields.get('研究方向', '') or ''
+    dir_list = []
+    if isinstance(dirs, list):
+        dir_list = [str(d) for d in dirs if d]
+    elif isinstance(dirs, str) and dirs.strip():
+        dir_list = [dirs.strip()]
     dir_str = ','.join(dir_list)
 
-    link_val = get_field('招聘链接', row) or ''
+    # Link
+    link_val = fields.get('招聘链接', '') or ''
     link = None
-    if link_val:
+    if isinstance(link_val, dict) and link_val.get('link'):
+        link = link_val['link']
+    elif isinstance(link_val, str):
         m = re.search(r'\]\(([^)]+)\)', link_val)
         if m:
             link = m.group(1)
         elif link_val.startswith('http'):
             link = link_val
 
-    tags_str = get_field('技能标签', row) or ''
-    tags = [t.strip() for t in tags_str.split(',') if t.strip()] if tags_str else []
+    # Tags
+    tags_str = fields.get('技能标签', '') or ''
+    if isinstance(tags_str, list):
+        tags = [str(t) for t in tags_str if t]
+    else:
+        tags = [t.strip() for t in str(tags_str).split(',') if t.strip()]
 
-    src = get_field('来源', row) or ['系统收录']
-    community = isinstance(src, list) and len(src) > 0 and src[0] == '社区提交'
+    # Source / community
+    src = fields.get('来源', '') or ''
+    if isinstance(src, list):
+        community = len(src) > 0 and '社区提交' in [str(s) for s in src]
+    else:
+        community = str(src) == '社区提交'
+
+    # Salary
+    s_min = fields.get('最低薪资K', 0) or 0
+    s_max = fields.get('最高薪资K', 0) or 0
+    if isinstance(s_min, str):
+        try:
+            s_min = float(s_min)
+        except ValueError:
+            s_min = 0
+    if isinstance(s_max, str):
+        try:
+            s_max = float(s_max)
+        except ValueError:
+            s_max = 0
 
     job = {
-        'id': rid,
+        'id': record_id,
         'city': city,
         'company': company,
         'position': position,
         'dir': dir_str,
         'dirList': dir_list,
-        'salary': get_field('薪资范围', row) or '面议',
-        'sMin': get_field('最低薪资K', row) or 0,
-        'sMax': get_field('最高薪资K', row) or 0,
-        'edu': get_field('学历要求', row) or '未注明',
-        'exp': get_field('经验要求', row) or '未注明',
-        'date': get_field('发布日期', row) or '',
-        'fresh': get_field('是否最新', row) == True,
-        'desc': get_field('岗位描述', row) or '',
+        'salary': fields.get('薪资范围', '面议') or '面议',
+        'sMin': s_min,
+        'sMax': s_max,
+        'edu': fields.get('学历要求', '未注明') or '未注明',
+        'exp': fields.get('经验要求', '未注明') or '未注明',
+        'date': fields.get('发布日期', '') or '',
+        'fresh': fields.get('是否最新', False) == True,
+        'desc': fields.get('岗位描述', '') or '',
         'tags': tags,
         'link': link,
-        'linkText': get_field('链接文字', row) or '查看详情',
-        'email': get_field('邮箱', row),
-        'phone': get_field('电话', row),
+        'linkText': fields.get('链接文字', '查看详情') or '查看详情',
+        'email': fields.get('邮箱', '') or None,
+        'phone': fields.get('电话', '') or None,
         'community': community,
     }
     jobs.append(job)
