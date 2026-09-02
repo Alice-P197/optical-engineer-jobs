@@ -2,7 +2,7 @@ name: Sync Feishu Jobs
 
 on:
   push:
-    branches: [master]
+    branches: [main, master]
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
