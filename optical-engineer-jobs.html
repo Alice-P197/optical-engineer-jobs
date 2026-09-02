@@ -615,6 +615,92 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); 
   white-space: nowrap;
 }
 .email-filter-label input { cursor: pointer; }
+
+/* Sort button */
+.sort-btn {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  font-size: 0.72rem;
+  cursor: pointer;
+  background: var(--bg2);
+  color: var(--muted);
+  transition: all 0.2s;
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+.sort-btn:hover { border-color: var(--accent); color: var(--accent); }
+.sort-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Company filter indicator */
+.company-filter-bar {
+  display: none;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  background: var(--accent-light);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-top: 0.4rem;
+}
+.company-filter-bar.active { display: inline-flex; }
+.company-filter-bar .clear-btn {
+  background: none;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Card action buttons */
+.job-card .card-actions {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+.card-action-btn {
+  width: 26px; height: 26px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--bg);
+  cursor: pointer;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  color: var(--muted);
+  padding: 0;
+  line-height: 1;
+}
+.card-action-btn:hover { border-color: var(--accent); color: var(--accent); }
+.card-action-btn.del-btn:hover { border-color: #dc2626; color: #dc2626; background: #fef2f2; }
+.card-action-btn.valid-btn { font-size: 0.85rem; }
+.card-action-btn.valid-btn.valid { color: var(--accent2); border-color: var(--accent2); background: var(--accent2-light); }
+.card-action-btn.valid-btn.invalid { color: #dc2626; border-color: #dc2626; background: #fef2f2; }
+
+/* Invalid job card */
+.job-card.invalid { opacity: 0.5; background: #fafafa; }
+.job-card.invalid .company,
+.job-card.invalid .position { text-decoration: line-through; }
+
+/* Company name clickable */
+.job-card .company { cursor: pointer; }
+.job-card .company:hover { color: var(--accent); text-decoration: underline; }
+
+/* Validity filter */
+.validity-filter-label {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  font-size: 0.74rem; color: var(--muted); cursor: pointer;
+  white-space: nowrap;
+}
+.validity-filter-label input { cursor: pointer; }
 </style>
 </head>
 
@@ -651,6 +737,12 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); 
       <label class="email-filter-label">
         <input type="checkbox" id="emailFilter"> 仅显示有邮箱
       </label>
+      <!-- Sort -->
+      <button class="sort-btn" id="sortBtn" title="按发布时间排序">最新</button>
+      <!-- Validity filter -->
+      <label class="validity-filter-label">
+        <input type="checkbox" id="validityFilter" checked> 显示失效岗位
+      </label>
       <!-- Add job -->
       <button class="add-job-btn" id="addJobBtn" title="添加新岗位">
         <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> 添加
@@ -680,6 +772,14 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); 
     <div class="region-row" id="regionChips"></div>
   </div>
 </nav>
+
+<!-- Company filter indicator -->
+<div class="container" style="margin-top:0.5rem;">
+  <div class="company-filter-bar" id="companyFilterBar">
+    筛选公司：<span id="companyFilterName"></span>
+    <button class="clear-btn" id="clearCompanyFilter" title="清除公司筛选">&times;</button>
+  </div>
+</div>
 
 <!-- ===== Main Content ===== -->
 <main class="container">

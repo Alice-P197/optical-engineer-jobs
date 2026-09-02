@@ -4482,6 +4482,31 @@
   var activeRegion = 'all';
   var searchTerm = '';
   var emailOnly = false;
+  var activeCompany = 'all';
+  var sortNewest = true;
+  var showInvalid = true;
+  var deletedIds = {};
+  var validityMap = {};
+
+  // ===== Deleted & Validity localStorage =====
+  var DELETED_KEY = 'optical_jobs_deleted';
+  var VALIDITY_KEY = 'optical_jobs_validity';
+  function loadDeleted() {
+    try { deletedIds = JSON.parse(localStorage.getItem(DELETED_KEY)) || {}; }
+    catch(e) { deletedIds = {}; }
+  }
+  function saveDeleted() {
+    try { localStorage.setItem(DELETED_KEY, JSON.stringify(deletedIds)); }
+    catch(e) {}
+  }
+  function loadValidity() {
+    try { validityMap = JSON.parse(localStorage.getItem(VALIDITY_KEY)) || {}; }
+    catch(e) { validityMap = {}; }
+  }
+  function saveValidity() {
+    try { localStorage.setItem(VALIDITY_KEY, JSON.stringify(validityMap)); }
+    catch(e) {}
+  }
 
   // ===== Render =====
   function renderJobCard(job) {
@@ -4507,14 +4532,26 @@
       contactHtml = '<div class="contact-row">' + linkHtml + emailHtml + phoneHtml + '</div>';
     }
 
-    return '<div class="job-card" data-id="' + job.id + '" data-city="' + job.city +
+    var validCls = job._valid ? 'valid' : 'invalid';
+    var validIcon = job._valid ? '&#10003;' : '&#10007;';
+    var cardCls = job._valid ? '' : ' invalid';
+
+    return '<div class="job-card' + cardCls + '" data-id="' + job.id + '" data-city="' + job.city +
       '" data-dir="' + job.dir + '" data-search="' +
       (job.company + ' ' + job.position + ' ' + job.dir + ' ' + job.tags.join(' ')).toLowerCase() + '">' +
       '<div class="card-header">' +
-        '<div>' +
-          '<span class="company">' + job.company + '</span>' + freshHtml +
+        '<div style="flex:1;min-width:0;">' +
+          '<span class="company" data-company="' + job.company.replace(/"/g,'&quot;') +
+            '" title="点击筛选该公司岗位">' + job.company + '</span>' + freshHtml +
           '<span class="region-badge">' + job.city + '</span>' +
           '<div class="position">' + job.position + '</div>' +
+        '</div>' +
+        '<div class="card-actions">' +
+          '<button class="card-action-btn valid-btn ' + validCls +
+            '" data-action="valid" data-id="' + job.id +
+            '" title="' + (job._valid ? '标记为失效' : '标记为有效') + '">' + validIcon + '</button>' +
+          '<button class="card-action-btn del-btn" data-action="del" data-id="' + job.id +
+            '" title="删除此岗位">&times;</button>' +
         '</div>' +
         '<span class="salary">' + job.salary + '</span>' +
       '</div>' +
@@ -4535,10 +4572,13 @@
     window._activeRegion = activeRegion;
     window._emailOnly = emailOnly;
     window._searchTerm = searchTerm;
+    window._activeCompany = activeCompany;
     
     var filtered = jobs.filter(function(j) {
       if (activeFilter !== 'all' && j.dirList.indexOf(activeFilter) === -1) return false;
       if (activeRegion !== 'all' && j.city !== activeRegion) return false;
+      if (activeCompany !== 'all' && j.company !== activeCompany) return false;
+      if (!showInvalid && !j._valid) return false;
       if (emailOnly && !j.email) return false;
       if (searchTerm) {
         var s = (j.company + ' ' + j.position + ' ' + j.dir + ' ' + j.tags.join(' ')).toLowerCase();
@@ -4547,18 +4587,63 @@
       return true;
     });
     document.getElementById('jobGrid').innerHTML = filtered.map(renderJobCard).join('');
-    document.getElementById('resultCount').innerHTML =
-      '共找到 <strong>' + filtered.length + '</strong> 个岗位 ' +
-      (searchTerm ? '（搜索："' + searchTerm + '"）' : '') +
-      (activeRegion !== 'all' ? '（地区：' + activeRegion + '）' : '') +
-      (activeFilter !== 'all' ? '（方向：' + activeFilter + '）' : '');
+    var parts = ['共找到 <strong>' + filtered.length + '</strong> 个岗位'];
+    if (searchTerm) parts.push('搜索："' + searchTerm + '"');
+    if (activeCompany !== 'all') parts.push('公司：' + activeCompany);
+    if (activeRegion !== 'all') parts.push('地区：' + activeRegion);
+    if (activeFilter !== 'all') parts.push('方向：' + activeFilter);
+    document.getElementById('resultCount').innerHTML = parts.join(' &middot; ');
+
+    // Update company filter bar
+    var bar = document.getElementById('companyFilterBar');
+    var nameEl = document.getElementById('companyFilterName');
+    if (activeCompany !== 'all') {
+      bar.classList.add('active');
+      nameEl.textContent = activeCompany;
+    } else {
+      bar.classList.remove('active');
+    }
 
     // Bind card click events
     document.querySelectorAll('.job-card').forEach(function(card) {
-      card.addEventListener('click', function() {
+      card.addEventListener('click', function(e) {
+        // Ignore clicks on action buttons
+        if (e.target.closest('.card-action-btn')) return;
+        // Company click: filter by company
+        if (e.target.closest('.company')) {
+          var c = e.target.closest('.company').getAttribute('data-company');
+          if (c) { activeCompany = c; filterJobs(); }
+          return;
+        }
         var id = this.getAttribute('data-id');
         var job = jobs.find(function(j) { return j.id === id; });
         if (job) openModal(job);
+      });
+    });
+
+    // Bind action button events
+    document.querySelectorAll('.card-action-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        var action = this.getAttribute('data-action');
+        var id = this.getAttribute('data-id');
+        if (action === 'del') {
+          if (confirm('确定要删除这个岗位吗？')) {
+            deletedIds[id] = true;
+            saveDeleted();
+            refreshAll();
+          }
+        } else if (action === 'valid') {
+          var newVal = !validityMap[id];
+          if (validityMap.hasOwnProperty(id)) {
+            newVal = !validityMap[id];
+          } else {
+            newVal = false;
+          }
+          validityMap[id] = newVal;
+          saveValidity();
+          refreshAll();
+        }
       });
     });
   }
@@ -4664,6 +4749,41 @@
     });
   }
 
+  // ===== Sort Button =====
+  var sortBtn = document.getElementById('sortBtn');
+  if (sortBtn) {
+    if (sortNewest) sortBtn.classList.add('active');
+    sortBtn.addEventListener('click', function() {
+      sortNewest = !sortNewest;
+      if (sortNewest) {
+        sortBtn.classList.add('active');
+        sortBtn.textContent = '最新';
+      } else {
+        sortBtn.classList.remove('active');
+        sortBtn.textContent = '默认';
+      }
+      refreshAll();
+    });
+  }
+
+  // ===== Validity Filter =====
+  var validityFilter = document.getElementById('validityFilter');
+  if (validityFilter) {
+    validityFilter.addEventListener('change', function() {
+      showInvalid = this.checked;
+      filterJobs();
+    });
+  }
+
+  // ===== Company Filter Clear =====
+  var clearCompanyBtn = document.getElementById('clearCompanyFilter');
+  if (clearCompanyBtn) {
+    clearCompanyBtn.addEventListener('click', function() {
+      activeCompany = 'all';
+      filterJobs();
+    });
+  }
+
   // ===== Community Jobs =====
   var COMMUNITY_KEY = 'optical_jobs_community';
   var COMMUNITY_TS_KEY = 'optical_jobs_community_ts';
@@ -4690,6 +4810,24 @@
 
   function mergeAllJobs() {
     jobs = baseJobs.concat(communityJobs);
+    // Filter out deleted jobs
+    jobs = jobs.filter(function(j) { return !deletedIds[j.id]; });
+    // Mark validity from localStorage (default: valid)
+    jobs.forEach(function(j) {
+      if (validityMap.hasOwnProperty(j.id)) {
+        j._valid = validityMap[j.id];
+      } else {
+        j._valid = true;
+      }
+    });
+    // Sort by date (newest first)
+    if (sortNewest) {
+      jobs.sort(function(a, b) {
+        if (a.date > b.date) return -1;
+        if (a.date < b.date) return 1;
+        return 0;
+      });
+    }
     window._allJobs = jobs;
   }
 
@@ -4928,15 +5066,19 @@
   renderJobCard = function(job) {
     var html = origRenderJobCard(job);
     if (job.community) {
-      html = html.replace('<span class="company">', '<span class="company">' +
-        '<span class="community-badge">社区</span> ');
+      html = html.replace(/(<span class="company"[^>]*>)/, '$1<span class="community-badge">社区</span> ');
     }
     return html;
   };
 
   // ===== Init =====
+  loadDeleted();
+  loadValidity();
   loadCommunityJobs();
   mergeAllJobs();
+  // Init sort button state
+  var sb = document.getElementById('sortBtn');
+  if (sb && sortNewest) sb.classList.add('active');
   fetchCommunityFromGitHub();
   fetchFromGitHub();
   updateStats();
