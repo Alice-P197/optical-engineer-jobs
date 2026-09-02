@@ -3,3 +3,724 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>光学就业网 — 全国光学工程师招聘信息汇总</title>
+<style>
+/* ===== Fonts ===== */
+@font-face {
+  font-family: 'Inter';
+  src: url('./_shared/fonts/Inter-Regular.ttf') format('truetype');
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('./_shared/fonts/Inter-Bold.ttf') format('truetype');
+  font-weight: 700;
+}
+
+:root {
+  --bg: #f5f6fa;
+  --bg2: #ffffff;
+  --ink: #1a1d2e;
+  --muted: #6e7485;
+  --rule: #e3e6ed;
+  --accent: #2563eb;
+  --accent2: #059669;
+  --accent-light: #eff4ff;
+  --accent2-light: #ecfdf5;
+  --warn: #d97706;
+  --warn-light: #fffbeb;
+  --radius: 10px;
+  --radius-sm: 5px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.07);
+  --font-body: 'Inter', 'Noto Sans CJK SC', 'WenQuanYi Micro Hei', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  --font-mono: 'GeistMono', 'Cascadia Code', 'Consolas', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ===== Layout ===== */
+.container { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; }
+
+/* ===== Header ===== */
+.hero {
+  background: linear-gradient(135deg, #0f1a3a 0%, #1e3a6e 35%, #1a56c4 70%, #4338ca 100%);
+  color: #ffffff;
+  padding: 2.5rem 0 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -40%; right: -15%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: -30%; left: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hero h1 { font-size: 1.7rem; font-weight: 700; letter-spacing: -0.02em; position: relative; }
+.hero p { font-size: 0.85rem; opacity: 0.82; margin-top: 0.4rem; position: relative; line-height:1.5; }
+.hero .meta { display: flex; gap: 1.2rem; margin-top: 0.8rem; font-size: 0.78rem; opacity: 0.65; position: relative; flex-wrap: wrap; }
+
+/* ===== Stats Bar ===== */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.8rem;
+  margin-top: -1.8rem;
+  position: relative;
+  z-index: 2;
+}
+.stat-card {
+  background: var(--bg2);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  box-shadow: var(--shadow-md);
+  text-align: center;
+}
+.stat-card .stat-num { font-size: 1.7rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
+.stat-card .stat-num.green { color: var(--accent2); }
+.stat-card .stat-label { font-size: 0.75rem; color: var(--muted); margin-top: 0.2rem; }
+
+/* ===== Search & Filter Bar ===== */
+.filter-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+  margin: 1.5rem 0 1rem;
+  padding: 1rem;
+  background: var(--bg2);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.search-box {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+.search-box input {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1.5px solid var(--rule);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.search-box input:focus { border-color: var(--accent); }
+
+.filter-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+.filter-group .filter-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-right: 0.2rem;
+  white-space: nowrap;
+}
+.filter-chip {
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--rule);
+  border-radius: 16px;
+  font-size: 0.76rem;
+  cursor: pointer;
+  background: var(--bg2);
+  color: var(--muted);
+  transition: all 0.2s;
+  font-family: var(--font-body);
+  white-space: nowrap;
+}
+.filter-chip:hover { border-color: var(--accent); color: var(--accent); }
+.filter-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Region filter group */
+.region-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.5rem; width: 100%; }
+.region-chip {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--rule);
+  border-radius: 14px;
+  font-size: 0.74rem;
+  cursor: pointer;
+  background: var(--bg2);
+  color: var(--muted);
+  transition: all 0.2s;
+  font-family: var(--font-body);
+}
+.region-chip:hover { border-color: var(--accent2); color: var(--accent2); }
+.region-chip.active { background: var(--accent2); color: #fff; border-color: var(--accent2); }
+
+/* ===== Job Cards ===== */
+.job-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
+.job-card {
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow);
+  transition: box-shadow 0.2s, transform 0.15s;
+  cursor: pointer;
+}
+.job-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.job-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+.job-card .company { font-size: 1rem; font-weight: 700; color: var(--ink); }
+.job-card .position { font-size: 0.85rem; color: var(--accent); font-weight: 600; }
+.job-card .salary { font-size: 0.88rem; font-weight: 700; color: var(--accent2); white-space: nowrap; }
+.job-card .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin: 0.35rem 0; }
+.job-card .tag {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--accent-light);
+  color: var(--accent);
+}
+.job-card .tag.tag-green { background: var(--accent2-light); color: var(--accent2); }
+.job-card .tag.tag-warn { background: var(--warn-light); color: var(--warn); }
+.job-card .detail {
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-top: 0.35rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.job-card .meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+.job-card .region-badge {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: #f0fdf4;
+  color: #16a34a;
+}
+.job-card .fresh {
+  display: inline-block;
+  padding: 0.08rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: #dcfce7;
+  color: #16a34a;
+  margin-left: 0.3rem;
+}
+.job-card .contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed var(--rule);
+  align-items: center;
+}
+.job-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  background: var(--accent-light);
+  color: var(--accent);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.job-link:hover { background: var(--accent); color: #fff; }
+.job-email { font-size: 0.74rem; color: var(--muted); font-family: var(--font-mono); word-break: break-all; }
+.job-phone { font-size: 0.74rem; color: var(--muted); }
+
+/* ===== Detail Modal ===== */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.45);
+  z-index: 100;
+  overflow-y: auto;
+  padding: 2rem 1rem;
+}
+.modal-overlay.active { display: flex; justify-content: center; align-items: flex-start; }
+.modal {
+  background: var(--bg2);
+  border-radius: var(--radius);
+  max-width: 720px;
+  width: 100%;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+  position: relative;
+  animation: modalIn 0.2s ease;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-close {
+  position: absolute;
+  top: 0.75rem; right: 0.75rem;
+  width: 32px; height: 32px;
+  border: none;
+  background: var(--rule);
+  border-radius: 50%;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+.modal-close:hover { background: #ef4444; color: #fff; }
+.modal-header {
+  padding: 1.5rem 1.5rem 0.5rem;
+  border-bottom: 1px solid var(--rule);
+}
+.modal-header .company { font-size: 1.2rem; font-weight: 700; }
+.modal-header .position { font-size: 1rem; color: var(--accent); font-weight: 600; margin-top: 0.2rem; }
+.modal-body { padding: 1.25rem 1.5rem; }
+.modal-body .info-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 0.8rem;
+  font-size: 0.88rem;
+}
+.modal-body .info-label { color: var(--muted); font-weight: 600; white-space: nowrap; }
+.modal-body .info-value { color: var(--ink); }
+.modal-body .desc-section { margin-top: 1.2rem; }
+.modal-body .desc-section h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+  border-bottom: 1.5px solid var(--rule);
+  padding-bottom: 0.3rem;
+}
+.modal-body .desc-text {
+  font-size: 0.88rem;
+  color: var(--ink);
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  align-items: center;
+}
+.modal-footer .cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.45rem 1rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.modal-footer .cta-link:hover { background: #1d4ed8; }
+.modal-footer .cta-email { font-size: 0.82rem; color: var(--muted); font-family: var(--font-mono); }
+
+/* ===== Charts ===== */
+.chart-figure {
+  margin: 1.5rem 0;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
+}
+.chart-figure figcaption {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 0.8rem;
+}
+
+/* ===== Section ===== */
+.section { margin: 2rem 0; }
+.section h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.section h2 .dot {
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+/* Result count */
+.result-count { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.8rem; }
+.result-count strong { color: var(--accent); font-weight: 700; }
+
+/* ===== Footer ===== */
+footer {
+  margin-top: 2.5rem;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+footer .sources { max-width: 1120px; margin: 0 auto; padding: 0 1.5rem; text-align: left; }
+footer .sources h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--ink); }
+footer .sources ol { padding-left: 1.2rem; font-size: 0.78rem; color: var(--muted); }
+footer .sources li { margin-bottom: 0.3rem; overflow-wrap: break-word; word-break: break-all; }
+footer .sources .src-title { color: var(--ink); word-break: normal; }
+footer .sources .src-url { display: block; margin-top: 0.08rem; font-size: 0.75rem; color: var(--accent); word-break: break-all; }
+footer .sources a { word-break: break-all; }
+footer .disclaimer { margin-top: 1rem; font-size: 0.75rem; color: var(--muted); }
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .hero { padding: 2rem 0 1.5rem; }
+  .hero h1 { font-size: 1.25rem; }
+  .stats-bar { grid-template-columns: repeat(3, 1fr); margin-top: -1.2rem; }
+  .stat-card { padding: 0.7rem 0.8rem; }
+  .stat-card .stat-num { font-size: 1.3rem; }
+  .container { padding: 0 0.8rem; }
+  .filter-section { padding: 0.8rem; }
+  .modal { margin: 0 0.5rem; }
+  .modal-body .info-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 0.5rem; }
+  .hero h1 { font-size: 1.1rem; }
+}
+
+/* ===== Add Job Form ===== */
+.add-job-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius-sm); padding: 0.45rem 1rem;
+  font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  transition: background 0.15s; white-space: nowrap;
+}
+.add-job-btn:hover { background: #1d4ed8; }
+.add-job-btn svg { width: 14px; height: 14px; fill: currentColor; }
+
+.modal-form { display: none; }
+.modal-form.active { display: flex; }
+.modal-form .modal-body { max-height: 70vh; overflow-y: auto; }
+
+.form-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 1.2rem;
+  width: 100%;
+}
+.form-grid .full { grid-column: 1 / -1; }
+
+.form-field { display: flex; flex-direction: column; gap: 0.25rem; }
+.form-field label {
+  font-size: 0.8rem; font-weight: 600; color: var(--ink);
+}
+.form-field input, .form-field select, .form-field textarea {
+  font-family: var(--font-body); font-size: 0.85rem;
+  padding: 0.5rem 0.7rem; border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); background: var(--bg);
+  color: var(--ink); outline: none; transition: border-color 0.15s;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+  border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-light);
+}
+.form-field textarea { min-height: 80px; resize: vertical; }
+
+.checkbox-group { display: flex; flex-wrap: wrap; gap: 0.35rem 0.6rem; }
+.checkbox-group label {
+  display: inline-flex; align-items: center; gap: 0.2rem;
+  font-size: 0.8rem; font-weight: 400; cursor: pointer;
+  color: var(--muted);
+}
+.checkbox-group input[type="checkbox"] { cursor: pointer; }
+
+.form-actions {
+  display: flex; gap: 0.6rem; justify-content: flex-end;
+  margin-top: 1rem; padding-top: 0.8rem;
+  border-top: 1px solid var(--rule);
+}
+.btn-primary {
+  background: var(--accent); color: #fff; border: none;
+  border-radius: var(--radius-sm); padding: 0.5rem 1.4rem;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer;
+}
+.btn-primary:hover { background: #1d4ed8; }
+.btn-secondary {
+  background: var(--bg); color: var(--ink); border: 1px solid var(--rule);
+  border-radius: var(--radius-sm); padding: 0.5rem 1.4rem;
+  font-size: 0.85rem; font-weight: 500; cursor: pointer;
+}
+.btn-secondary:hover { background: var(--rule); }
+
+.sync-status {
+  font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem;
+  text-align: right;
+}
+.sync-status.success { color: var(--accent2); }
+.sync-status.error { color: #ef4444; }
+
+.community-badge {
+  display: inline-block; background: var(--accent2-light);
+  color: var(--accent2); font-size: 0.65rem; font-weight: 700;
+  padding: 1px 6px; border-radius: 3px; margin-left: 0.4rem;
+  vertical-align: middle;
+}
+
+@media (max-width: 640px) {
+  .form-grid { grid-template-columns: 1fr; }
+}
+
+@media print {
+  .hero { background: #fff !important; color: #000 !important; }
+  .modal-overlay { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ===== Hero ===== -->
+<header class="hero">
+  <div class="container" style="display:flex;align-items:center;gap:1.5rem;">
+    <img src="assets/logo.jpg" alt="光学就业网" style="width:56px;height:56px;border-radius:12px;flex-shrink:0;">
+    <div>
+      <h1>光学就业网</h1>
+      <p>聚焦固体激光器、光纤激光器、光学设计、光学仿真、激光传感、半导体光学、量子光学、成像光学、非线性光学、光学软件开发等方向</p>
+    </div>
+  </div>
+</header>
+
+<!-- ===== Stats Bar ===== -->
+<div class="container">
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num" id="totalCount">72</div><div class="stat-label">有效岗位总数</div></div>
+    <div class="stat-card"><div class="stat-num green">25</div><div class="stat-label">覆盖城市</div></div>
+    <div class="stat-card"><div class="stat-num green">9</div><div class="stat-label">研究方向</div></div>
+    <div class="stat-card"><div class="stat-num">50</div><div class="stat-label">涉及企业</div></div>
+    <div class="stat-card"><div class="stat-num">42</div><div class="stat-label">有邮箱/链接</div></div>
+  </div>
+</div>
+
+<!-- ===== Main Content ===== -->
+<main class="container">
+
+  <!-- ===== Search & Filter ===== -->
+  <div class="filter-section">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="搜索公司、岗位、研究方向...">
+      <label style="display:inline-flex;align-items:center;gap:0.3rem;font-size:0.78rem;color:var(--muted);cursor:pointer;white-space:nowrap;margin-left:0.5rem;">
+        <input type="checkbox" id="emailFilter" style="cursor:pointer;"> 仅显示有邮箱的岗位
+      </label>
+      <button class="add-job-btn" id="addJobBtn" title="添加新岗位">
+        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg> 添加岗位
+      </button>
+    </div>
+    <div style="width:100%;">
+      <div class="filter-group">
+        <span class="filter-label">研究方向：</span>
+        <button class="filter-chip active" data-filter="all">全部</button>
+        <button class="filter-chip" data-filter="固体激光器">固体激光器</button>
+        <button class="filter-chip" data-filter="光纤激光器">光纤激光器</button>
+        <button class="filter-chip" data-filter="光学设计">光学设计/仿真</button>
+        <button class="filter-chip" data-filter="激光传感">激光传感/检测</button>
+        <button class="filter-chip" data-filter="光学软件">光学软件/算法</button>
+        <button class="filter-chip" data-filter="量子光学">量子光学</button>
+        <button class="filter-chip" data-filter="半导体">半导体/光刻</button>
+        <button class="filter-chip" data-filter="成像">成像/视觉</button>
+        <button class="filter-chip" data-filter="非线性光学">非线性光学</button>
+      </div>
+      <div class="region-chips" id="regionChips"><button class="region-chip active" data-region="all">全国</button><button class="region-chip" data-region="合肥">合肥</button><button class="region-chip" data-region="杭州">杭州</button><button class="region-chip" data-region="北京">北京</button><button class="region-chip" data-region="上海">上海</button><button class="region-chip" data-region="深圳">深圳</button><button class="region-chip" data-region="武汉">武汉</button><button class="region-chip" data-region="西安">西安</button><button class="region-chip" data-region="成都">成都</button><button class="region-chip" data-region="苏州">苏州</button><button class="region-chip" data-region="南京">南京</button><button class="region-chip" data-region="长春">长春</button><button class="region-chip" data-region="天津">天津</button><button class="region-chip" data-region="广州">广州</button><button class="region-chip" data-region="东莞">东莞</button><button class="region-chip" data-region="济南">济南</button><button class="region-chip" data-region="青岛">青岛</button></div>
+    </div>
+  </div>
+
+  <!-- ===== Job List ===== -->
+  <div class="section">
+    <h2><span class="dot"></span>岗位列表</h2>
+    <div class="result-count" id="resultCount">共找到 <strong>67</strong> 个岗位 </div>
+    <div class="job-grid" id="jobGrid"><div class="job-card" data-id="hf-01" data-city="合肥" data-dir="光学设计,成像" data-search="合肥美亚光电 光学工程师 光学设计,成像 成像光路 zemax 校招"><div class="card-header"><div><span class="company">合肥美亚光电</span><span class="fresh">NEW</span><span class="region-badge">合肥</span><div class="position">光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">成像光路</span><span class="tag">Zemax</span><span class="tag tag-green">校招</span></div><div class="detail">根据产品需求制定光学方案，完成成像光路、投影光路和照明方案的设计和评估；光学器件选型（镜头、激光器、滤光片、相机等）；光路结构装配、调试和测试。</div><div class="contact-row"><a class="job-link" href="https://www.meyerop.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网投递</a><span class="job-email">hr@chinameyer.com</span><span class="job-phone">0551-65317745</span></div><div class="meta-row"><span>学历：硕士</span><span>经验：应届/经验不限</span><span>更新：2026-08-25</span></div></div><div class="job-card" data-id="hf-02" data-city="合肥" data-dir="固体激光器,光纤激光器" data-search="安徽华创鸿度光电 光学工程师（激光器） 固体激光器,光纤激光器 固体激光器 光纤激光器 飞秒激光器 紫外激光器"><div class="card-header"><div><span class="company">安徽华创鸿度光电</span><span class="region-badge">合肥</span><div class="position">光学工程师（激光器）</div></div><span class="salary">12-25K·14薪</span></div><div class="tags"><span class="tag">固体激光器</span><span class="tag">光纤激光器</span><span class="tag">飞秒激光器</span><span class="tag">紫外激光器</span></div><div class="detail">负责参与固体、光纤、紫外、飞秒激光器研发与生产；完善公司产品工艺流程，迭代及优化现有产品技术方案。高企、专精特新"小巨人"。</div><div class="contact-row"><a class="job-link" href="https://www.huachuanghongdu.com" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网</a><span class="job-phone">0551-6565****</span></div><div class="meta-row"><span>学历：本科</span><span>经验：1年以上</span><span>更新：2026-07-09</span></div></div><div class="job-card" data-id="hf-03" data-city="合肥" data-dir="半导体,固体激光器" data-search="芯碁微装 光学工程师 半导体,固体激光器 半导体激光器 光纤耦合 空间合束 光刻设备"><div class="card-header"><div><span class="company">芯碁微装</span><span class="region-badge">合肥</span><div class="position">光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">半导体激光器</span><span class="tag">光纤耦合</span><span class="tag">空间合束</span><span class="tag">光刻设备</span></div><div class="detail">负责半导体激光器光纤耦合模块、空间合束模块的光学设计与方案开发；参与光源系统集成，解决合束效率、热管理、光束质量等工程问题。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/d28b4fe3ec023cac0ndy09m1GFNX.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hf-04" data-city="合肥" data-dir="量子光学,固体激光器" data-search="幺正量子 光学工程师 量子光学,固体激光器 激光稳频 频率调制 光束整形 空间光路"><div class="card-header"><div><span class="company">幺正量子</span><span class="region-badge">合肥</span><div class="position">光学工程师</div></div><span class="salary">12-21K·14薪</span></div><div class="tags"><span class="tag">激光稳频</span><span class="tag">频率调制</span><span class="tag">光束整形</span><span class="tag">空间光路</span></div><div class="detail">激光器使用与维护，空间光路搭建，激光稳频，频率调制，光束整形。离子阱量子系统相关光学工作。</div><div class="contact-row"><a class="job-link" href="https://www.unitqc.com/?c=5" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网招聘页</a><span class="job-email">hr@unitqc.com</span></div><div class="meta-row"><span>学历：硕士</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hf-05" data-city="合肥" data-dir="固体激光器" data-search="柏逸激光 光学工程师 固体激光器 激光器 光学设计"><div class="card-header"><div><span class="company">柏逸激光</span><span class="region-badge">合肥</span><div class="position">光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">激光器</span><span class="tag">光学设计</span></div><div class="detail">激光器相关光学系统设计、测试与优化。负责部门光学组件的设计、加工、打样、应用开发。</div><div class="contact-row"><a class="job-link" href="https://www.boyilaser.com/list_19/" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网招聘页</a><span class="job-email">hr@boyilaser.com</span><span class="job-phone">0551-65652935</span></div><div class="meta-row"><span>学历：本科</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hf-06" data-city="合肥" data-dir="光学设计,成像,固体激光器" data-search="中科君达视界 光学工程师（流式/激光器） 光学设计,成像,固体激光器 流式光学 piv光源 调q激光 b轮"><div class="card-header"><div><span class="company">中科君达视界</span><span class="region-badge">合肥</span><div class="position">光学工程师（流式/激光器）</div></div><span class="salary">20-35K·14薪</span></div><div class="tags"><span class="tag">流式光学</span><span class="tag">PIV光源</span><span class="tag">调Q激光</span><span class="tag">B轮</span></div><div class="detail">流式光学系统设计与开发；双腔/多腔脉冲激光、PIV光源或高重频调Q激光完整项目经验。B轮融资。</div><div class="contact-row"><a class="job-link" href="https://www.gaosuxiangji.com/home/category/detail/id/834.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网招聘页</a><span class="job-email">hr@gaosuxiangji.com</span><span class="job-phone">0551-63635897</span></div><div class="meta-row"><span>学历：本科/硕士</span><span>经验：3年以上</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hf-07" data-city="合肥" data-dir="半导体,光学设计" data-search="御微半导体 光学工程师/光学设计工程师 半导体,光学设计 成像光学 半导体检测 zemax"><div class="card-header"><div><span class="company">御微半导体</span><span class="region-badge">合肥</span><div class="position">光学工程师/光学设计工程师</div></div><span class="salary">15-40K·14薪</span></div><div class="tags"><span class="tag">成像光学</span><span class="tag">半导体检测</span><span class="tag">Zemax</span></div><div class="detail">负责成像光学系统开发及成像系统指标分解；成像系统测试方案开发；参与光学及光电系统的集成调试。</div><div class="contact-row"><a class="job-link" href="http://yuweitk.com/en/SocialRecruitment/index.aspx" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网招聘页</a><span class="job-email">hr@yuweitk.com</span><span class="job-phone">0551-65651750</span></div><div class="meta-row"><span>学历：本科及以上</span><span>经验：1-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hf-08" data-city="合肥" data-dir="光学设计,成像" data-search="九川智能 光学工程师 光学设计,成像 pcb检测 光学成像 zemax tracepro"><div class="card-header"><div><span class="company">九川智能</span><span class="region-badge">合肥</span><div class="position">光学工程师</div></div><span class="salary">20-30K·13薪</span></div><div class="tags"><span class="tag">PCB检测</span><span class="tag">光学成像</span><span class="tag">Zemax</span><span class="tag">TracePro</span></div><div class="detail">PCB外观检测设备的光学成像系统（线扫/面阵相机、镜头、光源及光学组件）方案设计、仿真与验证，满足高精度（微米级）检测需求。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/7d093f83606e06380nB83dW1EVRU.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：5-10年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hf-09" data-city="合肥" data-dir="固体激光器,光学设计,量子光学" data-search="合肥国家实验室 光学工程师（多个方向） 固体激光器,光学设计,量子光学 光纤激光器 超稳激光 事业编制 国家级平台"><div class="card-header"><div><span class="company">合肥国家实验室</span><span class="fresh">NEW</span><span class="region-badge">合肥</span><div class="position">光学工程师（多个方向）</div></div><span class="salary">事业编制（面议）</span></div><div class="tags"><span class="tag">光纤激光器</span><span class="tag">超稳激光</span><span class="tag">事业编制</span><span class="tag">国家级平台</span></div><div class="detail">方向包括：光纤激光器研发与调试、超稳激光系统搭建、激光器光路设计与集成、光学系统设计测试等。国家级实验室平台，事业编制，含五险一金及子女入学安排。</div><div class="contact-row"><a class="job-link" href="https://recruit.hfnl.cn/" target="_blank" rel="noopener" onclick="event.stopPropagation()">官方招聘系统</a><span class="job-email">hr@hfnl.cn（请勿直接投递简历）</span></div><div class="meta-row"><span>学历：硕士及以上</span><span>经验：3年以上</span><span>更新：2026-07-14</span></div></div><div class="job-card" data-id="hf-10" data-city="合肥" data-dir="光学设计" data-search="合肥脉博光电 光学工程师 光学设计 光学设计"><div class="card-header"><div><span class="company">合肥脉博光电</span><span class="region-badge">合肥</span><div class="position">光学工程师</div></div><span class="salary">10-15K·13薪</span></div><div class="tags"><span class="tag">光学设计</span></div><div class="detail">光学系统设计与开发相关工作。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hf-11" data-city="合肥" data-dir="半导体,光学设计" data-search="量伙半导体设备 光学设计工程师 半导体,光学设计 半导体检测 光学设计 zemax 校招"><div class="card-header"><div><span class="company">量伙半导体设备</span><span class="fresh">NEW</span><span class="region-badge">合肥</span><div class="position">光学设计工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">半导体检测</span><span class="tag">光学设计</span><span class="tag">Zemax</span><span class="tag tag-green">校招</span></div><div class="detail">可见光、近红外等光学检测方案设计及关键光学器件设计；X射线检测、CT成像等光学方案设计。熟练使用Lighttools、Zemax、CODE V等。</div><div class="contact-row"><a class="job-link" href="https://m.yingjiesheng.com/job-008-024-139.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">应届生求职网</a></div><div class="meta-row"><span>学历：硕士及以上</span><span>经验：经验不限</span><span>更新：2026-08-05</span></div></div><div class="job-card" data-id="hf-12" data-city="合肥" data-dir="光学设计,激光传感" data-search="安徽岑锋科技 光学设计工程师 光学设计,激光传感 激光光谱 环境光学 zemax codev"><div class="card-header"><div><span class="company">安徽岑锋科技</span><span class="region-badge">合肥</span><div class="position">光学设计工程师</div></div><span class="salary">12-16K</span></div><div class="tags"><span class="tag">激光光谱</span><span class="tag">环境光学</span><span class="tag">Zemax</span><span class="tag">CodeV</span></div><div class="detail">中科院环境光学博士团队创立，主要从事激光光谱检测分析的技术研发。负责光学模拟仿真设计、产品光学模块设计开发。</div><div class="contact-row"><a class="job-link" href="http://www.ahcfgs.com/details_45857.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网招聘页</a><span class="job-email">trn@ahcfkj.cn</span><span class="job-phone">18133613799</span></div><div class="meta-row"><span>学历：硕士及以上</span><span>经验：2年以上</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hf-13" data-city="合肥" data-dir="光学设计,成像" data-search="苏州叠序宇宙科技 光学工程师 光学设计,成像 zemax tracepro 多光谱 光路布局"><div class="card-header"><div><span class="company">苏州叠序宇宙科技</span><span class="region-badge">合肥</span><div class="position">光学工程师</div></div><span class="salary">20-30K·15薪</span></div><div class="tags"><span class="tag">Zemax</span><span class="tag">TracePro</span><span class="tag">多光谱</span><span class="tag">光路布局</span></div><div class="detail">光源选型、镜头匹配及多通道/多光谱光路布局，使用Zemax/TracePro等工具进行仿真验证；成像质量优化。工作地点：合肥肥西。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hz-01" data-city="杭州" data-dir="固体激光器" data-search="奥创光子 光学工程师/光学研发工程师-激光器 固体激光器 nd:yag 光纤激光器 comsol matlab d轮+"><div class="card-header"><div><span class="company">奥创光子</span><span class="region-badge">杭州</span><div class="position">光学工程师/光学研发工程师-激光器</div></div><span class="salary">10-55K·13薪</span></div><div class="tags"><span class="tag">Nd:YAG</span><span class="tag">光纤激光器</span><span class="tag">COMSOL</span><span class="tag">MATLAB</span><span class="tag">D轮+</span></div><div class="detail">参与固体激光器（Nd:YAG、光纤激光器）设计、开发与优化；搭建实验平台，完成性能测试与参数调试；使用COMSOL、MATLAB、FDTD Solutions进行光场分布、热效应建模分析。国家级专精特新"小巨人"，D轮及以上。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/a0f150cd52bbdcfe03d82ty6GVVQ.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a><span class="job-email">pr@ultronphotonics.com</span><span class="job-phone">400-618-0339</span></div><div class="meta-row"><span>学历：本科/硕士/博士</span><span>经验：1-3年/经验不限（博士）</span><span>更新：2026-08-31</span></div></div><div class="job-card" data-id="hz-02" data-city="杭州" data-dir="固体激光器,成像" data-search="荧博科技 高级光学工程师（激光器及光学成像） 固体激光器,成像 固体激光器 生产工艺 生产线建设"><div class="card-header"><div><span class="company">荧博科技</span><span class="region-badge">杭州</span><div class="position">高级光学工程师（激光器及光学成像）</div></div><span class="salary">15-25K·13薪</span></div><div class="tags"><span class="tag">固体激光器</span><span class="tag">生产工艺</span><span class="tag">生产线建设</span></div><div class="detail">负责团队完成固体激光器产品的设计、开发、测试；固体激光器生产工艺开发，制定工艺文件与操作指导书，协助生产部门建立固体激光器生产线。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/e97b9a45edb99ce21Xx92tm7GVBV.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a><span class="job-email">support@inper.com</span><span class="job-phone">0571-86035376</span></div><div class="meta-row"><span>学历：本科</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hz-03" data-city="杭州" data-dir="激光传感,光学设计" data-search="海康威视 光学工程师-激光传感/光学系统专家 激光传感,光学设计 激光传感 气体传感 光谱分析 上市公司"><div class="card-header"><div><span class="company">海康威视</span><span class="fresh">NEW</span><span class="region-badge">杭州</span><div class="position">光学工程师-激光传感/光学系统专家</div></div><span class="salary">20-60K·16薪</span></div><div class="tags"><span class="tag">激光传感</span><span class="tag">气体传感</span><span class="tag">光谱分析</span><span class="tag">上市公司</span></div><div class="detail">激光传感系统方案设计、核心指标分解与关键器件选型；光学气体传感相关技术调研、分析与验证；成像产品系统设计。上市公司平台。</div><div class="contact-row"><a class="job-link" href="https://talent.hikvision.com/home/socity/position?postId=D4DB3BABC605090E52D8C9A8AF077354" target="_blank" rel="noopener" onclick="event.stopPropagation()">海康威视招聘官网</a></div><div class="meta-row"><span>学历：硕士及以上</span><span>经验：3-10年</span><span>更新：2026-08-25</span></div></div><div class="job-card" data-id="hz-04" data-city="杭州" data-dir="光学设计,半导体" data-search="昂坤视觉 高级光学工程师 光学设计,半导体 zemax 半导体检测 光学校准 d轮+"><div class="card-header"><div><span class="company">昂坤视觉</span><span class="region-badge">杭州</span><div class="position">高级光学工程师</div></div><span class="salary">20-40K·14薪</span></div><div class="tags"><span class="tag">ZEMAX</span><span class="tag">半导体检测</span><span class="tag">光学校准</span><span class="tag">D轮+</span></div><div class="detail">完成光学校准、系统集成、系统测试及特征描述；熟练使用ZEMAX完成光学设计和模拟；光学元件产品信息调研、选型与订购。D轮及以上。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/d6c771276fa4bd4f1XB43N60GFRS.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a><span class="job-email">guangfen_xu@akoptics.com</span><span class="job-phone">189-1838-9189</span></div><div class="meta-row"><span>学历：硕士</span><span>经验：1-3年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hz-05" data-city="杭州" data-dir="光学设计,成像" data-search="灵犀微光 光学检测工程师 光学设计,成像 ar光波导 衍射光波导 光学检测 d轮+"><div class="card-header"><div><span class="company">灵犀微光</span><span class="region-badge">杭州</span><div class="position">光学检测工程师</div></div><span class="salary">13-15K·14薪</span></div><div class="tags"><span class="tag">AR光波导</span><span class="tag">衍射光波导</span><span class="tag">光学检测</span><span class="tag">D轮+</span></div><div class="detail">AR眼镜核心光学元件检测，阵列光波导与衍射光波导方案验证。D轮及以上。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/company/8643124/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘投递</a><span class="job-email">hr@lx-ar.com</span></div><div class="meta-row"><span>学历：硕士</span><span>经验：1-3年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hz-06" data-city="杭州" data-dir="光学设计,量子光学" data-search="凯瑟斯技术（杭州） 光学工程师 光学设计,量子光学 量子光学 光谱光学 光学设计"><div class="card-header"><div><span class="company">凯瑟斯技术（杭州）</span><span class="region-badge">杭州</span><div class="position">光学工程师</div></div><span class="salary">10-25K·13薪</span></div><div class="tags"><span class="tag">量子光学</span><span class="tag">光谱光学</span><span class="tag">光学设计</span></div><div class="detail">开展光学领域尤其是量子光学、光谱光学、光学系统设计与开发相关工作。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/a3887c366cf2364203V92di5FFpQ.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a><span class="job-email">lemon@caces.com</span><span class="job-phone">0571-63126668</span></div><div class="meta-row"><span>学历：本科及以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hz-07" data-city="杭州" data-dir="光学设计,固体激光器" data-search="杭州天睿精密科技 光学工程师 光学设计,固体激光器 精密光学 ic装备 清华背景 校招 人才补贴"><div class="card-header"><div><span class="company">杭州天睿精密科技</span><span class="fresh">NEW</span><span class="region-badge">杭州</span><div class="position">光学工程师</div></div><span class="salary">年薪23万</span></div><div class="tags"><span class="tag">精密光学</span><span class="tag">IC装备</span><span class="tag">清华背景</span><span class="tag tag-green">校招</span><span class="tag tag-green">人才补贴</span></div><div class="detail">各类光学设备总体设计、工程化设计；光学技术创新与预研；光学测试实验设计和执行。清华大学IC装备团队背景，含人才补贴3年共10万。</div><div class="contact-row"><a class="job-link" href="https://m.yingjiesheng.com/job-008-039-465.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">应届生求职网</a><span class="job-email">yuanyf@u-precision.com</span><span class="job-phone">13045976826</span></div><div class="meta-row"><span>学历：硕士</span><span>经验：应届/经验不限</span><span>更新：2026-08-26</span></div></div><div class="job-card" data-id="hz-08" data-city="杭州" data-dir="光学软件,光学设计" data-search="曦智科技 光电系统仿真工程师 光学软件,光学设计 光电仿真 系统建模 高薪 c轮"><div class="card-header"><div><span class="company">曦智科技</span><span class="region-badge">杭州</span><div class="position">光电系统仿真工程师</div></div><span class="salary">30-60K·15薪</span></div><div class="tags"><span class="tag">光电仿真</span><span class="tag">系统建模</span><span class="tag tag-warn">高薪</span><span class="tag">C轮</span></div><div class="detail">光电系统仿真与建模，涉及光学设计软件与仿真工具链搭建。全球领先的光电混合算力提供商，C轮融资。</div><div class="contact-row"><a class="job-link" href="https://www.xztech.ai/about-us/contact-us" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网联系页</a><span class="job-email">kara.zhong@lightelligence.ai</span><span class="job-phone">0571-88620639</span></div><div class="meta-row"><span>学历：硕士</span><span>经验：3-5年</span><span>更新：2026-08-26</span></div></div><div class="job-card" data-id="hz-09" data-city="杭州" data-dir="光学软件,成像" data-search="舜宇光学（浙江）研究院 算法工程师（光学方向） 光学软件,成像 光学仿真 ai算法 大模型 985/211"><div class="card-header"><div><span class="company">舜宇光学（浙江）研究院</span><span class="region-badge">杭州</span><div class="position">算法工程师（光学方向）</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">光学仿真</span><span class="tag">AI算法</span><span class="tag">大模型</span><span class="tag">985/211</span></div><div class="detail">基于应用场景完成算法设计、验证和实现；基于数据和光学设计软件、渲染软件等工具，构建端到端仿真链路，构建专业领域大模型。985/211优先。</div><div class="contact-row"><a class="job-link" href="https://campus.sunnyoptical.cn" target="_blank" rel="noopener" onclick="event.stopPropagation()">校招官网</a><span class="job-email">gxhr@sunnyoptical.com</span><span class="job-phone">0574-62534517</span></div><div class="meta-row"><span>学历：硕士及以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hz-10" data-city="杭州" data-dir="光学设计,固体激光器" data-search="浙江视亿医疗科技 光学工程师 光学设计,固体激光器 医疗光学 飞秒激光 zemax comsol 最新"><div class="card-header"><div><span class="company">浙江视亿医疗科技</span><span class="fresh">NEW</span><span class="region-badge">杭州</span><div class="position">光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">医疗光学</span><span class="tag">飞秒激光</span><span class="tag">Zemax</span><span class="tag">COMSOL</span><span class="tag tag-green">最新</span></div><div class="detail">负责光路系统搭建与优化设计，包括光路系统总体设计、光路搭建、照明成像、性能测试及优化改进；熟悉Zemax或COMSOL等光学仿真软件。医疗光学方向。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：1-3年</span><span>更新：2026-09-01</span></div></div><div class="job-card" data-id="hz-11" data-city="杭州" data-dir="固体激光器" data-search="某杭州电子半导体公司（a轮） 光学工程师（激光器） 固体激光器 激光器 a轮 猎头"><div class="card-header"><div><span class="company">某杭州电子半导体公司（A轮）</span><span class="region-badge">杭州</span><div class="position">光学工程师（激光器）</div></div><span class="salary">25-35K·14薪</span></div><div class="tags"><span class="tag">激光器</span><span class="tag">A轮</span><span class="tag tag-warn">猎头</span></div><div class="detail">激光器研发相关，A轮融资高科技企业。（猎头发布，需通过猎头渠道联系）</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：5-10年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="hz-12" data-city="杭州" data-dir="光学设计" data-search="某杭州ai上市公司 光学工程师（非成像补光照明） 光学设计 非成像光学 照明光学 上市公司 猎头"><div class="card-header"><div><span class="company">某杭州AI上市公司</span><span class="region-badge">杭州</span><div class="position">光学工程师（非成像补光照明）</div></div><span class="salary">30-40K·16薪</span></div><div class="tags"><span class="tag">非成像光学</span><span class="tag">照明光学</span><span class="tag">上市公司</span><span class="tag tag-warn">猎头</span></div><div class="detail">非成像补光照明光学系统设计。已上市AI公司。（猎头发布，需通过猎头渠道联系）</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="bj-01" data-city="北京" data-dir="固体激光器" data-search="创鑫激光 光学工程师（超快方向） 固体激光器 超快激光器 固体激光器 光路设计"><div class="card-header"><div><span class="company">创鑫激光</span><span class="region-badge">北京</span><div class="position">光学工程师（超快方向）</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">超快激光器</span><span class="tag">固体激光器</span><span class="tag">光路设计</span></div><div class="detail">负责固体超快激光器光路方案设计、光路搭建、调试、验证、优化改进；固体激光器中光学元器件的选型、测试以及检验标准的建立；光器件、光模块测试&amp;失效分析。</div><div class="contact-row"><a class="job-link" href="https://m.zhipin.com/job_detail/b0d5aba2b4a46d911Hd409S-EFBZ.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="bj-02" data-city="北京" data-dir="固体激光器" data-search="先导科技集团 硬件工程师-固体激光器 固体激光器 固体激光器 b轮"><div class="card-header"><div><span class="company">先导科技集团</span><span class="region-badge">北京</span><div class="position">硬件工程师-固体激光器</div></div><span class="salary">10-20K</span></div><div class="tags"><span class="tag">固体激光器</span><span class="tag">B轮</span></div><div class="detail">固体激光器硬件开发。B轮融资。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/city-bj/zpjgqgcsmkr614/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：2年以上</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="bj-03" data-city="北京" data-dir="固体激光器" data-search="中辉激光 光学工程师（固体激光器方向） 固体激光器 固体激光器 技术方案 校招"><div class="card-header"><div><span class="company">中辉激光</span><span class="fresh">NEW</span><span class="region-badge">北京</span><div class="position">光学工程师（固体激光器方向）</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">固体激光器</span><span class="tag">技术方案</span><span class="tag tag-green">校招</span></div><div class="detail">负责激光器产品技术方案的拟定、技术评审及方案迭代优化；固体激光器方向研发。</div><div class="contact-row"><a class="job-link" href="https://m.yingjiesheng.com/job-008-044-115.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">应届生求职网</a></div><div class="meta-row"><span>学历：本科及以上</span><span>经验：经验不限</span><span>更新：2026-08-31</span></div></div><div class="job-card" data-id="bj-04" data-city="北京" data-dir="固体激光器,光纤激光器" data-search="榜首激光 光学工程师 固体激光器,光纤激光器 固体激光器 光纤激光器 飞秒激光器 紫外激光器"><div class="card-header"><div><span class="company">榜首激光</span><span class="region-badge">北京</span><div class="position">光学工程师</div></div><span class="salary">15-30K</span></div><div class="tags"><span class="tag">固体激光器</span><span class="tag">光纤激光器</span><span class="tag">飞秒激光器</span><span class="tag">紫外激光器</span></div><div class="detail">负责参与固体、光纤、灯泵、紫外、飞秒激光器研发与生产；完善公司产品工艺流程，迭代及优化公司现有产品技术方案。</div><div class="contact-row"><a class="job-link" href="https://m.zhipin.com/zhaopin/5bed0a9750d00a721HN_2960EA~~/" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：1-3年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sh-01" data-city="上海" data-dir="光纤激光器" data-search="上海频准激光科技 光学工程师（光纤激光器） 光纤激光器 光纤激光器 光路架构 泵浦方案 已上市"><div class="card-header"><div><span class="company">上海频准激光科技</span><span class="region-badge">上海</span><div class="position">光学工程师（光纤激光器）</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">光纤激光器</span><span class="tag">光路架构</span><span class="tag">泵浦方案</span><span class="tag">已上市</span></div><div class="detail">负责光纤激光器系统方案制定，包括光路架构、泵浦方案，核心器件选型，输出完整设计方案与BOM；搭建光纤激光器实验光路，完成光纤熔接、耦合对准等。已上市。</div><div class="contact-row"><a class="job-link" href="https://msearch.51job.com/jobs/shanghai-jdq/173168534.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">前程无忧投递</a></div><div class="meta-row"><span>学历：本科及以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sh-02" data-city="上海" data-dir="固体激光器" data-search="上海镱镭飞秒激光技术 光学研发工程师 固体激光器 飞秒激光 光学研发 13薪"><div class="card-header"><div><span class="company">上海镱镭飞秒激光技术</span><span class="region-badge">上海</span><div class="position">光学研发工程师</div></div><span class="salary">20-40K·13薪</span></div><div class="tags"><span class="tag">飞秒激光</span><span class="tag">光学研发</span><span class="tag">13薪</span></div><div class="detail">参与飞秒激光产品的研发与设计，提出创新方案；设计激光系统子单元，确保性能达标；负责研发产品安装、调试与性能测试。</div><div class="contact-row"><a class="job-link" href="https://www.yingjiesheng.com/job-008-044-495.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">应届生求职网</a></div><div class="meta-row"><span>学历：本科及以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sh-03" data-city="上海" data-dir="固体激光器,量子光学" data-search="某中型半导体/芯片融资公司（b轮） 光学工程师 固体激光器,量子光学 量子计算 ecdl 稳频激光 光镊阵列"><div class="card-header"><div><span class="company">某中型半导体/芯片融资公司（B轮）</span><span class="region-badge">上海</span><div class="position">光学工程师</div></div><span class="salary">博士面议</span></div><div class="tags"><span class="tag">量子计算</span><span class="tag">ECDL</span><span class="tag">稳频激光</span><span class="tag">光镊阵列</span></div><div class="detail">负责中性原子量子计算配套窄线宽ECDL、稳频半导体激光器、光纤激光系统设计、光路搭建、频率锁定与整机调试，支撑MOT磁光阱、光镊阵列、里德堡激发光路开发。</div><div class="contact-row"><a class="job-link" href="https://refund.zhipin.com/job_detail/311269ecb4fc17fc0nB809q-E1NU.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：博士</span><span>经验：1-3年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sh-04" data-city="上海" data-dir="固体激光器,光纤激光器" data-search="上海频准激光科技 光学工程师（25届/26届应届生） 固体激光器,光纤激光器 固体激光器 光纤激光器 紫外激光器 半导体激光器 校招"><div class="card-header"><div><span class="company">上海频准激光科技</span><span class="region-badge">上海</span><div class="position">光学工程师（25届/26届应届生）</div></div><span class="salary">校招面议</span></div><div class="tags"><span class="tag">固体激光器</span><span class="tag">光纤激光器</span><span class="tag">紫外激光器</span><span class="tag">半导体激光器</span><span class="tag tag-green">校招</span></div><div class="detail">设计和开发激光器光学系统，确保其性能满足项目需求；进行激光器光学元件的选择与测试，保证系统稳定性和可靠性。招聘截止日期2027.01.01。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/3767f973fe70c22803N629i9FlFR.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：应届</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sh-05" data-city="上海" data-dir="光学软件,光学设计" data-search="深圳星空视角科技 光学仿真工程师（全国多地有岗） 光学软件,光学设计 光学仿真 波动光学 高薪"><div class="card-header"><div><span class="company">深圳星空视角科技</span><span class="region-badge">上海</span><div class="position">光学仿真工程师（全国多地有岗）</div></div><span class="salary">25-50K·14薪</span></div><div class="tags"><span class="tag">光学仿真</span><span class="tag">波动光学</span><span class="tag tag-warn">高薪</span></div><div class="detail">波动光学仿真，光学仿真工程师。全国多地有岗（北京、上海均有）。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/zpbdgxfzgcs8a5d/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：5年以上</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sz-01" data-city="深圳" data-dir="光学设计" data-search="深圳深浦电气 光学工程师 光学设计 工业镜头 zemax codev 像质分析"><div class="card-header"><div><span class="company">深圳深浦电气</span><span class="region-badge">深圳</span><div class="position">光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">工业镜头</span><span class="tag">Zemax</span><span class="tag">CodeV</span><span class="tag">像质分析</span></div><div class="detail">负责工业类镜头光学系统设计、仿真建模，完成光路布局、镜片选型、光机匹配；使用Zemax、CodeV完成像质分析，包含畸变、色差、MTF、照度、杂散光优化。</div><div class="contact-row"><a class="job-link" href="https://msearch.51job.com/jobs/shenzhen-baq/173310753.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">前程无忧投递</a></div><div class="meta-row"><span>学历：本科</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sz-02" data-city="深圳" data-dir="光学设计,半导体" data-search="华汉伟业科技 资深光学工程师 光学设计,半导体 显微成像 半导体设备 aoi 封装"><div class="card-header"><div><span class="company">华汉伟业科技</span><span class="region-badge">深圳</span><div class="position">资深光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">显微成像</span><span class="tag">半导体设备</span><span class="tag">AOI</span><span class="tag">封装</span></div><div class="detail">负责精密传感器、镜头、半导体精密等光学系统的设计、开发和优化；使用Zemax、Code V进行光学系统仿真和优化；制定光学系统加工和装调工艺。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/4463b5d378d6c1db03dz3Nq-F1FX.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：本科及以上</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sz-03" data-city="深圳" data-dir="光学设计,半导体" data-search="中科飞测 光学工程师（深圳） 光学设计,半导体 干涉 半导体检测 成像光路"><div class="card-header"><div><span class="company">中科飞测</span><span class="region-badge">深圳</span><div class="position">光学工程师（深圳）</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">干涉</span><span class="tag">半导体检测</span><span class="tag">成像光路</span></div><div class="detail">负责半导体光学检量测设备成像光路和照明光路的设计；干涉光学系统设计。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/f0662f88f7c1d9bc1HZ70tu8FlZW.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sz-04" data-city="深圳" data-dir="光学设计,固体激光器" data-search="盛鼎东方光学科技 光学/激光开发工程师 光学设计,固体激光器 激光器 zemax codev 光学调试"><div class="card-header"><div><span class="company">盛鼎东方光学科技</span><span class="region-badge">深圳</span><div class="position">光学/激光开发工程师</div></div><span class="salary">7-12K</span></div><div class="tags"><span class="tag">激光器</span><span class="tag">Zemax</span><span class="tag">CodeV</span><span class="tag">光学调试</span></div><div class="detail">激光器研发、Zemax/CodeV光学系统集成调试、激光技术应用、光学性能优化。</div><div class="contact-row"><a class="job-link" href="https://www.zhaopin.com/sou/jl765/kwA54LMPITSLT0MNG8/p1" target="_blank" rel="noopener" onclick="event.stopPropagation()">智联招聘投递</a></div><div class="meta-row"><span>学历：本科</span><span>经验：1-3年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="sz-05" data-city="深圳" data-dir="光学设计" data-search="大族激光 光学工程师 光学设计 大族激光 上市公司 光学工程"><div class="card-header"><div><span class="company">大族激光</span><span class="region-badge">深圳</span><div class="position">光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">大族激光</span><span class="tag">上市公司</span><span class="tag">光学工程</span></div><div class="detail">大族激光科技产业集团，上市公司，10000人以上。光学工程师招聘10人。</div><div class="contact-row"><a class="job-link" href="https://career.gdut.edu.cn/teachin/view/id/190730" target="_blank" rel="noopener" onclick="event.stopPropagation()">校招宣讲会</a></div><div class="meta-row"><span>学历：本科及以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="wh-01" data-city="武汉" data-dir="光纤激光器,固体激光器" data-search="武汉锐科激光 高级光学工程师（脉冲激光器） 光纤激光器,固体激光器 脉冲激光器 光纤激光器 上市公司"><div class="card-header"><div><span class="company">武汉锐科激光</span><span class="region-badge">武汉</span><div class="position">高级光学工程师（脉冲激光器）</div></div><span class="salary">22-35万/年</span></div><div class="tags"><span class="tag">脉冲激光器</span><span class="tag">光纤激光器</span><span class="tag">上市公司</span></div><div class="detail">武汉锐科光纤激光技术股份有限公司（上市公司），脉冲激光器光学系统研发。</div><div class="contact-row"><a class="job-link" href="https://m.jobui.com/company/12537841/jobs/all/wuhan/" target="_blank" rel="noopener" onclick="event.stopPropagation()">职友集查看</a></div><div class="meta-row"><span>学历：硕士以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="wh-02" data-city="武汉" data-dir="光学设计" data-search="武汉华工激光 光学工程师（衍射光学设计） 光学设计 doe 衍射光学 光场调控 平顶光"><div class="card-header"><div><span class="company">武汉华工激光</span><span class="region-badge">武汉</span><div class="position">光学工程师（衍射光学设计）</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">DOE</span><span class="tag">衍射光学</span><span class="tag">光场调控</span><span class="tag">平顶光</span></div><div class="detail">负责激光加工设备所需衍射光学元件（DOE）的设计、建模与仿真，调控激光光场参数，完成平顶光、环形光等常用光场设计。</div><div class="contact-row"><a class="job-link" href="https://refund.zhipin.com/job_detail/9e3d0e4172916a630nd43NW5EVBZ.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：本科及以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="wh-03" data-city="武汉" data-dir="光学设计,激光传感" data-search="高跃科技 光学工程师 光学设计,激光传感 zemax matlab 非球面 衍射光学"><div class="card-header"><div><span class="company">高跃科技</span><span class="region-badge">武汉</span><div class="position">光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">ZEMAX</span><span class="tag">Matlab</span><span class="tag">非球面</span><span class="tag">衍射光学</span></div><div class="detail">掌握几何光学和物理光学理论知识，熟悉光路设计，熟练运用ZEMAX、Matlab、Mathcad等设计软件；熟悉光学系统中平面、球面、非球面、衍射光学元件等。</div><div class="contact-row"><a class="job-link" href="https://www.gyscientech.com/index.do?job" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网招聘页</a></div><div class="meta-row"><span>学历：硕士及以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="wh-04" data-city="武汉" data-dir="半导体,光学设计" data-search="山东中科际联（武汉） 光学设计及封装工程师（窄线宽半导体激光器） 半导体,光学设计 窄线宽 半导体激光器 封装 b轮"><div class="card-header"><div><span class="company">山东中科际联（武汉）</span><span class="region-badge">武汉</span><div class="position">光学设计及封装工程师（窄线宽半导体激光器）</div></div><span class="salary">17-40K</span></div><div class="tags"><span class="tag">窄线宽</span><span class="tag">半导体激光器</span><span class="tag">封装</span><span class="tag">B轮</span></div><div class="detail">窄线宽半导体激光器方向光学设计及封装。B轮融资。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/city-wuhan/zpjgqt9rjk/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：大专及以上</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="xa-01" data-city="西安" data-dir="固体激光器" data-search="西安凝聚光电科技 激光工程师 固体激光器 全固态激光器 半导体泵浦"><div class="card-header"><div><span class="company">西安凝聚光电科技</span><span class="region-badge">西安</span><div class="position">激光工程师</div></div><span class="salary">15-25K</span></div><div class="tags"><span class="tag">全固态激光器</span><span class="tag">半导体泵浦</span></div><div class="detail">专业研发生产全固态激光器及相关系统的高新技术企业。专注于半导体泵浦全固态激光器研发。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/company/13960495/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="xa-02" data-city="西安" data-dir="固体激光器" data-search="西安精英光电技术 固体激光器研发工程师 固体激光器 固体激光器"><div class="card-header"><div><span class="company">西安精英光电技术</span><span class="region-badge">西安</span><div class="position">固体激光器研发工程师</div></div><span class="salary">10-20K</span></div><div class="tags"><span class="tag">固体激光器</span></div><div class="detail">固体激光器研发。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/city-shanxi/zpjgqgxgygcswurt0y/pn0/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：5-10年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="xa-03" data-city="西安" data-dir="固体激光器" data-search="卓镭激光 光学工程师（校园招聘） 固体激光器 激光器调试 应届 校招"><div class="card-header"><div><span class="company">卓镭激光</span><span class="region-badge">西安</span><div class="position">光学工程师（校园招聘）</div></div><span class="salary">校招面议</span></div><div class="tags"><span class="tag">激光器调试</span><span class="tag">应届</span><span class="tag tag-green">校招</span></div><div class="detail">负责常规产品的安装、调试；根据工艺和流程测试激光器性能，记录测试过程中的工况和数据；协助工艺文件等技术文件的编写。</div><div class="contact-row"><a class="job-link" href="http://www.gracelaser.com/join/campus" target="_blank" rel="noopener" onclick="event.stopPropagation()">官网校招</a></div><div class="meta-row"><span>学历：本科</span><span>经验：应届</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="xa-04" data-city="西安" data-dir="光纤激光器" data-search="西安立芯光电科技 光学工程师（光纤激光器方向） 光纤激光器 光纤激光器 光学工艺 14薪"><div class="card-header"><div><span class="company">西安立芯光电科技</span><span class="region-badge">西安</span><div class="position">光学工程师（光纤激光器方向）</div></div><span class="salary">10-15K·14薪</span></div><div class="tags"><span class="tag">光纤激光器</span><span class="tag">光学工艺</span><span class="tag">14薪</span></div><div class="detail">负责激光光学系统类新产品的设计开发项目，与设计团队一起完成新产品设计；主导产品光学工艺开发及样品装调测试。</div><div class="contact-row"><a class="job-link" href="https://m.qcc.com/jobdetail/a879ec97f0fb3a26a802a9ee3b40ea9c.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">企查查查看</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：3-5年</span><span>更新：2026-04-21</span></div></div><div class="job-card" data-id="cd-01" data-city="成都" data-dir="光纤激光器" data-search="思创激光 光学工程师 光纤激光器 光纤激光器 光学方案 光路工艺"><div class="card-header"><div><span class="company">思创激光</span><span class="region-badge">成都</span><div class="position">光学工程师</div></div><span class="salary">20-35K</span></div><div class="tags"><span class="tag">光纤激光器</span><span class="tag">光学方案</span><span class="tag">光路工艺</span></div><div class="detail">负责光纤激光器产品光学方案设计与验证定型；负责光纤激光器产品的光路制造工艺设计与优化改进；负责光纤激光器件的选型、验证与标准制定。</div><div class="contact-row"><a class="job-link" href="https://m.zhipin.com/zhaopin/cdf7f67223e4fedf03B_2tq1Ew~~/" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：5-10年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="cd-02" data-city="成都" data-dir="光学设计,激光传感" data-search="融为科技 光学设计师 光学设计,激光传感 激光通信 光学方案 系统设计 14薪"><div class="card-header"><div><span class="company">融为科技</span><span class="region-badge">成都</span><div class="position">光学设计师</div></div><span class="salary">25-45K·14薪</span></div><div class="tags"><span class="tag">激光通信</span><span class="tag">光学方案</span><span class="tag">系统设计</span><span class="tag">14薪</span></div><div class="detail">独立开展激光通信系统光学方案设计与论证；负责激光通信系统总体方案设计与论证；负责光学子系统任务分析、指标分解、方案设计、任务书编制。</div><div class="contact-row"><a class="job-link" href="https://m.zhipin.com/zhaopin/dd6b8f16536688640nd92tW8Ew~~/" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="cd-03" data-city="成都" data-dir="光学设计,激光传感,光学软件" data-search="九洲集团成都创智融合 光学光路设计仿真工程师 光学设计,激光传感,光学软件 强激光 光路仿真 气体检测 国企"><div class="card-header"><div><span class="company">九洲集团成都创智融合</span><span class="region-badge">成都</span><div class="position">光学光路设计仿真工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">强激光</span><span class="tag">光路仿真</span><span class="tag">气体检测</span><span class="tag">国企</span></div><div class="detail">负责强激光发射系统架构设计；激光发射装置激光光路设计、仿真与矫正；白光、红外等光学传感器镜头设计、仿真；激光气体检测腔镜光学设计、仿真。</div><div class="contact-row"><a class="job-link" href="https://m.gaoxiaojob.com/job/detail/2037968.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">高校人才网</a></div><div class="meta-row"><span>学历：硕士及以上</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="cd-04" data-city="成都" data-dir="固体激光器" data-search="某成都电子半导体公司（c轮） 光学工程师（激光器） 固体激光器 激光器 c轮 猎头"><div class="card-header"><div><span class="company">某成都电子半导体公司（C轮）</span><span class="fresh">NEW</span><span class="region-badge">成都</span><div class="position">光学工程师（激光器）</div></div><span class="salary">20-40K</span></div><div class="tags"><span class="tag">激光器</span><span class="tag">C轮</span><span class="tag tag-warn">猎头</span></div><div class="detail">激光器研发相关，C轮融资高科技企业。（猎头发布）</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/city-sichuan/zpopticalengineer03/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：1-3年</span><span>更新：2026-09-01</span></div></div><div class="job-card" data-id="cd-05" data-city="成都" data-dir="光学软件" data-search="星火时空（成都） 光学仿真软件测试工程师 光学软件 光学仿真 软件测试 航天军工"><div class="card-header"><div><span class="company">星火时空（成都）</span><span class="region-badge">成都</span><div class="position">光学仿真软件测试工程师</div></div><span class="salary">12-13K</span></div><div class="tags"><span class="tag">光学仿真</span><span class="tag">软件测试</span><span class="tag">航天军工</span></div><div class="detail">光学仿真软件测试，天使轮，航天/军工背景。</div><div class="contact-row"><a class="job-link" href="https://www.zhaopin.com/zhaopin/8a9b160ddbe14442889d8176b91bb30d/" target="_blank" rel="noopener" onclick="event.stopPropagation()">智联招聘投递</a></div><div class="meta-row"><span>学历：本科</span><span>经验：1-3年</span><span>更新：2026-08-28</span></div></div><div class="job-card" data-id="su-01" data-city="苏州" data-dir="光学设计,固体激光器" data-search="新辰智慧 高级光学工程师（激光） 光学设计,固体激光器 激光加工 光学系统设计 光伏 半导体"><div class="card-header"><div><span class="company">新辰智慧</span><span class="region-badge">苏州</span><div class="position">高级光学工程师（激光）</div></div><span class="salary">30-40K·13薪</span></div><div class="tags"><span class="tag">激光加工</span><span class="tag">光学系统设计</span><span class="tag">光伏</span><span class="tag">半导体</span></div><div class="detail">负责光伏、半导体、钙钛矿、3C等领域激光精密加工设备的光学系统设计、仿真与优化（如激光准直、整形、聚焦光路）。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/job/1981935643.shtml" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘投递</a></div><div class="meta-row"><span>学历：本科</span><span>经验：5年以上</span><span>更新：2026-07-13</span></div></div><div class="job-card" data-id="su-02" data-city="苏州" data-dir="固体激光器" data-search="镭神泰克科技（苏州） 激光器工程师 固体激光器 激光器 14薪"><div class="card-header"><div><span class="company">镭神泰克科技（苏州）</span><span class="region-badge">苏州</span><div class="position">激光器工程师</div></div><span class="salary">15-25K·14薪</span></div><div class="tags"><span class="tag">激光器</span><span class="tag">14薪</span></div><div class="detail">激光器工程师。</div><div class="contact-row"><a class="job-link" href="https://msearch.51job.com/jobs/suzhou-gyyq/173234928.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">前程无忧投递</a></div><div class="meta-row"><span>学历：本科</span><span>经验：5-10年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="su-03" data-city="苏州" data-dir="固体激光器" data-search="某苏州中型专用设备公司 光学工程师（飞秒方向） 固体激光器 飞秒激光器 固体激光器 超快激光器"><div class="card-header"><div><span class="company">某苏州中型专用设备公司</span><span class="region-badge">苏州</span><div class="position">光学工程师（飞秒方向）</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">飞秒激光器</span><span class="tag">固体激光器</span><span class="tag">超快激光器</span></div><div class="detail">主导设计飞秒激光器系统产品路线及新产品导入；结合竞品及本公司技术优势，完成原理性实验及可行性验证。</div><div class="contact-row"><a class="job-link" href="https://m.zhipin.com/job_detail/64818efd1581397403x-2d-4EVZY.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="nj-01" data-city="南京" data-dir="光学设计" data-search="南京某仪器仪表公司（c轮） 光学工程师 光学设计 c轮 猎头"><div class="card-header"><div><span class="company">南京某仪器仪表公司（C轮）</span><span class="region-badge">南京</span><div class="position">光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">C轮</span><span class="tag tag-warn">猎头</span></div><div class="detail">光学工程师，C轮融资。（猎头发布）</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/city-jiangsu/zpjglgcsa1u5/pn0/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：学历不限</span><span>经验：3-5年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="cc-01" data-city="长春" data-dir="固体激光器" data-search="吉林省永利激光科技 高级光学工程师 固体激光器 射频激光器 光学材料 参数标定"><div class="card-header"><div><span class="company">吉林省永利激光科技</span><span class="region-badge">长春</span><div class="position">高级光学工程师</div></div><span class="salary">8-12K</span></div><div class="tags"><span class="tag">射频激光器</span><span class="tag">光学材料</span><span class="tag">参数标定</span></div><div class="detail">研究新型光学材料在射频激光器中的应用，提升器件响应速度与稳定性；构建实验平台，完成光学器件的性能测试与参数标定。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/a4ce111bc0a6a39b03Z53N-7E1RS.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：1-3年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="cc-02" data-city="长春" data-dir="固体激光器,光纤激光器" data-search="吉林省科英激光 固体/光纤激光器研发工程师 固体激光器,光纤激光器 固体激光器 光纤激光器 应届可投"><div class="card-header"><div><span class="company">吉林省科英激光</span><span class="region-badge">长春</span><div class="position">固体/光纤激光器研发工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">固体激光器</span><span class="tag">光纤激光器</span><span class="tag tag-green">应届可投</span></div><div class="detail">激光器预研项目的技术调查、实验研究；固体/光纤激光器研发。</div><div class="contact-row"><a class="job-link" href="https://www.jrzp.com/job3507054.shtml" target="_blank" rel="noopener" onclick="event.stopPropagation()">今日招聘查看</a></div><div class="meta-row"><span>学历：学历不限</span><span>经验：应届/有经验</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="cc-03" data-city="长春" data-dir="固体激光器,光学设计" data-search="长春光学精密机械与物理研究所 光学类（激光技术方向） 固体激光器,光学设计 中科院 光机所 激光技术 事业编制 国家级平台"><div class="card-header"><div><span class="company">长春光学精密机械与物理研究所</span><span class="fresh">NEW</span><span class="region-badge">长春</span><div class="position">光学类（激光技术方向）</div></div><span class="salary">事业编制</span></div><div class="tags"><span class="tag">中科院</span><span class="tag">光机所</span><span class="tag">激光技术</span><span class="tag">事业编制</span><span class="tag">国家级平台</span></div><div class="detail">中国科学院长春光学精密机械与物理研究所（长春光机所）。光学类：光学理论、光学设计、光学镀膜、光学加工、光学检测、激光技术、光通信技术等。</div><div class="contact-row"><a class="job-link" href="http://www.ciomp.ac.cn/tzgg/202608/t20260817_8260888.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">光机所官网</a></div><div class="meta-row"><span>学历：硕士及以上</span><span>经验：经验不限</span><span>更新：2026-08-17</span></div></div><div class="job-card" data-id="tj-01" data-city="天津" data-dir="光纤激光器" data-search="北京凯普林光电（天津） 光学工程师（光纤/校招） 光纤激光器 光纤激光器 方案设计 校招 14薪"><div class="card-header"><div><span class="company">北京凯普林光电（天津）</span><span class="region-badge">天津</span><div class="position">光学工程师（光纤/校招）</div></div><span class="salary">12-15K·14薪</span></div><div class="tags"><span class="tag">光纤激光器</span><span class="tag">方案设计</span><span class="tag tag-green">校招</span><span class="tag">14薪</span></div><div class="detail">根据市场应用需求，按照公司流程，完成激光相关器件的方案设计、方案验证、光路实现、产品量产等。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/job/1981973845.shtml" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘投递</a></div><div class="meta-row"><span>学历：硕士</span><span>经验：应届/经验不限</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="tj-02" data-city="天津" data-dir="光学设计" data-search="东方锐镭科技 光学工程师 光学设计 光学设计 15薪"><div class="card-header"><div><span class="company">东方锐镭科技</span><span class="region-badge">天津</span><div class="position">光学工程师</div></div><span class="salary">12-15K·15薪</span></div><div class="tags"><span class="tag">光学设计</span><span class="tag">15薪</span></div><div class="detail">光学工程师，15薪。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/city-tj/career/jiguang/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：1-3年</span><span>更新：2026-08-30</span></div></div><div class="job-card" data-id="gz-01" data-city="广州" data-dir="光学设计" data-search="大族激光（广州） 高级光学工程师（激光加工） 光学设计 激光加工 大族激光 博士 上市公司"><div class="card-header"><div><span class="company">大族激光（广州）</span><span class="region-badge">广州</span><div class="position">高级光学工程师（激光加工）</div></div><span class="salary">25-50K</span></div><div class="tags"><span class="tag">激光加工</span><span class="tag">大族激光</span><span class="tag">博士</span><span class="tag">上市公司</span></div><div class="detail">高级光学工程师（激光加工方向），大族激光科技产业集团，上市公司。</div><div class="contact-row"><a class="job-link" href="https://msearch.51job.com/jobs/guangzhou/173023808.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">前程无忧投递</a></div><div class="meta-row"><span>学历：博士</span><span>经验：1-3年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="dg-01" data-city="东莞" data-dir="固体激光器,光纤激光器" data-search="广东中科微精 激光光学工程师 固体激光器,光纤激光器 光纤激光器 固体激光器 光学绘图"><div class="card-header"><div><span class="company">广东中科微精</span><span class="region-badge">东莞</span><div class="position">激光光学工程师</div></div><span class="salary">面议</span></div><div class="tags"><span class="tag">光纤激光器</span><span class="tag">固体激光器</span><span class="tag">光学绘图</span></div><div class="detail">具有光纤激光器、固体激光器开发经验，熟悉机械类绘图软件，熟练绘制光学系统平面图。</div><div class="contact-row"><a class="job-link" href="https://www.zhipin.com/job_detail/dbf3192b5d9b9c8e1Xd939S_EVFQ.html" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘投递</a></div><div class="meta-row"><span>学历：本科</span><span>经验：1-3年</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="dg-02" data-city="东莞" data-dir="固体激光器,光学设计" data-search="炬光科技 超快激光加工工程师 固体激光器,光学设计 超快激光 激光加工 已上市 14薪"><div class="card-header"><div><span class="company">炬光科技</span><span class="fresh">NEW</span><span class="region-badge">东莞</span><div class="position">超快激光加工工程师</div></div><span class="salary">15-22K·14薪</span></div><div class="tags"><span class="tag">超快激光</span><span class="tag">激光加工</span><span class="tag">已上市</span><span class="tag">14薪</span></div><div class="detail">超快激光加工工程师，炬光科技（已上市）。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/city-guangdong/zppmjggcs2b9l/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：8年以上</span><span>更新：2026-09-02</span></div></div><div class="job-card" data-id="jn-01" data-city="济南" data-dir="光学设计,光纤激光器" data-search="济南邦德激光 光学专家（激光头） 光学设计,光纤激光器 激光头 光学专家 13薪"><div class="card-header"><div><span class="company">济南邦德激光</span><span class="region-badge">济南</span><div class="position">光学专家（激光头）</div></div><span class="salary">15-30K·13薪</span></div><div class="tags"><span class="tag">激光头</span><span class="tag">光学专家</span><span class="tag">13薪</span></div><div class="detail">光学专家（激光头方向），邦德激光股份有限公司，2000-5000人规模。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/company-jobs/8734171/jc-N24/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：5年以上</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="qd-01" data-city="青岛" data-dir="半导体" data-search="青岛兴航光电技术 半导体激光器光学工程师 半导体 半导体激光器 a轮"><div class="card-header"><div><span class="company">青岛兴航光电技术</span><span class="region-badge">青岛</span><div class="position">半导体激光器光学工程师</div></div><span class="salary">20-40K</span></div><div class="tags"><span class="tag">半导体激光器</span><span class="tag">A轮</span></div><div class="detail">半导体激光器光学工程师，A轮融资。</div><div class="contact-row"><a class="job-link" href="https://m.liepin.com/city-shandong/zppmjggcs2b9l/pn1/" target="_blank" rel="noopener" onclick="event.stopPropagation()">猎聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：3年以上</span><span>更新：2026-08</span></div></div><div class="job-card" data-id="qd-02" data-city="青岛" data-dir="激光传感,光纤激光器" data-search="镭测创芯 光学工程师 激光传感,光纤激光器 激光雷达 光纤激光器 高功率"><div class="card-header"><div><span class="company">镭测创芯</span><span class="region-badge">青岛</span><div class="position">光学工程师</div></div><span class="salary">11-22K·13薪</span></div><div class="tags"><span class="tag">激光雷达</span><span class="tag">光纤激光器</span><span class="tag">高功率</span></div><div class="detail">负责激光雷达系统的激光器选型和测试；负责激光雷达系统无源器件和有源器件的选型和测试；负责高功率光纤激光器的研发工作。</div><div class="contact-row"><a class="job-link" href="https://m.zhipin.com/zhaopin/f4ccb20eb08477980nZ739i0Fg~~/" target="_blank" rel="noopener" onclick="event.stopPropagation()">BOSS直聘查看</a></div><div class="meta-row"><span>学历：本科</span><span>经验：经验不限</span><span>更新：2026-08</span></div></div></div>
+  </div>
+
+  <!-- ===== Charts ===== -->
+  <div class="section">
+    <h2><span class="dot"></span>数据可视化</h2>
+    <figure class="chart-figure">
+      <figcaption>图1：城市岗位数量分布</figcaption>
+      <div id="chart-city" style="width:100%;min-height:380px"></div>
+    </figure>
+    <figure class="chart-figure">
+      <figcaption>图2：主要城市薪资区间对比</figcaption>
+      <div id="chart-salary" style="width:100%;min-height:400px"></div>
+    </figure>
+    <figure class="chart-figure">
+      <figcaption>图3：研究方向分布</figcaption>
+      <div id="chart-direction" style="width:100%;min-height:360px"></div>
+    </figure>
+  </div>
+</main>
+
+<!-- ===== Add Job Form Modal ===== -->
+<div class="modal-overlay modal-form" id="addJobModal">
+  <div class="modal modal-body">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+      <h3 style="font-size:1.1rem;font-weight:700;">添加新岗位</h3>
+      <button class="modal-close" id="addJobClose" style="position:static;">×</button>
+    </div>
+    <form id="addJobForm" autocomplete="off">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>城市 *</label>
+          <select id="fjCity" required>
+            <option value="">请选择城市</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>公司名称 *</label>
+          <input type="text" id="fjCompany" placeholder="如：某某光电科技" required>
+        </div>
+        <div class="form-field">
+          <label>岗位名称 *</label>
+          <input type="text" id="fjPosition" placeholder="如：光学工程师（固体激光器）" required>
+        </div>
+        <div class="form-field">
+          <label>薪资范围（K/月）</label>
+          <div style="display:flex;gap:0.4rem;align-items:center;">
+            <input type="number" id="fjSalaryMin" placeholder="最低" min="0" style="width:50%;">
+            <span style="color:var(--muted);">—</span>
+            <input type="number" id="fjSalaryMax" placeholder="最高" min="0" style="width:50%;">
+          </div>
+        </div>
+        <div class="form-field">
+          <label>学历要求</label>
+          <input type="text" id="fjEdu" placeholder="如：硕士、本科及以上">
+        </div>
+        <div class="form-field">
+          <label>经验要求</label>
+          <input type="text" id="fjExp" placeholder="如：应届/经验不限、3-5年">
+        </div>
+        <div class="form-field">
+          <label>发布时间</label>
+          <input type="date" id="fjDate">
+        </div>
+        <div class="form-field">
+          <label>招聘官网链接</label>
+          <input type="url" id="fjLink" placeholder="https://...">
+        </div>
+        <div class="form-field">
+          <label>链接文字</label>
+          <input type="text" id="fjLinkText" placeholder="如：BOSS直聘投递、官网招聘页">
+        </div>
+        <div class="form-field">
+          <label>邮箱</label>
+          <input type="email" id="fjEmail" placeholder="hr@example.com">
+        </div>
+        <div class="form-field">
+          <label>电话</label>
+          <input type="text" id="fjPhone" placeholder="如：010-12345678">
+        </div>
+        <div class="form-field full">
+          <label>研究方向 *（可多选，或输入自定义方向）</label>
+          <div class="checkbox-group" id="fjDirGroup">
+          </div>
+          <input type="text" id="fjDirCustom" placeholder="自定义方向，逗号分隔" style="margin-top:0.3rem;">
+        </div>
+        <div class="form-field full">
+          <label>技能标签（逗号分隔）</label>
+          <input type="text" id="fjTags" placeholder="如：Zemax,固体激光器,光学设计">
+        </div>
+        <div class="form-field full">
+          <label>职责描述 *</label>
+          <textarea id="fjDesc" placeholder="详细描述岗位职责..." required></textarea>
+        </div>
+      </div>
+      <div class="form-actions">
+        <span class="sync-status" id="syncStatus"></span>
+        <button type="button" class="btn-secondary" id="addJobCancel">取消</button>
+        <button type="submit" class="btn-primary">提交岗位</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ===== Detail Modal ===== -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">×</button>
+    <div class="modal-header">
+      <div class="company" id="modalCompany"></div>
+      <div class="position" id="modalPosition"></div>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer" id="modalFooter"></div>
+  </div>
+</div>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="sources">
+    <h2>数据来源</h2>
+    <ol>
+      <li><span class="src-title">BOSS直聘</span> <a class="src-url" href="https://www.zhipin.com/" target="_blank" rel="noopener">https://www.zhipin.com/</a></li>
+      <li><span class="src-title">猎聘</span> <a class="src-url" href="https://www.liepin.com/" target="_blank" rel="noopener">https://www.liepin.com/</a></li>
+      <li><span class="src-title">前程无忧(51Job)</span> <a class="src-url" href="https://www.51job.com/" target="_blank" rel="noopener">https://www.51job.com/</a></li>
+      <li><span class="src-title">应届生求职网</span> <a class="src-url" href="https://www.yingjiesheng.com/" target="_blank" rel="noopener">https://www.yingjiesheng.com/</a></li>
+      <li><span class="src-title">高校人才网</span> <a class="src-url" href="https://www.gaoxiaojob.com/" target="_blank" rel="noopener">https://www.gaoxiaojob.com/</a></li>
+      <li><span class="src-title">智联招聘</span> <a class="src-url" href="https://www.zhaopin.com/" target="_blank" rel="noopener">https://www.zhaopin.com/</a></li>
+      <li><span class="src-title">各企业官方网站招聘页面</span></li>
+    </ol>
+    <p class="disclaimer" style="position: relative;">注：以上信息均来源公开招聘平台</p>
+  </div>
+</footer>
+
+<script src="./_shared/js/echarts.min.js"></script>
+<script src="assets/charts.js"></script>
+<script src="assets/app.js"></script>
+
+</body></html>
