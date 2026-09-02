@@ -24,11 +24,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add community-jobs.json
+          git add community-jobs.json validity.json
           if git diff --staged --quiet; then
-            echo "No community job changes"
+            echo "No community job or validity changes"
           else
-            git commit -m "Sync community jobs from Feishu ($(date +%Y-%m-%dT%H:%M))"
+            git commit -m "Sync community jobs & validity from Feishu ($(date +%Y-%m-%dT%H:%M))"
             git push
-            echo "Pushed updated community-jobs.json"
+            echo "Pushed updated community-jobs.json & validity.json"
           fi

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Sync community jobs from Feishu Base (v3 columnar API) to community-jobs.json.
+"""Sync community jobs and validity data from Feishu Base (v3 columnar API).
 
-This script only exports records marked as '社区提交' (community-submitted).
-It does NOT overwrite jobs-data.json (the 200 base jobs).
+This script exports:
+  - community-jobs.json: only records marked as '社区提交'
+  - validity.json: validity status for ALL records (base + community)
 """
 import json, os, sys
 import urllib.request
@@ -92,6 +93,7 @@ def get_field(f, row):
 
 # Step 3: Convert to job records
 jobs = []
+validity_updates = {}
 for idx, row in enumerate(all_rows):
     company = get_field('公司', row) or ''
     position = get_field('岗位', row) or ''
@@ -99,6 +101,11 @@ for idx, row in enumerate(all_rows):
         continue
 
     rid = all_rids[idx] if idx < len(all_rids) else ''
+
+    # Track validity from Feishu
+    valid_field = get_field('有效性', row)
+    if valid_field is not None:
+        validity_updates[rid] = bool(valid_field)
 
     # city
     cv = get_field('城市', row)
@@ -179,3 +186,19 @@ print('Saved %d community jobs to community-jobs.json (total %d from Feishu)'
       % (len(community), len(jobs)))
 if len(community) == 0:
     print('No community jobs found - nothing to sync.')
+
+# Also export validity data for ALL records
+# Read existing validity.json to preserve any local-only entries
+existing_validity = {}
+try:
+    with open('validity.json', 'r') as fp:
+        existing_validity = json.load(fp)
+except (FileNotFoundError, json.JSONDecodeError):
+    pass
+
+# Merge: Feishu data wins for records that have validity data in Feishu
+existing_validity.update(validity_updates)
+
+with open('validity.json', 'w') as fp:
+    json.dump(existing_validity, fp, ensure_ascii=False, indent=2)
+print('Saved %d validity entries to validity.json' % len(existing_validity))

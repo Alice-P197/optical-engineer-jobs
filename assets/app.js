@@ -4487,6 +4487,80 @@
   var showInvalid = true;
   var deletedIds = {};
   var validityMap = {};
+  var managerMode = false;
+
+  // ===== GitHub Validity Sync =====
+  var VALIDITY_URL = 'https://raw.githubusercontent.com/Alice-P197/optical-engineer-jobs/main/validity.json';
+  var GITHUB_API_URL = 'https://api.github.com/repos/Alice-P197/optical-engineer-jobs/contents/validity.json';
+  // Replace with a fine-grained PAT that has contents:write on this repo
+  var GITHUB_PAT = '';
+
+  function loadValidityFromGitHub() {
+    // Always load localStorage first for immediate render
+    loadValidity();
+    mergeAllJobs();
+
+    if (!GITHUB_PAT) {
+      // No PAT configured, use localStorage only
+      return;
+    }
+    fetch(VALIDITY_URL + '?t=' + Date.now(), { cache: 'no-store' })
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.json();
+      })
+      .then(function(data) {
+        if (data && typeof data === 'object') {
+          validityMap = data;
+          saveValidity();
+          refreshAll();
+        }
+      })
+      .catch(function() { /* network error, keep localStorage data */ });
+  }
+
+  function submitValidityChange(jobId, valid) {
+    // Update local state immediately
+    validityMap[jobId] = valid;
+    saveValidity();
+    mergeAllJobs();
+    filterJobs();
+    if (typeof refreshCharts === 'function') { refreshCharts(jobs); }
+    updateStats();
+
+    // Submit to GitHub for sharing
+    if (!GITHUB_PAT) return;
+    fetch(GITHUB_API_URL, {
+      headers: {
+        'Authorization': 'Bearer ' + GITHUB_PAT,
+        'Accept': 'application/vnd.github+json'
+      }
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(fileInfo) {
+        var sha = fileInfo.sha;
+        var content = fileInfo.content;
+        // Decode base64
+        var decoded = JSON.parse(atob(content.replace(/\n/g, '')));
+        decoded[jobId] = valid;
+        var newContent = btoa(unescape(encodeURIComponent(
+          JSON.stringify(decoded, null, 2))));
+        return fetch(GITHUB_API_URL, {
+          method: 'PUT',
+          headers: {
+            'Authorization': 'Bearer ' + GITHUB_PAT,
+            'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            message: 'Update validity: ' + jobId + '=' + valid,
+            content: newContent,
+            sha: sha
+          })
+        });
+      })
+      .catch(function() { /* network error - changes stay local until next sync */ });
+  }
 
   // ===== Deleted & Validity localStorage =====
   var DELETED_KEY = 'optical_jobs_deleted';
@@ -4536,6 +4610,12 @@
     var validIcon = job._valid ? '&#10003;' : '&#10007;';
     var cardCls = job._valid ? '' : ' invalid';
 
+    var delBtnHtml = '';
+    if (managerMode) {
+      delBtnHtml = '<button class="card-action-btn del-btn" data-action="del" data-id="' + job.id +
+        '" title="删除此岗位">&times;</button>';
+    }
+
     return '<div class="job-card' + cardCls + '" data-id="' + job.id + '" data-city="' + job.city +
       '" data-dir="' + job.dir + '" data-search="' +
       (job.company + ' ' + job.position + ' ' + job.dir + ' ' + job.tags.join(' ')).toLowerCase() + '">' +
@@ -4550,8 +4630,7 @@
           '<button class="card-action-btn valid-btn ' + validCls +
             '" data-action="valid" data-id="' + job.id +
             '" title="' + (job._valid ? '标记为失效' : '标记为有效') + '">' + validIcon + '</button>' +
-          '<button class="card-action-btn del-btn" data-action="del" data-id="' + job.id +
-            '" title="删除此岗位">&times;</button>' +
+          delBtnHtml +
         '</div>' +
         '<span class="salary">' + job.salary + '</span>' +
       '</div>' +
@@ -4634,15 +4713,13 @@
             refreshAll();
           }
         } else if (action === 'valid') {
-          var newVal = !validityMap[id];
+          var newVal;
           if (validityMap.hasOwnProperty(id)) {
             newVal = !validityMap[id];
           } else {
             newVal = false;
           }
-          validityMap[id] = newVal;
-          saveValidity();
-          refreshAll();
+          submitValidityChange(id, newVal);
         }
       });
     });
@@ -5073,9 +5150,8 @@
 
   // ===== Init =====
   loadDeleted();
-  loadValidity();
   loadCommunityJobs();
-  mergeAllJobs();
+  loadValidityFromGitHub();
   // Init sort button state
   var sb = document.getElementById('sortBtn');
   if (sb && sortNewest) sb.classList.add('active');
@@ -5085,4 +5161,37 @@
   generateRegionChips();
   filterJobs();
   if (typeof refreshCharts === 'function') { refreshCharts(jobs); }
+
+  // ===== Manager Mode =====
+  // SHA-256 hash of the default password. Change to your own.
+  // Default password: 'admin123'
+  var MANAGER_PW_HASH = '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9';
+  var managerClickCount = 0;
+  var managerTrigger = document.getElementById('managerTrigger');
+  if (managerTrigger) {
+    managerTrigger.addEventListener('click', function() {
+      managerClickCount++;
+      if (managerClickCount >= 5) {
+        managerClickCount = 0;
+        var pw = prompt('请输入管理密码：');
+        if (pw) {
+          // Simple hash using SubtleCrypto
+          var encoder = new TextEncoder();
+          var data = encoder.encode(pw);
+          crypto.subtle.digest('SHA-256', data).then(function(hash) {
+            var hex = Array.from(new Uint8Array(hash))
+              .map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+            if (hex === MANAGER_PW_HASH) {
+              managerMode = !managerMode;
+              alert(managerMode ? '管理模式已开启，可删除岗位' : '管理模式已关闭');
+              refreshAll();
+            } else {
+              alert('密码错误');
+            }
+          });
+        }
+      }
+      setTimeout(function() { managerClickCount = 0; }, 2000);
+    });
+  }
 })();

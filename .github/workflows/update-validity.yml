@@ -1,0 +1,47 @@
+name: Update Validity
+
+on:
+  workflow_dispatch:
+    inputs:
+      job_id:
+        description: 'Job ID to update'
+        required: true
+        type: string
+      valid:
+        description: 'Valid (true) or Invalid (false)'
+        required: true
+        type: boolean
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update validity.json
+        run: |
+          python3 -c "
+          import json
+          with open('validity.json') as f:
+              data = json.load(f)
+          data['${{ inputs.job_id }}'] = ${{ inputs.valid }}
+          with open('validity.json', 'w') as f:
+              json.dump(data, f, ensure_ascii=False, indent=2)
+          print('Updated validity for ${{ inputs.job_id }} -> ${{ inputs.valid }}')
+          "
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add validity.json
+          if git diff --staged --quiet; then
+            echo "No change"
+          else
+            git commit -m "Update validity: ${{ inputs.job_id }}=${{ inputs.valid }}"
+            git push
+            echo "Pushed validity update"
+          fi
