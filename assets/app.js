@@ -1,5 +1,5 @@
 (function() {
-    // ===== 200 Jobs across 36 cities =====
+      // ===== 200 Jobs across 36 cities =====
   var baseJobs = [
 
     // ===== 上海 (7) =====
@@ -24,7 +24,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'672a9c43-b6b',
       city:'上海',
@@ -46,7 +46,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'ff605a04-270',
       city:'上海',
@@ -68,7 +68,7 @@
       email:null,
       phone:null,
       community:false
-    }
+    },
     {
       id:'2a1cd5d6-65e',
       city:'上海',
@@ -90,7 +90,7 @@
       email:null,
       phone:null,
       community:false
-    }
+    },
     {
       id:'66013399-6b3',
       city:'上海',
@@ -112,7 +112,7 @@
       email:null,
       phone:null,
       community:false
-    }
+    },
     {
       id:'9692382b-939',
       city:'上海',
@@ -134,7 +134,7 @@
       email:'hr@smee.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'0ff718da-51d',
       city:'上海',
@@ -156,7 +156,7 @@
       email:'hr@fmsh.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 东莞 (3) =====
     {
@@ -180,7 +180,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'540612a9-d19',
       city:'东莞',
@@ -202,7 +202,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'ae0a7c40-ed4',
       city:'东莞',
@@ -224,7 +224,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 佛山 (1) =====
     {
@@ -248,7 +248,7 @@
       email:'hr@guoxing.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 北京 (20) =====
     {
@@ -272,7 +272,7 @@
       email:'hr-campus@xiaomi.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'ec506838-bb0',
       city:'北京',
@@ -294,7 +294,7 @@
       email:'xiangzixian@boe.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'1acfd8c5-c64',
       city:'北京',
@@ -316,7 +316,7 @@
       email:'hr@boson.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'29aa5fd8-afc',
       city:'北京',
@@ -338,7 +338,7 @@
       email:'hr@boson.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'4c06705c-1f0',
       city:'北京',
@@ -360,7 +360,7 @@
       email:'hr@optocore.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'c5af592f-bcb',
       city:'北京',
@@ -382,7 +382,7 @@
       email:'hr@optocore.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'8689883c-5bb',
       city:'北京',
@@ -404,7 +404,7 @@
       email:'hr@renzhi.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'5b89d7ec-c6a',
       city:'北京',
@@ -426,7 +426,7 @@
       email:'hr@gwoptics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'063ee4a6-b10',
       city:'北京',
@@ -448,7 +448,7 @@
       email:'hr@gwoptics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'95469778-b2c',
       city:'北京',
@@ -470,7 +470,7 @@
       email:'hr@fotoyilai.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'141ded95-e6b',
       city:'北京',
@@ -492,7 +492,7 @@
       email:'hr@shuangjing.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'9e152d44-cfe',
       city:'北京',
@@ -514,7 +514,7 @@
       email:'hr@daogan.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'421d9d93-dbe',
       city:'北京',
@@ -536,7 +536,7 @@
       email:'hr@guangyu.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'6016d461-71d',
       city:'北京',
@@ -558,7 +558,7 @@
       email:'hr@asml.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'0e861615-c9f',
       city:'北京',
@@ -580,7 +580,7 @@
       email:'hr@bosky.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'694d2eb4-497',
       city:'北京',
@@ -602,7 +602,7 @@
       email:'hr@chuangsi.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'fde41d3e-cba',
       city:'北京',
@@ -624,7 +624,7 @@
       email:'hr@chuangsi.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'92b91844-091',
       city:'北京',
@@ -646,7 +646,7 @@
       email:'hr@leipade.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'2db52cd6-30f',
       city:'北京',
@@ -668,7 +668,7 @@
       email:'hr@ziwei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'5af748b7-e35',
       city:'北京',
@@ -690,7 +690,7 @@
       email:'hr@ziwei.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 南京 (1) =====
     {
@@ -714,7 +714,7 @@
       email:'hr@wave-optics.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 南昌 (1) =====
     {
@@ -738,7 +738,7 @@
       email:'hr.zhaopin@ofilm.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 厦门 (1) =====
     {
@@ -762,7 +762,7 @@
       email:'hr@evetar.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 合肥 (3) =====
     {
@@ -786,7 +786,7 @@
       email:'hr@chinameyer.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'a9ed2f7a-4f1',
       city:'合肥',
@@ -808,7 +808,7 @@
       email:null,
       phone:null,
       community:false
-    }
+    },
     {
       id:'5e082f8d-7d9',
       city:'合肥',
@@ -830,7 +830,7 @@
       email:'hr@xinqi.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 哈尔滨 (1) =====
     {
@@ -854,7 +854,7 @@
       email:'hr@xg-optics.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 嘉兴 (1) =====
     {
@@ -878,7 +878,7 @@
       email:'hr@lantoptics.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 大连 (1) =====
     {
@@ -902,7 +902,7 @@
       email:'hr@dlgy.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 天津 (1) =====
     {
@@ -926,7 +926,7 @@
       email:'hr@toec.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 宁波 (1) =====
     {
@@ -950,7 +950,7 @@
       email:'office@yxopt.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 广州 (1) =====
     {
@@ -974,7 +974,7 @@
       email:'hr@cvte.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 惠州 (1) =====
     {
@@ -998,7 +998,7 @@
       email:'csot.zhaopin@tcl.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 成都 (5) =====
     {
@@ -1022,7 +1022,7 @@
       email:null,
       phone:null,
       community:false
-    }
+    },
     {
       id:'6752a6ca-384',
       city:'成都',
@@ -1044,7 +1044,7 @@
       email:null,
       phone:null,
       community:false
-    }
+    },
     {
       id:'8c28d0dd-e83',
       city:'成都',
@@ -1066,7 +1066,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'7055a552-4e1',
       city:'成都',
@@ -1088,7 +1088,7 @@
       email:'hr@cdgm.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'06d14a38-903',
       city:'成都',
@@ -1110,7 +1110,7 @@
       email:'hr@cdjmgx.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 无锡 (1) =====
     {
@@ -1134,7 +1134,7 @@
       email:'hr@cr-semi.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 昆明 (1) =====
     {
@@ -1158,7 +1158,7 @@
       email:'hr@kmbfir.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 杭州 (44) =====
     {
@@ -1182,7 +1182,7 @@
       email:'campus@hikvision.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'873b2b2a-652',
       city:'杭州',
@@ -1204,7 +1204,7 @@
       email:'campus@hikvision.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'22800b6d-b6b',
       city:'杭州',
@@ -1226,7 +1226,7 @@
       email:'campus@hikvision.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'c5b43fa0-9bd',
       city:'杭州',
@@ -1248,7 +1248,7 @@
       email:'campus@hikvision.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'a67fb1e9-be3',
       city:'杭州',
@@ -1270,7 +1270,7 @@
       email:'campus@hikvision.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'d2f8e493-a49',
       city:'杭州',
@@ -1292,7 +1292,7 @@
       email:'dh_fj@dahuatech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'5dedfe1f-18d',
       city:'杭州',
@@ -1314,7 +1314,7 @@
       email:'dh_fj@dahuatech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'4ede1b67-d0c',
       city:'杭州',
@@ -1336,7 +1336,7 @@
       email:'dh_fj@dahuatech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'53584ca7-69b',
       city:'杭州',
@@ -1358,7 +1358,7 @@
       email:'hr@lx-ar.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'b05bbfa8-459',
       city:'杭州',
@@ -1380,7 +1380,7 @@
       email:'hr@lx-ar.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'404a0d78-ac0',
       city:'杭州',
@@ -1402,7 +1402,7 @@
       email:'hr@lx-ar.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'8197f0df-5af',
       city:'杭州',
@@ -1424,7 +1424,7 @@
       email:'sunnyhr@sunnyoptical.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'bfe6b8f0-7fd',
       city:'杭州',
@@ -1446,7 +1446,7 @@
       email:'sunnyhr@sunnyoptical.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'205fd058-670',
       city:'杭州',
@@ -1468,7 +1468,7 @@
       email:'sunnyhr@sunnyoptical.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'b969db5b-9d8',
       city:'杭州',
@@ -1490,7 +1490,7 @@
       email:'hr@zkoptics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'b7a661c7-492',
       city:'杭州',
@@ -1512,7 +1512,7 @@
       email:'hr@zkoptics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'dc836002-56f',
       city:'杭州',
@@ -1534,7 +1534,7 @@
       email:'hr@qrws.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'abbb4e1b-75e',
       city:'杭州',
@@ -1556,7 +1556,7 @@
       email:'hr@qrws.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'43526d6b-dd5',
       city:'杭州',
@@ -1578,7 +1578,7 @@
       email:'hr@zkshw.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'debf55dc-3b8',
       city:'杭州',
@@ -1600,7 +1600,7 @@
       email:'hr@zkshw.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'246f1372-5fe',
       city:'杭州',
@@ -1622,7 +1622,7 @@
       email:'hr@zkshw.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'56f27992-315',
       city:'杭州',
@@ -1644,7 +1644,7 @@
       email:'hr@phenixoptics.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'74198d41-d56',
       city:'杭州',
@@ -1666,7 +1666,7 @@
       email:'hr@phenixoptics.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'21556a9d-fbf',
       city:'杭州',
@@ -1688,7 +1688,7 @@
       email:'hr@phenixoptics.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'6d0617cf-91d',
       city:'杭州',
@@ -1710,7 +1710,7 @@
       email:'hr@yt-optics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'5e506c05-a61',
       city:'杭州',
@@ -1732,7 +1732,7 @@
       email:'hr@leapmotor.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'1bc8c38c-537',
       city:'杭州',
@@ -1754,7 +1754,7 @@
       email:'hr@dfh-lasercom.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'eeb7fad4-a8e',
       city:'杭州',
@@ -1776,7 +1776,7 @@
       email:'hr@htys.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'edfcd59f-e66',
       city:'杭州',
@@ -1798,7 +1798,7 @@
       email:'hr@dali-tech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'02149593-de0',
       city:'杭州',
@@ -1820,7 +1820,7 @@
       email:'hr@najingtech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'9e19752d-67e',
       city:'杭州',
@@ -1842,7 +1842,7 @@
       email:'hr@najingtech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'f6ceda31-286',
       city:'杭州',
@@ -1864,7 +1864,7 @@
       email:'hr@mdmn.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'93bd41c0-a24',
       city:'杭州',
@@ -1886,7 +1886,7 @@
       email:'hr@angkun.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'eff6e6d9-6fd',
       city:'杭州',
@@ -1908,7 +1908,7 @@
       email:'hr@tianrui.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'60c76b58-4d8',
       city:'杭州',
@@ -1930,7 +1930,7 @@
       email:'hr@yuquan.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'f4646b89-872',
       city:'杭州',
@@ -1952,7 +1952,7 @@
       email:'hr@aio-optics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'f1f51e33-a91',
       city:'杭州',
@@ -1974,7 +1974,7 @@
       email:'hr@jrcm.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'bce0aeae-72b',
       city:'杭州',
@@ -1996,7 +1996,7 @@
       email:'hr@scantech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'86fc1bf2-5cc',
       city:'杭州',
@@ -2018,7 +2018,7 @@
       email:'hr@angers.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'32d68ad7-4e3',
       city:'杭州',
@@ -2040,7 +2040,7 @@
       email:'hr@phenixoptics.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'8ec5d5af-679',
       city:'杭州',
@@ -2062,7 +2062,7 @@
       email:'hr@xinjianwei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'b294a905-b1b',
       city:'杭州',
@@ -2084,7 +2084,7 @@
       email:'hr@hehutec.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'a325a1f0-94d',
       city:'杭州',
@@ -2106,7 +2106,7 @@
       email:'hr@hehutec.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'45fa8003-cdd',
       city:'杭州',
@@ -2128,7 +2128,7 @@
       email:'hr@xuandu.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 武汉 (47) =====
     {
@@ -2152,7 +2152,7 @@
       email:'hr@raycuslaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'575ca4df-984',
       city:'武汉',
@@ -2174,7 +2174,7 @@
       email:'hr@raycuslaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'8350d23f-1fb',
       city:'武汉',
@@ -2196,7 +2196,7 @@
       email:'hr@raycuslaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'02a4d671-b73',
       city:'武汉',
@@ -2218,7 +2218,7 @@
       email:'hr@raycuslaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'f059006e-da6',
       city:'武汉',
@@ -2240,7 +2240,7 @@
       email:'hr@raycuslaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'13cfacf2-195',
       city:'武汉',
@@ -2262,7 +2262,7 @@
       email:'hrnew@genuine-opto.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'7570cf3f-694',
       city:'武汉',
@@ -2284,7 +2284,7 @@
       email:'hrnew@genuine-opto.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'9b3a8aa4-0d0',
       city:'武汉',
@@ -2306,7 +2306,7 @@
       email:'hrnew@genuine-opto.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'4b138b16-559',
       city:'武汉',
@@ -2328,7 +2328,7 @@
       email:'zhaopin@fiberhome.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'836daebf-c27',
       city:'武汉',
@@ -2350,7 +2350,7 @@
       email:'zhaopin@fiberhome.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'0f8467f3-969',
       city:'武汉',
@@ -2372,7 +2372,7 @@
       email:'job@yofc.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'ac60b1ad-66c',
       city:'武汉',
@@ -2394,7 +2394,7 @@
       email:'job@yofc.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'d9c087be-a11',
       city:'武汉',
@@ -2416,7 +2416,7 @@
       email:'job@yofc.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'be24e541-510',
       city:'武汉',
@@ -2438,7 +2438,7 @@
       email:'hrm@guide-infrared.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'557f0d65-6fa',
       city:'武汉',
@@ -2460,7 +2460,7 @@
       email:'hrm@guide-infrared.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'98080e72-3b5',
       city:'武汉',
@@ -2482,7 +2482,7 @@
       email:'csot.zhaopin@tcl.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'cb6844d3-408',
       city:'武汉',
@@ -2504,7 +2504,7 @@
       email:'csot.zhaopin@tcl.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'b67ad006-716',
       city:'武汉',
@@ -2526,7 +2526,7 @@
       email:'hr@haiwei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'1cddacdc-68c',
       city:'武汉',
@@ -2548,7 +2548,7 @@
       email:'hr@haiwei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'7ae6a80f-e4c',
       city:'武汉',
@@ -2570,7 +2570,7 @@
       email:'hr@united-imaging.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'2436fbbe-f5a',
       city:'武汉',
@@ -2592,7 +2592,7 @@
       email:'hr@united-imaging.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'311453e2-05c',
       city:'武汉',
@@ -2614,7 +2614,7 @@
       email:'hr@ruijie.com.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'b334a7dd-4ec',
       city:'武汉',
@@ -2636,7 +2636,7 @@
       email:'hr@cxs-tech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'84e3246a-9cd',
       city:'武汉',
@@ -2658,7 +2658,7 @@
       email:'hr@cxs-tech.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'480f4a38-610',
       city:'武汉',
@@ -2680,7 +2680,7 @@
       email:'hr@gzlaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'8e940fef-f5c',
       city:'武汉',
@@ -2702,7 +2702,7 @@
       email:'hr@gzlaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'dbf76eef-f60',
       city:'武汉',
@@ -2724,7 +2724,7 @@
       email:'hr@anyanglaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'3e4a1ba2-125',
       city:'武汉',
@@ -2746,7 +2746,7 @@
       email:'hr@anyanglaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'070f4b30-83b',
       city:'武汉',
@@ -2768,7 +2768,7 @@
       email:'hr@huaraylaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'043532df-93c',
       city:'武汉',
@@ -2790,7 +2790,7 @@
       email:'hr@huaraylaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'42c66396-054',
       city:'武汉',
@@ -2812,7 +2812,7 @@
       email:'hr@lingtu.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'85f4ad9b-d08',
       city:'武汉',
@@ -2834,7 +2834,7 @@
       email:'hr@juhe.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'746e4166-1c9',
       city:'武汉',
@@ -2856,7 +2856,7 @@
       email:'hr@zhiyuan.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'146e6e43-e74',
       city:'武汉',
@@ -2878,7 +2878,7 @@
       email:'hr@xinlike.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'97cdd878-218',
       city:'武汉',
@@ -2900,7 +2900,7 @@
       email:'hr@gmlab.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'ba2bd793-17b',
       city:'武汉',
@@ -2922,7 +2922,7 @@
       email:'hr@xiaoguangzi.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'4a74db46-158',
       city:'武汉',
@@ -2944,7 +2944,7 @@
       email:'hr@ganwei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'7f64895c-3b3',
       city:'武汉',
@@ -2966,7 +2966,7 @@
       email:'hr@xiwei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'7637bc57-8d0',
       city:'武汉',
@@ -2988,7 +2988,7 @@
       email:'hr@songsheng.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'09e9575a-22e',
       city:'武汉',
@@ -3010,7 +3010,7 @@
       email:'hr@wuyue.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'178776e6-a93',
       city:'武汉',
@@ -3032,7 +3032,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'831a93a3-860',
       city:'武汉',
@@ -3054,7 +3054,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'40674d17-248',
       city:'武汉',
@@ -3076,7 +3076,7 @@
       email:'hr@accelink.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'2df080e4-e79',
       city:'武汉',
@@ -3098,7 +3098,7 @@
       email:'hr@zygl.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'624e9788-227',
       city:'武汉',
@@ -3120,7 +3120,7 @@
       email:'hr@liubo.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'c8b51bf7-e2f',
       city:'武汉',
@@ -3142,7 +3142,7 @@
       email:'hr@youyang.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'241a300e-e84',
       city:'武汉',
@@ -3164,7 +3164,7 @@
       email:'hr@robovision.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 沈阳 (1) =====
     {
@@ -3188,7 +3188,7 @@
       email:'hr@siasun.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 洛阳 (1) =====
     {
@@ -3212,7 +3212,7 @@
       email:'hr@johnton.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 济南 (1) =====
     {
@@ -3236,7 +3236,7 @@
       email:'hr@goertek.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 深圳 (25) =====
     {
@@ -3260,7 +3260,7 @@
       email:'HRL@hanslaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'b996deb4-43d',
       city:'深圳',
@@ -3282,7 +3282,7 @@
       email:'HRL@hanslaser.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'c42f3eb9-011',
       city:'深圳',
@@ -3304,7 +3304,7 @@
       email:'hr.zhaopin@ofilm.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'0e5c6010-455',
       city:'深圳',
@@ -3326,7 +3326,7 @@
       email:'hr.zhaopin@ofilm.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'ee09921b-479',
       city:'深圳',
@@ -3348,7 +3348,7 @@
       email:'hr@skyverse.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'332e7a30-e8e',
       city:'深圳',
@@ -3370,7 +3370,7 @@
       email:'hr@maxphotonics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'0ee23d02-26d',
       city:'深圳',
@@ -3392,7 +3392,7 @@
       email:'hr@maxphotonics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'ed64311e-895',
       city:'深圳',
@@ -3414,7 +3414,7 @@
       email:'hr@newkailai.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'cd4219cb-3d8',
       city:'深圳',
@@ -3436,7 +3436,7 @@
       email:'hr@huahan.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'6b495bed-363',
       city:'深圳',
@@ -3458,7 +3458,7 @@
       email:'hr@lice.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'88402f61-88e',
       city:'深圳',
@@ -3480,7 +3480,7 @@
       email:'hr@huanchuang.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'12620160-792',
       city:'深圳',
@@ -3502,7 +3502,7 @@
       email:'hr@jinshida.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'8dda4471-568',
       city:'深圳',
@@ -3524,7 +3524,7 @@
       email:'hr@jptoe.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'a657f949-68c',
       city:'深圳',
@@ -3546,7 +3546,7 @@
       email:'hr@chaoyue.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'cdb0ad19-9ed',
       city:'深圳',
@@ -3568,7 +3568,7 @@
       email:'hr@yimeizhi.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'2bacbabe-362',
       city:'深圳',
@@ -3590,7 +3590,7 @@
       email:'hr@xunquan.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'9be3ae24-8b5',
       city:'深圳',
@@ -3612,7 +3612,7 @@
       email:'hr@ouyi.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'10ed5b7a-fa3',
       city:'深圳',
@@ -3634,7 +3634,7 @@
       email:'hr@ruixin.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'8fd3ae26-ed4',
       city:'深圳',
@@ -3656,7 +3656,7 @@
       email:'hr@diaotuo.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'384a0261-f62',
       city:'深圳',
@@ -3678,7 +3678,7 @@
       email:'hr@foxconn.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'a7dacda5-dfd',
       city:'深圳',
@@ -3700,7 +3700,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'36922557-317',
       city:'深圳',
@@ -3722,7 +3722,7 @@
       email:'hr@unionimage.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'5ed69432-426',
       city:'深圳',
@@ -3744,7 +3744,7 @@
       email:'hr@jiemian.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'5cdedca0-3b3',
       city:'深圳',
@@ -3766,7 +3766,7 @@
       email:'hr@leihe.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'cf0cce69-93c',
       city:'深圳',
@@ -3788,7 +3788,7 @@
       email:'hr@ouling.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 潍坊 (1) =====
     {
@@ -3812,7 +3812,7 @@
       email:'hr@goertek.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 珠海 (1) =====
     {
@@ -3836,7 +3836,7 @@
       email:'hr@advphotons.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 福州 (1) =====
     {
@@ -3860,7 +3860,7 @@
       email:'hr@forecam.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 绵阳 (1) =====
     {
@@ -3884,7 +3884,7 @@
       email:'hr@changhong.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 苏州 (13) =====
     {
@@ -3908,7 +3908,7 @@
       email:'campus@innolight.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'6e156781-4f2',
       city:'苏州',
@@ -3930,7 +3930,7 @@
       email:'campus@innolight.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'7c316e78-cbd',
       city:'苏州',
@@ -3952,7 +3952,7 @@
       email:'HR@everbrightphotonics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'57cf5b10-52c',
       city:'苏州',
@@ -3974,7 +3974,7 @@
       email:'HR@everbrightphotonics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'231fcc88-bdd',
       city:'苏州',
@@ -3996,7 +3996,7 @@
       email:'HR@everbrightphotonics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'a6adc054-681',
       city:'苏州',
@@ -4018,7 +4018,7 @@
       email:'hr@csvision.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'e81c40d3-f30',
       city:'苏州',
@@ -4040,7 +4040,7 @@
       email:'hr@tztek.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'13419955-cc7',
       city:'苏州',
@@ -4062,7 +4062,7 @@
       email:'office@yxopt.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'600a025a-0d4',
       city:'苏州',
@@ -4084,7 +4084,7 @@
       email:'hr@leishen.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'a921399c-280',
       city:'苏州',
@@ -4106,7 +4106,7 @@
       email:'hr@hyc.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'9a764006-559',
       city:'苏州',
@@ -4128,7 +4128,7 @@
       email:'HR@everbrightphotonics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'a5379147-122',
       city:'苏州',
@@ -4150,7 +4150,7 @@
       email:'HR@everbrightphotonics.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'40a49ea3-ecd',
       city:'苏州',
@@ -4172,7 +4172,7 @@
       email:'hr@tztek.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 西安 (5) =====
     {
@@ -4196,7 +4196,7 @@
       email:'hr@ciomp.ac.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'ef551a54-85f',
       city:'西安',
@@ -4218,7 +4218,7 @@
       email:'hr@focuslight.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'24234dc2-fcb',
       city:'西安',
@@ -4240,7 +4240,7 @@
       email:'hr@micromach.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'17d5bbee-f1d',
       city:'西安',
@@ -4262,7 +4262,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'92e01b66-76f',
       city:'西安',
@@ -4284,7 +4284,7 @@
       email:'hr@opt.ac.cn',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 贵阳 (1) =====
     {
@@ -4308,7 +4308,7 @@
       email:'hr@sunlord.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 郑州 (1) =====
     {
@@ -4332,7 +4332,7 @@
       email:'hr@hanwei.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 重庆 (1) =====
     {
@@ -4356,7 +4356,7 @@
       email:'career@huawei.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 长春 (2) =====
     {
@@ -4380,7 +4380,7 @@
       email:'hr@ciomp.ac.cn',
       phone:null,
       community:false
-    }
+    },
     {
       id:'4b46b98d-4f5',
       city:'长春',
@@ -4402,7 +4402,7 @@
       email:'hr@gpixel.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 长沙 (2) =====
     {
@@ -4426,7 +4426,7 @@
       email:'xiaozhao@hnlens.com',
       phone:null,
       community:false
-    }
+    },
     {
       id:'b15afe03-b56',
       city:'长沙',
@@ -4448,7 +4448,7 @@
       email:'xiaozhao@hnlens.com',
       phone:null,
       community:false
-    }
+    },
 
     // ===== 青岛 (1) =====
     {
@@ -4530,6 +4530,12 @@
   }
 
   function filterJobs() {
+    // Sync global filter state for tab switching
+    window._activeFilter = activeFilter;
+    window._activeRegion = activeRegion;
+    window._emailOnly = emailOnly;
+    window._searchTerm = searchTerm;
+    
     var filtered = jobs.filter(function(j) {
       if (activeFilter !== 'all' && j.dirList.indexOf(activeFilter) === -1) return false;
       if (activeRegion !== 'all' && j.city !== activeRegion) return false;
@@ -4684,6 +4690,7 @@
 
   function mergeAllJobs() {
     jobs = baseJobs.concat(communityJobs);
+    window._allJobs = jobs;
   }
 
   // Fetch jobs from GitHub (synced from Feishu by GitHub Action every 5 min)
@@ -4721,11 +4728,22 @@
       j.dirList.forEach(function(d) { allDirs[d] = true; });
       if (j.email) emailCount++;
     });
-    document.getElementById('totalCount').textContent = jobs.length;
-    document.querySelectorAll('.stat-card')[1].querySelector('.stat-num').textContent = Object.keys(allCities).length;
-    document.querySelectorAll('.stat-card')[2].querySelector('.stat-num').textContent = Object.keys(allDirs).length;
-    document.querySelectorAll('.stat-card')[3].querySelector('.stat-num').textContent = Object.keys(allCompanies).length;
-    document.querySelectorAll('.stat-card')[4].querySelector('.stat-num').textContent = emailCount;
+    var tc = document.getElementById('totalCount');
+    if (tc) tc.textContent = jobs.length;
+    var scs = document.querySelectorAll('.stat-card');
+    if (scs.length >= 5) {
+      scs[1].querySelector('.stat-num').textContent = Object.keys(allCities).length;
+      scs[2].querySelector('.stat-num').textContent = Object.keys(allDirs).length;
+      scs[3].querySelector('.stat-num').textContent = Object.keys(allCompanies).length;
+      scs[4].querySelector('.stat-num').textContent = emailCount;
+    }
+    // Update mini stats in sticky nav
+    var mc = document.getElementById('miniCount');
+    var mci = document.getElementById('miniCities');
+    var mco = document.getElementById('miniCompanies');
+    if (mc) mc.textContent = jobs.length;
+    if (mci) mci.textContent = Object.keys(allCities).length;
+    if (mco) mco.textContent = Object.keys(allCompanies).length;
   }
 
   function refreshAll() {

@@ -66,7 +66,11 @@ for city, jlist in sorted(city_order.items()):
         if len(job_line) > 100:
             # Split into multi-line
             job_line = '    {\n      ' + ',\n      '.join(parts) + '\n    }'
-        lines.append(job_line)
+        lines.append(job_line + ',')
+
+# Remove trailing comma from last job
+if lines and lines[-1].endswith(','):
+    lines[-1] = lines[-1][:-1]
 
 lines.append('  ];')
 
