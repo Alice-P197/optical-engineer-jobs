@@ -2,7 +2,7 @@ name: Sync Feishu Jobs
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
@@ -15,9 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: pip install requests --break-system-packages -q
 
       - name: Sync from Feishu Base
         env:
