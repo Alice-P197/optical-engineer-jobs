@@ -1,10 +1,10 @@
 (function() {
-        // ===== 200 Jobs across 36 cities =====
+          // ===== 200 Jobs across 36 cities =====
   var baseJobs = [
 
     // ===== 上海 (7) =====
     {
-      id:'1445c768-8e3',
+      id:'5e99f791-19f',
       city:'上海',
       company:'华为（上海研究所）',
       position:'光学工程师（振镜）',
@@ -26,7 +26,7 @@
       community:false
     },
     {
-      id:'672a9c43-b6b',
+      id:'961c1fc1-9cf',
       city:'上海',
       company:'华为（上海研究所）',
       position:'光学工程师（光通信）',
@@ -48,7 +48,7 @@
       community:false
     },
     {
-      id:'ff605a04-270',
+      id:'9f1f0ed8-77f',
       city:'上海',
       company:'某上海电子/半导体公司',
       position:'高级光学设计工程师',
@@ -70,7 +70,7 @@
       community:false
     },
     {
-      id:'2a1cd5d6-65e',
+      id:'a3f073e4-53e',
       city:'上海',
       company:'某上海金属制品公司',
       position:'光学工程师（光机）',
@@ -92,7 +92,7 @@
       community:false
     },
     {
-      id:'66013399-6b3',
+      id:'871de7b2-3ec',
       city:'上海',
       company:'某上海企业',
       position:'光学工程师（光谱）',
@@ -114,7 +114,7 @@
       community:false
     },
     {
-      id:'9692382b-939',
+      id:'cb16c2a5-f21',
       city:'上海',
       company:'上海微电子装备',
       position:'光学工程师',
@@ -136,7 +136,7 @@
       community:false
     },
     {
-      id:'0ff718da-51d',
+      id:'942edc46-f09',
       city:'上海',
       company:'上海复旦微电子',
       position:'光学工程师',
@@ -160,7 +160,7 @@
 
     // ===== 东莞 (3) =====
     {
-      id:'473db43c-57d',
+      id:'265006a2-869',
       city:'东莞',
       company:'华为（松山湖）',
       position:'高级光学工程师',
@@ -182,7 +182,7 @@
       community:false
     },
     {
-      id:'540612a9-d19',
+      id:'b471fcb8-9b2',
       city:'东莞',
       company:'华为（松山湖）',
       position:'高级光学工程师（车载）',
@@ -204,7 +204,7 @@
       community:false
     },
     {
-      id:'ae0a7c40-ed4',
+      id:'fb5fc958-772',
       city:'东莞',
       company:'华为（松山湖）',
       position:'光学工程师',
@@ -228,7 +228,7 @@
 
     // ===== 佛山 (1) =====
     {
-      id:'89da51ec-b42',
+      id:'14808649-2b2',
       city:'佛山',
       company:'佛山国星光电',
       position:'光学工程师',
@@ -252,7 +252,7 @@
 
     // ===== 北京 (20) =====
     {
-      id:'95d0b712-5b1',
+      id:'6a95443d-208',
       city:'北京',
       company:'小米',
       position:'手机部-相机部-光学工程师',
@@ -274,7 +274,7 @@
       community:false
     },
     {
-      id:'ec506838-bb0',
+      id:'651a3dd1-7fc',
       city:'北京',
       company:'京东方',
       position:'光学工程师',
@@ -296,7 +296,7 @@
       community:false
     },
     {
-      id:'1acfd8c5-c64',
+      id:'c924e523-f09',
       city:'北京',
       company:'玻色量子',
       position:'高级光学工程师',
@@ -318,7 +318,7 @@
       community:false
     },
     {
-      id:'29aa5fd8-afc',
+      id:'042489ab-c71',
       city:'北京',
       company:'玻色量子',
       position:'光学工程师',
@@ -340,7 +340,7 @@
       community:false
     },
     {
-      id:'4c06705c-1f0',
+      id:'fe14f8d7-998',
       city:'北京',
       company:'北京奥普托科',
       position:'光学专家',
@@ -362,7 +362,7 @@
       community:false
     },
     {
-      id:'c5af592f-bcb',
+      id:'88548c8f-b92',
       city:'北京',
       company:'北京奥普托科',
       position:'光学设计工程师',
@@ -384,7 +384,7 @@
       community:false
     },
     {
-      id:'8689883c-5bb',
+      id:'4a5420d4-fb0',
       city:'北京',
       company:'北京认知光子',
       position:'高级光学设计工程师',
@@ -406,7 +406,7 @@
       community:false
     },
     {
-      id:'5b89d7ec-c6a',
+      id:'1de6a6f3-e73',
       city:'北京',
       company:'北京国望光学科技',
       position:'光学检测技术员',
@@ -428,7 +428,7 @@
       community:false
     },
     {
-      id:'063ee4a6-b10',
+      id:'21805fcc-57f',
       city:'北京',
       company:'北京国望光学科技',
       position:'光学镀膜技术员',
@@ -450,7 +450,7 @@
       community:false
     },
     {
-      id:'95469778-b2c',
+      id:'0ebf16aa-3b1',
       city:'北京',
       company:'北京福托依莱科技',
       position:'镜头光学工程师',
@@ -472,7 +472,7 @@
       community:false
     },
     {
-      id:'141ded95-e6b',
+      id:'79f72fc4-7b2',
       city:'北京',
       company:'北京双竞科技',
       position:'光学工程设计师',
@@ -494,7 +494,7 @@
       community:false
     },
     {
-      id:'9e152d44-cfe',
+      id:'fadb0cae-00f',
       city:'北京',
       company:'北京导感光电',
       position:'光学设计工程师',
@@ -516,7 +516,7 @@
       community:false
     },
     {
-      id:'421d9d93-dbe',
+      id:'e23c7824-c1f',
       city:'北京',
       company:'北京光昱光电技术',
       position:'镜头成像光学设计',
@@ -538,7 +538,7 @@
       community:false
     },
     {
-      id:'6016d461-71d',
+      id:'7cb8f59e-362',
       city:'北京',
       company:'ASML（阿斯麦）',
       position:'电子光学工程师',
@@ -560,7 +560,7 @@
       community:false
     },
     {
-      id:'0e861615-c9f',
+      id:'db3c8f94-aa4',
       city:'北京',
       company:'北京博视像元',
       position:'高级光学工程师',
@@ -582,7 +582,7 @@
       community:false
     },
     {
-      id:'694d2eb4-497',
+      id:'7b8a5edf-8b3',
       city:'北京',
       company:'北京创思工贸',
       position:'光学工艺工程师',
@@ -604,7 +604,7 @@
       community:false
     },
     {
-      id:'fde41d3e-cba',
+      id:'39dc83c5-380',
       city:'北京',
       company:'北京创思工贸',
       position:'光学镀膜工程师',
@@ -626,7 +626,7 @@
       community:false
     },
     {
-      id:'92b91844-091',
+      id:'2dff7f2e-f0a',
       city:'北京',
       company:'北京莱帕德图像技术',
       position:'光学研发工程师',
@@ -648,7 +648,7 @@
       community:false
     },
     {
-      id:'2db52cd6-30f',
+      id:'3cdb2bde-cb8',
       city:'北京',
       company:'北京紫威光学科技',
       position:'高级光学镀膜工程师',
@@ -670,7 +670,7 @@
       community:false
     },
     {
-      id:'5af748b7-e35',
+      id:'93afdbaf-b84',
       city:'北京',
       company:'北京紫威光学科技',
       position:'光学测试工程师',
@@ -694,7 +694,7 @@
 
     // ===== 南京 (1) =====
     {
-      id:'0b0c72ba-fa4',
+      id:'dcf55db0-12b',
       city:'南京',
       company:'南京波长光电',
       position:'光学工程师',
@@ -718,7 +718,7 @@
 
     // ===== 南昌 (1) =====
     {
-      id:'a9c3167e-ad3',
+      id:'dbaab893-ca3',
       city:'南昌',
       company:'欧菲光',
       position:'光学工程师',
@@ -742,7 +742,7 @@
 
     // ===== 厦门 (1) =====
     {
-      id:'fae78e34-4cb',
+      id:'cada3619-63f',
       city:'厦门',
       company:'厦门力鼎光电',
       position:'光学工程师',
@@ -766,7 +766,7 @@
 
     // ===== 合肥 (3) =====
     {
-      id:'f78b830e-ef6',
+      id:'e36dec2c-8d7',
       city:'合肥',
       company:'合肥美亚光电',
       position:'光学工程师',
@@ -788,7 +788,7 @@
       community:false
     },
     {
-      id:'a9ed2f7a-4f1',
+      id:'b1258d34-cb0',
       city:'合肥',
       company:'安徽华创鸿度光电',
       position:'光学工程师（激光器）',
@@ -810,7 +810,7 @@
       community:false
     },
     {
-      id:'5e082f8d-7d9',
+      id:'741577c2-027',
       city:'合肥',
       company:'芯碁微装',
       position:'光学工程师',
@@ -834,7 +834,7 @@
 
     // ===== 哈尔滨 (1) =====
     {
-      id:'680f42f3-659',
+      id:'bc8f128d-76d',
       city:'哈尔滨',
       company:'哈尔滨新光光电',
       position:'光学工程师',
@@ -858,7 +858,7 @@
 
     // ===== 嘉兴 (1) =====
     {
-      id:'09d376f2-0d1',
+      id:'48fd51a9-5a9',
       city:'嘉兴',
       company:'蓝特光学',
       position:'光学工程师',
@@ -882,7 +882,7 @@
 
     // ===== 大连 (1) =====
     {
-      id:'1741d7c1-37f',
+      id:'6872064d-485',
       city:'大连',
       company:'大连光洋科技',
       position:'光学工程师',
@@ -906,7 +906,7 @@
 
     // ===== 天津 (1) =====
     {
-      id:'22e8be14-c85',
+      id:'b8e8d910-f96',
       city:'天津',
       company:'天津光电集团',
       position:'光学工程师',
@@ -930,7 +930,7 @@
 
     // ===== 宁波 (1) =====
     {
-      id:'5ae13a51-336',
+      id:'46655f4d-397',
       city:'宁波',
       company:'永新光学',
       position:'光学工程师',
@@ -954,7 +954,7 @@
 
     // ===== 广州 (1) =====
     {
-      id:'b0280211-fd9',
+      id:'948fffb3-eca',
       city:'广州',
       company:'广州视源股份',
       position:'光学工程师',
@@ -978,7 +978,7 @@
 
     // ===== 惠州 (1) =====
     {
-      id:'d7230851-ddd',
+      id:'c696cdbc-279',
       city:'惠州',
       company:'惠州TCL华星',
       position:'光学工程师',
@@ -1002,7 +1002,7 @@
 
     // ===== 成都 (5) =====
     {
-      id:'15696416-eef',
+      id:'b50bad61-c0e',
       city:'成都',
       company:'某成都电子/半导体公司',
       position:'光学设计工程师',
@@ -1024,7 +1024,7 @@
       community:false
     },
     {
-      id:'6752a6ca-384',
+      id:'7b060192-2b2',
       city:'成都',
       company:'某成都知名公司',
       position:'光学设计工程师',
@@ -1046,7 +1046,7 @@
       community:false
     },
     {
-      id:'8c28d0dd-e83',
+      id:'7839aad3-62c',
       city:'成都',
       company:'华为（成都研究所）',
       position:'光学工程师',
@@ -1068,7 +1068,7 @@
       community:false
     },
     {
-      id:'7055a552-4e1',
+      id:'3e430f63-ee0',
       city:'成都',
       company:'成都光明光电',
       position:'光学工程师',
@@ -1090,7 +1090,7 @@
       community:false
     },
     {
-      id:'06d14a38-903',
+      id:'33420ef6-f94',
       city:'成都',
       company:'成都精密光学工程研究中心',
       position:'光学工程师',
@@ -1114,7 +1114,7 @@
 
     // ===== 无锡 (1) =====
     {
-      id:'9f5ce734-c63',
+      id:'26606bb5-067',
       city:'无锡',
       company:'无锡华润微电子',
       position:'光学工程师',
@@ -1138,7 +1138,7 @@
 
     // ===== 昆明 (1) =====
     {
-      id:'a2bcc267-b5c',
+      id:'031bc597-cc7',
       city:'昆明',
       company:'昆明北方红外',
       position:'光学工程师',
@@ -1162,7 +1162,7 @@
 
     // ===== 杭州 (44) =====
     {
-      id:'cebb6e47-5d1',
+      id:'ca827593-37b',
       city:'杭州',
       company:'海康威视',
       position:'光学工程师（成像方向）',
@@ -1184,7 +1184,7 @@
       community:false
     },
     {
-      id:'873b2b2a-652',
+      id:'7b70f02b-c98',
       city:'杭州',
       company:'海康威视',
       position:'光学设计工程师',
@@ -1206,7 +1206,7 @@
       community:false
     },
     {
-      id:'22800b6d-b6b',
+      id:'2f4eb00f-a7e',
       city:'杭州',
       company:'海康威视',
       position:'音频传感-光学工程师',
@@ -1228,7 +1228,7 @@
       community:false
     },
     {
-      id:'c5b43fa0-9bd',
+      id:'d1297a04-60d',
       city:'杭州',
       company:'海康威视',
       position:'光学系统专家（光谱/气体传感）',
@@ -1250,7 +1250,7 @@
       community:false
     },
     {
-      id:'a67fb1e9-be3',
+      id:'f95397da-c24',
       city:'杭州',
       company:'海康威视',
       position:'资深光学设计工程师',
@@ -1272,7 +1272,7 @@
       community:false
     },
     {
-      id:'d2f8e493-a49',
+      id:'2b69530c-e69',
       city:'杭州',
       company:'浙江大华',
       position:'光学工程师',
@@ -1294,7 +1294,7 @@
       community:false
     },
     {
-      id:'5dedfe1f-18d',
+      id:'906a8b57-add',
       city:'杭州',
       company:'浙江大华',
       position:'光学工程师（成像）',
@@ -1316,7 +1316,7 @@
       community:false
     },
     {
-      id:'4ede1b67-d0c',
+      id:'9a7227c9-cce',
       city:'杭州',
       company:'浙江大华',
       position:'光学工程师（PIR菲涅尔透镜）',
@@ -1338,7 +1338,7 @@
       community:false
     },
     {
-      id:'53584ca7-69b',
+      id:'79db0652-76f',
       city:'杭州',
       company:'灵犀微光',
       position:'光学设计工程师',
@@ -1360,7 +1360,7 @@
       community:false
     },
     {
-      id:'b05bbfa8-459',
+      id:'94dbbff2-460',
       city:'杭州',
       company:'灵犀微光',
       position:'光学检测工程师（AR）',
@@ -1382,7 +1382,7 @@
       community:false
     },
     {
-      id:'404a0d78-ac0',
+      id:'e6fbccc7-052',
       city:'杭州',
       company:'灵犀微光',
       position:'光学镀膜工程师',
@@ -1404,7 +1404,7 @@
       community:false
     },
     {
-      id:'8197f0df-5af',
+      id:'c1bd5058-175',
       city:'杭州',
       company:'舜宇光学',
       position:'光学工程师',
@@ -1426,7 +1426,7 @@
       community:false
     },
     {
-      id:'bfe6b8f0-7fd',
+      id:'097c95af-eac',
       city:'杭州',
       company:'舜宇光学',
       position:'光学设计-ARVR',
@@ -1448,7 +1448,7 @@
       community:false
     },
     {
-      id:'205fd058-670',
+      id:'aa9df4b8-b4b',
       city:'杭州',
       company:'舜宇光学',
       position:'光学设计-光波导',
@@ -1470,7 +1470,7 @@
       community:false
     },
     {
-      id:'b969db5b-9d8',
+      id:'6ebcdfab-753',
       city:'杭州',
       company:'中科通信杭州分公司',
       position:'光学工程师',
@@ -1492,7 +1492,7 @@
       community:false
     },
     {
-      id:'b7a661c7-492',
+      id:'93d6aa26-976',
       city:'杭州',
       company:'中科通信杭州分公司',
       position:'光器件/光学工程师/专家',
@@ -1514,7 +1514,7 @@
       community:false
     },
     {
-      id:'dc836002-56f',
+      id:'80320317-097',
       city:'杭州',
       company:'清软微视（杭州）科技',
       position:'高级光学工程师',
@@ -1536,7 +1536,7 @@
       community:false
     },
     {
-      id:'abbb4e1b-75e',
+      id:'ad55700e-56e',
       city:'杭州',
       company:'清软微视（杭州）科技',
       position:'光学设计工程师',
@@ -1558,7 +1558,7 @@
       community:false
     },
     {
-      id:'43526d6b-dd5',
+      id:'74ed91fe-632',
       city:'杭州',
       company:'中科山海微（杭州）',
       position:'光学设计工程师',
@@ -1580,7 +1580,7 @@
       community:false
     },
     {
-      id:'debf55dc-3b8',
+      id:'2b53091a-68f',
       city:'杭州',
       company:'中科山海微（杭州）',
       position:'光学工程师',
@@ -1602,7 +1602,7 @@
       community:false
     },
     {
-      id:'246f1372-5fe',
+      id:'8b886158-be2',
       city:'杭州',
       company:'中科山海微（杭州）',
       position:'光机结构工程师',
@@ -1624,7 +1624,7 @@
       community:false
     },
     {
-      id:'56f27992-315',
+      id:'c14ddc35-446',
       city:'杭州',
       company:'凤凰光学',
       position:'光学设计',
@@ -1646,7 +1646,7 @@
       community:false
     },
     {
-      id:'74198d41-d56',
+      id:'310211ae-8fb',
       city:'杭州',
       company:'凤凰光学',
       position:'变焦镜头光学设计',
@@ -1668,7 +1668,7 @@
       community:false
     },
     {
-      id:'21556a9d-fbf',
+      id:'754fc8ab-25d',
       city:'杭州',
       company:'凤凰光学',
       position:'光学设计（红外镜头）',
@@ -1690,7 +1690,7 @@
       community:false
     },
     {
-      id:'6d0617cf-91d',
+      id:'3ee6cd5a-ff7',
       city:'杭州',
       company:'宇瞳光学',
       position:'光学设计工程师',
@@ -1712,7 +1712,7 @@
       community:false
     },
     {
-      id:'5e506c05-a61',
+      id:'dc503e8d-c17',
       city:'杭州',
       company:'零跑科技',
       position:'照明系统光学设计',
@@ -1734,7 +1734,7 @@
       community:false
     },
     {
-      id:'1bc8c38c-537',
+      id:'51e2376c-d6c',
       city:'杭州',
       company:'杭州航天东方红激光通信',
       position:'光学设计工程师',
@@ -1756,7 +1756,7 @@
       community:false
     },
     {
-      id:'eeb7fad4-a8e',
+      id:'ad3b84e8-9f8',
       city:'杭州',
       company:'航天跃盛',
       position:'光学工程师',
@@ -1778,7 +1778,7 @@
       community:false
     },
     {
-      id:'edfcd59f-e66',
+      id:'d8db5cf0-03e',
       city:'杭州',
       company:'大立科技',
       position:'光学工程师',
@@ -1800,7 +1800,7 @@
       community:false
     },
     {
-      id:'02149593-de0',
+      id:'000a0afe-068',
       city:'杭州',
       company:'纳境科技',
       position:'光学设计工程师',
@@ -1822,7 +1822,7 @@
       community:false
     },
     {
-      id:'9e19752d-67e',
+      id:'055aba24-042',
       city:'杭州',
       company:'纳境科技',
       position:'高级光学设计工程师（手机方向）',
@@ -1844,7 +1844,7 @@
       community:false
     },
     {
-      id:'f6ceda31-286',
+      id:'f5620e30-4b8',
       city:'杭州',
       company:'慕德微纳',
       position:'光学设计工程师',
@@ -1866,7 +1866,7 @@
       community:false
     },
     {
-      id:'93bd41c0-a24',
+      id:'ba2494c9-8d8',
       city:'杭州',
       company:'昂坤半导体',
       position:'光学工程师',
@@ -1888,7 +1888,7 @@
       community:false
     },
     {
-      id:'eff6e6d9-6fd',
+      id:'34961544-ea2',
       city:'杭州',
       company:'杭州天睿精密科技',
       position:'光学工程师',
@@ -1910,7 +1910,7 @@
       community:false
     },
     {
-      id:'60c76b58-4d8',
+      id:'250b6ef7-552',
       city:'杭州',
       company:'杭州玉之泉精密仪器',
       position:'光学工程师',
@@ -1932,7 +1932,7 @@
       community:false
     },
     {
-      id:'f4646b89-872',
+      id:'66e696bb-6b0',
       city:'杭州',
       company:'杭州爱鸥光学科技',
       position:'光学工程师',
@@ -1954,7 +1954,7 @@
       community:false
     },
     {
-      id:'f1f51e33-a91',
+      id:'6624371e-bff',
       city:'杭州',
       company:'极弱磁场国家重大科技基础设施研究院',
       position:'微纳光学设计工程师',
@@ -1976,7 +1976,7 @@
       community:false
     },
     {
-      id:'bce0aeae-72b',
+      id:'3f25ee09-664',
       city:'杭州',
       company:'思看科技',
       position:'光学工程师',
@@ -1998,7 +1998,7 @@
       community:false
     },
     {
-      id:'86fc1bf2-5cc',
+      id:'122e8a91-494',
       city:'杭州',
       company:'杭州安杰思医学',
       position:'光学设计工程师',
@@ -2020,7 +2020,7 @@
       community:false
     },
     {
-      id:'32d68ad7-4e3',
+      id:'845c4a78-212',
       city:'杭州',
       company:'凤凰光学',
       position:'光学设计工程师',
@@ -2042,7 +2042,7 @@
       community:false
     },
     {
-      id:'8ec5d5af-679',
+      id:'758c5b06-6c0',
       city:'杭州',
       company:'杭州芯见微半导体',
       position:'光学工程师',
@@ -2064,7 +2064,7 @@
       community:false
     },
     {
-      id:'b294a905-b1b',
+      id:'e6f0da14-315',
       city:'杭州',
       company:'杭州荷湖科技',
       position:'光学设计主管',
@@ -2086,7 +2086,7 @@
       community:false
     },
     {
-      id:'a325a1f0-94d',
+      id:'cb040b4d-e2c',
       city:'杭州',
       company:'杭州荷湖科技',
       position:'光学工程师',
@@ -2108,7 +2108,7 @@
       community:false
     },
     {
-      id:'45fa8003-cdd',
+      id:'b65c8399-d44',
       city:'杭州',
       company:'杭州玄度通信',
       position:'光学设计工程师',
@@ -2132,7 +2132,7 @@
 
     // ===== 武汉 (47) =====
     {
-      id:'7c986253-109',
+      id:'73f5a4db-9e3',
       city:'武汉',
       company:'武汉锐科激光',
       position:'光学工程师（固体激光器）',
@@ -2154,7 +2154,7 @@
       community:false
     },
     {
-      id:'575ca4df-984',
+      id:'a306b77a-b1b',
       city:'武汉',
       company:'武汉锐科激光',
       position:'高级光学工程师（超快光纤激光）',
@@ -2176,7 +2176,7 @@
       community:false
     },
     {
-      id:'8350d23f-1fb',
+      id:'5bdb6407-5dc',
       city:'武汉',
       company:'武汉锐科激光',
       position:'高级光学工程师（纳秒）',
@@ -2198,7 +2198,7 @@
       community:false
     },
     {
-      id:'02a4d671-b73',
+      id:'98866550-9bf',
       city:'武汉',
       company:'武汉锐科激光',
       position:'光学工程师（固体）',
@@ -2220,7 +2220,7 @@
       community:false
     },
     {
-      id:'f059006e-da6',
+      id:'c15a9bb5-7cb',
       city:'武汉',
       company:'武汉锐科激光',
       position:'高级特种光纤设计师',
@@ -2242,7 +2242,7 @@
       community:false
     },
     {
-      id:'13cfacf2-195',
+      id:'4cd956d1-36c',
       city:'武汉',
       company:'华工正源',
       position:'光学工程师',
@@ -2264,7 +2264,7 @@
       community:false
     },
     {
-      id:'7570cf3f-694',
+      id:'c6e89282-801',
       city:'武汉',
       company:'华工正源',
       position:'硅光硬件开发工程师',
@@ -2286,7 +2286,7 @@
       community:false
     },
     {
-      id:'9b3a8aa4-0d0',
+      id:'6f5f2989-6f3',
       city:'武汉',
       company:'华工正源',
       position:'硅光芯片测试工程师',
@@ -2308,7 +2308,7 @@
       community:false
     },
     {
-      id:'4b138b16-559',
+      id:'9495a304-0af',
       city:'武汉',
       company:'烽火通信',
       position:'高级光学工程师（光传输方向）',
@@ -2330,7 +2330,7 @@
       community:false
     },
     {
-      id:'836daebf-c27',
+      id:'83275b0f-46b',
       city:'武汉',
       company:'烽火通信',
       position:'光器件开发工程师',
@@ -2352,7 +2352,7 @@
       community:false
     },
     {
-      id:'0f8467f3-969',
+      id:'4f1083ea-fe2',
       city:'武汉',
       company:'长飞光纤',
       position:'光学工程师',
@@ -2374,7 +2374,7 @@
       community:false
     },
     {
-      id:'ac60b1ad-66c',
+      id:'1a12f515-b1b',
       city:'武汉',
       company:'长飞光纤',
       position:'高级光学工程师',
@@ -2396,7 +2396,7 @@
       community:false
     },
     {
-      id:'d9c087be-a11',
+      id:'fbad8dca-6ff',
       city:'武汉',
       company:'长飞光纤',
       position:'研发工艺工程师（玻璃光纤）',
@@ -2418,7 +2418,7 @@
       community:false
     },
     {
-      id:'be24e541-510',
+      id:'b097b43d-7b8',
       city:'武汉',
       company:'高德红外',
       position:'光学工程师',
@@ -2440,7 +2440,7 @@
       community:false
     },
     {
-      id:'557f0d65-6fa',
+      id:'e8e8cae1-9c5',
       city:'武汉',
       company:'高德红外',
       position:'光学设计工程师',
@@ -2462,7 +2462,7 @@
       community:false
     },
     {
-      id:'98080e72-3b5',
+      id:'5931f0b0-684',
       city:'武汉',
       company:'华星光电',
       position:'模组光学设计资深工程师',
@@ -2484,7 +2484,7 @@
       community:false
     },
     {
-      id:'cb6844d3-408',
+      id:'f0004a0e-bf4',
       city:'武汉',
       company:'华星光电',
       position:'光学工程师（显示面板）',
@@ -2506,7 +2506,7 @@
       community:false
     },
     {
-      id:'b67ad006-716',
+      id:'355938e0-02e',
       city:'武汉',
       company:'海微科技',
       position:'光学工程师（通信光学）',
@@ -2528,7 +2528,7 @@
       community:false
     },
     {
-      id:'1cddacdc-68c',
+      id:'10822149-1f8',
       city:'武汉',
       company:'海微科技',
       position:'光学工程师',
@@ -2550,7 +2550,7 @@
       community:false
     },
     {
-      id:'7ae6a80f-e4c',
+      id:'c0920b33-5ad',
       city:'武汉',
       company:'联影医疗（武汉）',
       position:'光学工程师',
@@ -2572,7 +2572,7 @@
       community:false
     },
     {
-      id:'2436fbbe-f5a',
+      id:'b0e34939-3c8',
       city:'武汉',
       company:'联影医疗（武汉）',
       position:'光学评价主管',
@@ -2594,7 +2594,7 @@
       community:false
     },
     {
-      id:'311453e2-05c',
+      id:'824e5463-b72',
       city:'武汉',
       company:'锐捷网络',
       position:'光学工程师',
@@ -2616,7 +2616,7 @@
       community:false
     },
     {
-      id:'b334a7dd-4ec',
+      id:'7461993a-943',
       city:'武汉',
       company:'长芯盛科技',
       position:'光学工程师',
@@ -2638,7 +2638,7 @@
       community:false
     },
     {
-      id:'84e3246a-9cd',
+      id:'4e5b3222-ce3',
       city:'武汉',
       company:'长芯盛科技',
       position:'光学耦合工艺工程师',
@@ -2660,7 +2660,7 @@
       community:false
     },
     {
-      id:'480f4a38-610',
+      id:'68b156ef-09c',
       city:'武汉',
       company:'武汉光至科技',
       position:'光学工程师（超快激光器）',
@@ -2682,7 +2682,7 @@
       community:false
     },
     {
-      id:'8e940fef-f5c',
+      id:'a5e4d6af-458',
       city:'武汉',
       company:'武汉光至科技',
       position:'光学工程师（纳秒激光器）',
@@ -2704,7 +2704,7 @@
       community:false
     },
     {
-      id:'dbf76eef-f60',
+      id:'3acdc6dd-aa9',
       city:'武汉',
       company:'武汉安扬激光',
       position:'高级光学工程师',
@@ -2726,7 +2726,7 @@
       community:false
     },
     {
-      id:'3e4a1ba2-125',
+      id:'6b6e9185-ca8',
       city:'武汉',
       company:'武汉安扬激光',
       position:'光纤设计工程师',
@@ -2748,7 +2748,7 @@
       community:false
     },
     {
-      id:'070f4b30-83b',
+      id:'b8512ee1-2f2',
       city:'武汉',
       company:'武汉华日精密激光',
       position:'高级光学工程师（纳秒）',
@@ -2770,7 +2770,7 @@
       community:false
     },
     {
-      id:'043532df-93c',
+      id:'5877952a-b1f',
       city:'武汉',
       company:'武汉华日精密激光',
       position:'光学工程师（固体）',
@@ -2792,7 +2792,7 @@
       community:false
     },
     {
-      id:'42c66396-054',
+      id:'081cff1a-ccd',
       city:'武汉',
       company:'武汉灵途传感科技',
       position:'光学工程师',
@@ -2814,7 +2814,7 @@
       community:false
     },
     {
-      id:'85f4ad9b-d08',
+      id:'69f432df-163',
       city:'武汉',
       company:'武汉聚合光子技术',
       position:'光学工程师',
@@ -2836,7 +2836,7 @@
       community:false
     },
     {
-      id:'746e4166-1c9',
+      id:'75f4471a-aa4',
       city:'武汉',
       company:'武汉智元拓目技术',
       position:'光学工程师',
@@ -2858,7 +2858,7 @@
       community:false
     },
     {
-      id:'146e6e43-e74',
+      id:'231b25f7-e5d',
       city:'武汉',
       company:'武汉芯力科',
       position:'光学工程师',
@@ -2880,7 +2880,7 @@
       community:false
     },
     {
-      id:'97cdd878-218',
+      id:'5b73eba3-a64',
       city:'武汉',
       company:'光谷实验室',
       position:'光学设计工程师',
@@ -2902,7 +2902,7 @@
       community:false
     },
     {
-      id:'ba2bd793-17b',
+      id:'4411ba7b-9b2',
       city:'武汉',
       company:'小光子（武汉）科技',
       position:'光学工程师',
@@ -2924,7 +2924,7 @@
       community:false
     },
     {
-      id:'4a74db46-158',
+      id:'e9dfb6d2-5de',
       city:'武汉',
       company:'武汉敢为科技',
       position:'光学研发工程师',
@@ -2946,7 +2946,7 @@
       community:false
     },
     {
-      id:'7f64895c-3b3',
+      id:'6444a158-def',
       city:'武汉',
       company:'晰微光电',
       position:'光学工程师',
@@ -2968,7 +2968,7 @@
       community:false
     },
     {
-      id:'7637bc57-8d0',
+      id:'521c3b2d-da2',
       city:'武汉',
       company:'松盛光电',
       position:'高级光学工程师',
@@ -2990,7 +2990,7 @@
       community:false
     },
     {
-      id:'09e9575a-22e',
+      id:'c0708228-b0b',
       city:'武汉',
       company:'武粤光电',
       position:'光学设计工程师',
@@ -3012,7 +3012,7 @@
       community:false
     },
     {
-      id:'178776e6-a93',
+      id:'e052ae87-03d',
       city:'武汉',
       company:'华为（武汉研究所）',
       position:'光学设计工程师',
@@ -3034,7 +3034,7 @@
       community:false
     },
     {
-      id:'831a93a3-860',
+      id:'15ffddeb-154',
       city:'武汉',
       company:'华为（武汉研究所）',
       position:'光学工程师',
@@ -3056,7 +3056,7 @@
       community:false
     },
     {
-      id:'40674d17-248',
+      id:'6f13ea4f-474',
       city:'武汉',
       company:'武汉光迅科技',
       position:'光学工程师',
@@ -3078,7 +3078,7 @@
       community:false
     },
     {
-      id:'2df080e4-e79',
+      id:'34b5fa28-4c7',
       city:'武汉',
       company:'武汉正源高理光学',
       position:'项目技术负责人（光栅尺）',
@@ -3100,7 +3100,7 @@
       community:false
     },
     {
-      id:'624e9788-227',
+      id:'ae115990-71b',
       city:'武汉',
       company:'武汉六博光电',
       position:'光学工程师',
@@ -3122,7 +3122,7 @@
       community:false
     },
     {
-      id:'c8b51bf7-e2f',
+      id:'92fdb6e0-bc7',
       city:'武汉',
       company:'武汉友阳光电',
       position:'光学工程师',
@@ -3144,7 +3144,7 @@
       community:false
     },
     {
-      id:'241a300e-e84',
+      id:'73fdaa3a-d90',
       city:'武汉',
       company:'武汉罗博威视',
       position:'光学工程师',
@@ -3168,7 +3168,7 @@
 
     // ===== 沈阳 (1) =====
     {
-      id:'d4decca4-bc7',
+      id:'60e25b0d-973',
       city:'沈阳',
       company:'沈阳新松机器人',
       position:'光学工程师',
@@ -3192,7 +3192,7 @@
 
     // ===== 洛阳 (1) =====
     {
-      id:'bfc7db4d-43b',
+      id:'6cf20738-223',
       city:'洛阳',
       company:'洛阳中航光电',
       position:'光学工程师',
@@ -3216,7 +3216,7 @@
 
     // ===== 济南 (1) =====
     {
-      id:'e9fe67b8-cdc',
+      id:'cb8526ea-481',
       city:'济南',
       company:'歌尔股份',
       position:'光学研发岗',
@@ -3240,7 +3240,7 @@
 
     // ===== 深圳 (25) =====
     {
-      id:'362913f6-306',
+      id:'b971627c-aaa',
       city:'深圳',
       company:'大族激光',
       position:'光学工程师',
@@ -3262,7 +3262,7 @@
       community:false
     },
     {
-      id:'b996deb4-43d',
+      id:'f9e835bb-694',
       city:'深圳',
       company:'大族激光',
       position:'光学工程师（精密量仪）',
@@ -3284,7 +3284,7 @@
       community:false
     },
     {
-      id:'c42f3eb9-011',
+      id:'ff66a646-903',
       city:'深圳',
       company:'欧菲光',
       position:'高级光学工程师',
@@ -3306,7 +3306,7 @@
       community:false
     },
     {
-      id:'0e5c6010-455',
+      id:'b9b8551b-0f6',
       city:'深圳',
       company:'欧菲光',
       position:'光学结构/设计工程师',
@@ -3328,7 +3328,7 @@
       community:false
     },
     {
-      id:'ee09921b-479',
+      id:'12f2cd89-e17',
       city:'深圳',
       company:'中科飞测',
       position:'光学工程师',
@@ -3350,7 +3350,7 @@
       community:false
     },
     {
-      id:'332e7a30-e8e',
+      id:'89aa3fb3-4e8',
       city:'深圳',
       company:'创鑫激光',
       position:'光学工程师',
@@ -3372,7 +3372,7 @@
       community:false
     },
     {
-      id:'0ee23d02-26d',
+      id:'4d8bb1fe-b2b',
       city:'深圳',
       company:'创鑫激光',
       position:'高级光学工程师',
@@ -3394,7 +3394,7 @@
       community:false
     },
     {
-      id:'ed64311e-895',
+      id:'56b625e0-a36',
       city:'深圳',
       company:'新凯来技术',
       position:'资深光学工程师',
@@ -3416,7 +3416,7 @@
       community:false
     },
     {
-      id:'cd4219cb-3d8',
+      id:'12d64357-9f2',
       city:'深圳',
       company:'深圳华汉伟业科技',
       position:'资深光学工程师',
@@ -3438,7 +3438,7 @@
       community:false
     },
     {
-      id:'6b495bed-363',
+      id:'069b91a0-c0d',
       city:'深圳',
       company:'力策科技',
       position:'光学工程师',
@@ -3460,7 +3460,7 @@
       community:false
     },
     {
-      id:'88402f61-88e',
+      id:'f7a7f79a-603',
       city:'深圳',
       company:'欢创科技',
       position:'光学工程师',
@@ -3482,7 +3482,7 @@
       community:false
     },
     {
-      id:'12620160-792',
+      id:'5ef024c7-e07',
       city:'深圳',
       company:'金视达',
       position:'光学工程师',
@@ -3504,7 +3504,7 @@
       community:false
     },
     {
-      id:'8dda4471-568',
+      id:'d6e18887-a06',
       city:'深圳',
       company:'深圳杰普特光电',
       position:'光学工程师',
@@ -3526,7 +3526,7 @@
       community:false
     },
     {
-      id:'a657f949-68c',
+      id:'e8baa7d6-8fe',
       city:'深圳',
       company:'深圳超越激光',
       position:'光学工程师',
@@ -3548,7 +3548,7 @@
       community:false
     },
     {
-      id:'cdb0ad19-9ed',
+      id:'beeb4bf8-aff',
       city:'深圳',
       company:'深圳宜美智',
       position:'光学工程师',
@@ -3570,7 +3570,7 @@
       community:false
     },
     {
-      id:'2bacbabe-362',
+      id:'95a48aed-f0d',
       city:'深圳',
       company:'深圳讯泉',
       position:'光学工程师',
@@ -3592,7 +3592,7 @@
       community:false
     },
     {
-      id:'9be3ae24-8b5',
+      id:'af6eae5d-c7f',
       city:'深圳',
       company:'深圳欧亿光电技术',
       position:'光学工程师',
@@ -3614,7 +3614,7 @@
       community:false
     },
     {
-      id:'10ed5b7a-fa3',
+      id:'38acb30b-f80',
       city:'深圳',
       company:'深圳睿芯智普',
       position:'光学工程师',
@@ -3636,7 +3636,7 @@
       community:false
     },
     {
-      id:'8fd3ae26-ed4',
+      id:'6e7afb68-f15',
       city:'深圳',
       company:'深圳雕拓科技',
       position:'光学工程师',
@@ -3658,7 +3658,7 @@
       community:false
     },
     {
-      id:'384a0261-f62',
+      id:'da34d382-d44',
       city:'深圳',
       company:'富士康科技集团',
       position:'光学工程师',
@@ -3680,7 +3680,7 @@
       community:false
     },
     {
-      id:'a7dacda5-dfd',
+      id:'655602af-c04',
       city:'深圳',
       company:'华为（深圳）',
       position:'光学工程师',
@@ -3702,7 +3702,7 @@
       community:false
     },
     {
-      id:'36922557-317',
+      id:'347a171d-1e4',
       city:'深圳',
       company:'深圳联合影像',
       position:'光学工程师',
@@ -3724,7 +3724,7 @@
       community:false
     },
     {
-      id:'5ed69432-426',
+      id:'8e38d917-9e1',
       city:'深圳',
       company:'深圳界面认知科技',
       position:'光学工程师',
@@ -3746,7 +3746,7 @@
       community:false
     },
     {
-      id:'5cdedca0-3b3',
+      id:'46643545-76a',
       city:'深圳',
       company:'深圳镭赫技术',
       position:'光学工程师',
@@ -3768,7 +3768,7 @@
       community:false
     },
     {
-      id:'cf0cce69-93c',
+      id:'8edd891f-c91',
       city:'深圳',
       company:'深圳欧凌镭射科技',
       position:'资深光学工程师',
@@ -3792,7 +3792,7 @@
 
     // ===== 潍坊 (1) =====
     {
-      id:'072888f8-98f',
+      id:'09b5db26-b22',
       city:'潍坊',
       company:'歌尔股份',
       position:'光学研发岗',
@@ -3816,7 +3816,7 @@
 
     // ===== 珠海 (1) =====
     {
-      id:'805dc353-4ca',
+      id:'4deb0993-c78',
       city:'珠海',
       company:'光库科技',
       position:'光学工程师',
@@ -3840,7 +3840,7 @@
 
     // ===== 福州 (1) =====
     {
-      id:'1d52973b-087',
+      id:'199f1783-49a',
       city:'福州',
       company:'福光股份',
       position:'光学工程师',
@@ -3864,7 +3864,7 @@
 
     // ===== 绵阳 (1) =====
     {
-      id:'b3b5cc30-3cc',
+      id:'7c079837-152',
       city:'绵阳',
       company:'长虹集团',
       position:'光学工程师',
@@ -3888,7 +3888,7 @@
 
     // ===== 苏州 (13) =====
     {
-      id:'97f14ed5-678',
+      id:'49e44ab8-9f3',
       city:'苏州',
       company:'苏州旭创科技',
       position:'光学工程师',
@@ -3910,7 +3910,7 @@
       community:false
     },
     {
-      id:'6e156781-4f2',
+      id:'c1ac3f7f-dac',
       city:'苏州',
       company:'苏州旭创科技',
       position:'光学封装工程师',
@@ -3932,7 +3932,7 @@
       community:false
     },
     {
-      id:'7c316e78-cbd',
+      id:'0a6e733f-6ae',
       city:'苏州',
       company:'苏州长光华芯',
       position:'光学工程师',
@@ -3954,7 +3954,7 @@
       community:false
     },
     {
-      id:'57cf5b10-52c',
+      id:'a0ddfe86-5a1',
       city:'苏州',
       company:'苏州长光华芯',
       position:'光通信产品工程师',
@@ -3976,7 +3976,7 @@
       community:false
     },
     {
-      id:'231fcc88-bdd',
+      id:'ec8882a5-4f2',
       city:'苏州',
       company:'苏州长光华芯',
       position:'光纤耦合工程师',
@@ -3998,7 +3998,7 @@
       community:false
     },
     {
-      id:'a6adc054-681',
+      id:'5a1efd7e-5e6',
       city:'苏州',
       company:'苏州创视智能',
       position:'高级光学工程师',
@@ -4020,7 +4020,7 @@
       community:false
     },
     {
-      id:'e81c40d3-f30',
+      id:'da76fb26-571',
       city:'苏州',
       company:'苏州天准科技',
       position:'光学工程师',
@@ -4042,7 +4042,7 @@
       community:false
     },
     {
-      id:'13419955-cc7',
+      id:'059fa218-e75',
       city:'苏州',
       company:'永新光学',
       position:'光学工程师',
@@ -4064,7 +4064,7 @@
       community:false
     },
     {
-      id:'600a025a-0d4',
+      id:'047f2cad-09d',
       city:'苏州',
       company:'镭神泰克科技（苏州）',
       position:'激光器工程师',
@@ -4086,7 +4086,7 @@
       community:false
     },
     {
-      id:'a921399c-280',
+      id:'07064265-74a',
       city:'苏州',
       company:'苏州华兴源创',
       position:'光学工程师',
@@ -4108,7 +4108,7 @@
       community:false
     },
     {
-      id:'9a764006-559',
+      id:'3baba409-9f6',
       city:'苏州',
       company:'苏州长光华芯',
       position:'半导体产品工程师',
@@ -4130,7 +4130,7 @@
       community:false
     },
     {
-      id:'a5379147-122',
+      id:'af050799-dd8',
       city:'苏州',
       company:'苏州长光华芯',
       position:'边发射-项目研究员',
@@ -4152,7 +4152,7 @@
       community:false
     },
     {
-      id:'40a49ea3-ecd',
+      id:'45976e6b-c87',
       city:'苏州',
       company:'苏州天准科技',
       position:'光学工程师',
@@ -4176,7 +4176,7 @@
 
     // ===== 西安 (5) =====
     {
-      id:'9064b517-e4a',
+      id:'6fdd552a-9f8',
       city:'西安',
       company:'中科院长光所（西安）',
       position:'光学工程师',
@@ -4198,7 +4198,7 @@
       community:false
     },
     {
-      id:'ef551a54-85f',
+      id:'5efb2905-80d',
       city:'西安',
       company:'西安炬光科技',
       position:'光学工程师',
@@ -4220,7 +4220,7 @@
       community:false
     },
     {
-      id:'24234dc2-fcb',
+      id:'592cbbed-eb0',
       city:'西安',
       company:'西安中科微精',
       position:'光学工程师',
@@ -4242,7 +4242,7 @@
       community:false
     },
     {
-      id:'17d5bbee-f1d',
+      id:'20d15e52-12b',
       city:'西安',
       company:'华为（西安研究所）',
       position:'光学工程师',
@@ -4264,7 +4264,7 @@
       community:false
     },
     {
-      id:'92e01b66-76f',
+      id:'fd754a0e-eed',
       city:'西安',
       company:'西安光机所',
       position:'光学工程师',
@@ -4288,7 +4288,7 @@
 
     // ===== 贵阳 (1) =====
     {
-      id:'ad97ac61-55f',
+      id:'3fe04eb6-fe1',
       city:'贵阳',
       company:'贵阳顺络迅达',
       position:'光学工程师',
@@ -4312,7 +4312,7 @@
 
     // ===== 郑州 (1) =====
     {
-      id:'65b76d5e-ae2',
+      id:'cb9a2d55-888',
       city:'郑州',
       company:'郑州汉威科技',
       position:'光学工程师',
@@ -4336,7 +4336,7 @@
 
     // ===== 重庆 (1) =====
     {
-      id:'7b6970ff-86a',
+      id:'97571d58-876',
       city:'重庆',
       company:'华为（重庆研究所）',
       position:'光学工程师',
@@ -4360,7 +4360,7 @@
 
     // ===== 长春 (2) =====
     {
-      id:'d168ef84-451',
+      id:'5a1f8b82-e99',
       city:'长春',
       company:'中科院长光所',
       position:'光学工程师',
@@ -4382,7 +4382,7 @@
       community:false
     },
     {
-      id:'4b46b98d-4f5',
+      id:'f9b5b9b6-774',
       city:'长春',
       company:'长春长光辰芯',
       position:'光学工程师',
@@ -4406,7 +4406,7 @@
 
     // ===== 长沙 (2) =====
     {
-      id:'6733e364-55d',
+      id:'f11be601-7e1',
       city:'长沙',
       company:'蓝思科技',
       position:'光学工程师',
@@ -4428,7 +4428,7 @@
       community:false
     },
     {
-      id:'b15afe03-b56',
+      id:'643c1eb3-2a7',
       city:'长沙',
       company:'蓝思科技',
       position:'光学镀膜工程师',
@@ -4452,7 +4452,7 @@
 
     // ===== 青岛 (1) =====
     {
-      id:'1591885d-6fe',
+      id:'afcc98d1-7a7',
       city:'青岛',
       company:'海信集团',
       position:'光学工程师',

@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
-"""Sync jobs from Feishu Bitable to jobs-data.json using v1 API."""
-import json, os, re, sys
+"""Sync jobs from Feishu Base (v3 columnar API) to jobs-data.json."""
+import json, os, sys
 import urllib.request
 import urllib.error
 
 APP_ID = os.environ['FEISHU_APP_ID']
 APP_SECRET = os.environ['FEISHU_APP_SECRET']
-APP_TOKEN = 'YPSTbjYSGaKXvLsSQ3wcxilYnDd'
+BASE_TOKEN = 'YPSTbjYSGaKXvLsSQ3wcxilYnDd'
 TABLE_ID = 'tblXG6CvIWsapTND'
 
 def api(method, url, data=None, token=None):
-    """Call Feishu API with urllib, return parsed JSON."""
     headers = {'Content-Type': 'application/json; charset=utf-8'}
     if token:
         headers['Authorization'] = 'Bearer ' + token
@@ -28,136 +27,146 @@ def api(method, url, data=None, token=None):
     try:
         return json.loads(raw)
     except json.JSONDecodeError as e:
-        print('JSON parse error at pos %d: %s' % (e.pos, e), file=sys.stderr)
-        print('Raw response (first 1000 chars):', file=sys.stderr)
-        print(raw[:1000], file=sys.stderr)
+        print('JSON error at %d: %s' % (e.pos, e), file=sys.stderr)
+        print('Raw: %s' % raw[:1000], file=sys.stderr)
         exit(1)
 
-# Step 1: Get token
+# Step 1: Get tenant access token
 print('Getting token...', file=sys.stderr)
-token_data = api('POST',
+td = api('POST',
     'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal',
     {'app_id': APP_ID, 'app_secret': APP_SECRET})
-if token_data.get('code') != 0:
-    print('Token error: %s' % token_data, file=sys.stderr)
+if td.get('code') != 0:
+    print('Token error: %s' % td, file=sys.stderr)
     exit(1)
-TOKEN = token_data['tenant_access_token']
-print('Token acquired', file=sys.stderr)
+TOKEN = td['tenant_access_token']
+print('Token OK', file=sys.stderr)
 
-# Step 2: Fetch all records
-all_items = []
+# Step 2: Fetch all records via v3 columnar API (paginated)
+all_fields = []
+all_rows = []
+all_rids = []
 page_token = ''
 page = 1
+
 while True:
-    url = ('https://open.feishu.cn/open-apis/bitable/v1/apps/%s'
-           '/tables/%s/records?page_size=500' % (APP_TOKEN, TABLE_ID))
+    url = ('https://open.feishu.cn/open-apis/base/v3/bases/%s'
+           '/tables/%s/records?page_size=500' % (BASE_TOKEN, TABLE_ID))
     if page_token:
         url += '&page_token=' + page_token
     print('Page %d...' % page, file=sys.stderr)
     body = api('GET', url, token=TOKEN)
-    code = body.get('code', -1)
-    if code != 0:
+    if body.get('code') != 0:
         print('API error: %s' % body, file=sys.stderr)
         exit(1)
+
     data = body.get('data', {})
-    items = data.get('items', [])
-    all_items.extend(items)
-    print('  Got %d items (total %d)' % (len(items), len(all_items)), file=sys.stderr)
-    if not data.get('has_more'):
+    if not all_fields:
+        all_fields = data.get('fields', [])
+    rows = data.get('data', [])
+    rids = data.get('record_id_list', [])
+    all_rows.extend(rows)
+    all_rids.extend(rids)
+    print('  +%d rows (total %d)' % (len(rows), len(all_rows)), file=sys.stderr)
+
+    page_token = data.get('page_token') or ''
+    if not data.get('has_more') or not page_token:
         break
-    page_token = data.get('page_token', '')
     page += 1
 
-print('Fetched %d rows' % len(all_items), file=sys.stderr)
+print('Fetched %d rows, %d fields' % (len(all_rows), len(all_fields)),
+      file=sys.stderr)
 
-# Step 3: Convert
+# Build field index
+fidx = {name: i for i, name in enumerate(all_fields)}
+
+def get_field(f, row):
+    i = fidx.get(f)
+    if i is None or i >= len(row):
+        return None
+    return row[i]
+
+# Step 3: Convert to job records
 jobs = []
-for item in all_items:
-    fields = item.get('fields', {})
-    record_id = item.get('record_id', '')
-    company = fields.get('公司', '') or ''
-    position = fields.get('岗位', '') or ''
+for idx, row in enumerate(all_rows):
+    company = get_field('公司', row) or ''
+    position = get_field('岗位', row) or ''
     if not company or not position:
         continue
 
-    cv = fields.get('城市', '')
+    rid = all_rids[idx] if idx < len(all_rids) else ''
+
+    # city
+    cv = get_field('城市', row)
     city = ''
     if isinstance(cv, list) and len(cv) > 0:
-        if isinstance(cv[0], dict):
-            city = cv[0].get('text', '')
-        else:
-            city = str(cv[0])
+        city = str(cv[0])
     elif isinstance(cv, str):
         city = cv
 
-    dirs = fields.get('研究方向', '') or ''
-    dir_list = []
-    if isinstance(dirs, list):
-        dir_list = [str(d) for d in dirs if d]
-    elif isinstance(dirs, str) and dirs.strip():
-        dir_list = [dirs.strip()]
-    dir_str = ','.join(dir_list)
+    # direction
+    dirs = get_field('研究方向', row) or []
+    dir_list = dirs if isinstance(dirs, list) else ([dirs] if dirs else [])
+    dir_str = ','.join(str(d) for d in dir_list if d)
 
-    link_val = fields.get('招聘链接', '') or ''
+    # link
+    link_val = get_field('招聘链接', row) or ''
     link = None
     if isinstance(link_val, dict) and link_val.get('link'):
         link = link_val['link']
     elif isinstance(link_val, str):
-        m = __import__('re').search(r'\]\(([^)]+)\)', link_val)
+        import re
+        m = re.search(r'\]\(([^)]+)\)', link_val)
         if m:
             link = m.group(1)
         elif link_val.startswith('http'):
             link = link_val
 
-    tags_str = fields.get('技能标签', '') or ''
+    # tags
+    tags_str = get_field('技能标签', row) or []
     if isinstance(tags_str, list):
         tags = [str(t) for t in tags_str if t]
     else:
         tags = [t.strip() for t in str(tags_str).split(',') if t.strip()]
 
-    src = fields.get('来源', '') or ''
-    if isinstance(src, list):
-        community = len(src) > 0 and '社区提交' in [str(s) for s in src]
-    else:
-        community = str(src) == '社区提交'
+    # source
+    src = get_field('来源', row) or []
+    community = isinstance(src, list) and len(src) > 0 and str(src[0]) == '社区提交'
 
-    s_min = fields.get('最低薪资K', 0) or 0
-    s_max = fields.get('最高薪资K', 0) or 0
+    # salary
+    s_min = get_field('最低薪资K', row) or 0
+    s_max = get_field('最高薪资K', row) or 0
     if isinstance(s_min, str):
-        try:
-            s_min = float(s_min)
-        except ValueError:
-            s_min = 0
+        try: s_min = float(s_min)
+        except ValueError: s_min = 0
     if isinstance(s_max, str):
-        try:
-            s_max = float(s_max)
-        except ValueError:
-            s_max = 0
+        try: s_max = float(s_max)
+        except ValueError: s_max = 0
 
     job = {
-        'id': record_id,
+        'id': rid,
         'city': city,
         'company': company,
         'position': position,
         'dir': dir_str,
         'dirList': dir_list,
-        'salary': fields.get('薪资范围', '面议') or '面议',
+        'salary': get_field('薪资范围', row) or '面议',
         'sMin': s_min,
         'sMax': s_max,
-        'edu': fields.get('学历要求', '未注明') or '未注明',
-        'exp': fields.get('经验要求', '未注明') or '未注明',
-        'date': fields.get('发布日期', '') or '',
-        'fresh': fields.get('是否最新', False) == True,
-        'desc': fields.get('岗位描述', '') or '',
+        'edu': get_field('学历要求', row) or '未注明',
+        'exp': get_field('经验要求', row) or '未注明',
+        'date': get_field('发布日期', row) or '',
+        'fresh': get_field('是否最新', row) == True,
+        'desc': get_field('岗位描述', row) or '',
         'tags': tags,
         'link': link,
-        'linkText': fields.get('链接文字', '查看详情') or '查看详情',
-        'email': fields.get('邮箱', '') or None,
-        'phone': fields.get('电话', '') or None,
+        'linkText': get_field('链接文字', row) or '查看详情',
+        'email': get_field('邮箱', row) or None,
+        'phone': get_field('电话', row) or None,
         'community': community,
     }
     jobs.append(job)
 
 with open('jobs-data.json', 'w') as fp:
     json.dump(jobs, fp, ensure_ascii=False, indent=2)
-print('Converted %d jobs' % len(jobs))
+print('Saved %d jobs to jobs-data.json' % len(jobs))
