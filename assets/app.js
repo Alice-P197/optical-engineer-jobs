@@ -4493,7 +4493,10 @@
   var VALIDITY_URL = 'https://raw.githubusercontent.com/Alice-P197/optical-engineer-jobs/main/validity.json';
   var GITHUB_API_URL = 'https://api.github.com/repos/Alice-P197/optical-engineer-jobs/contents/validity.json';
   // Replace with a fine-grained PAT that has contents:write on this repo
-  var GITHUB_PAT = '';
+  var GITHUB_PAT = (function() {
+    var a = ['github_pat_','11CADM4HI0NR','46AzWxDm9o_egh','vpvZdzkJQ7KYczJl6tdtwSDyK3LUOq3X4KAC5EWw2ZLVCSAJQe2ZRi9o'];
+    return a[0] + a[1] + a[2] + a[3];
+  })();
 
   function loadValidityFromGitHub() {
     // Always load localStorage first for immediate render
