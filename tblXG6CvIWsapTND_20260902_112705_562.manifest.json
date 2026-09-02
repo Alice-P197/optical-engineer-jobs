@@ -1,0 +1,220 @@
+{
+  "manifest_version": "v1",
+  "format": "ndjson",
+  "base_token": "YPSTbjYSGaKXvLsSQ3wcxilYnDd",
+  "table_id": "tblXG6CvIWsapTND",
+  "rev": 3,
+  "timezone": "Asia/Shanghai",
+  "query_context": {
+    "field_scope": "all_fields",
+    "record_scope": "all_records"
+  },
+  "requested_limit": 200,
+  "records_count": 91,
+  "page_count": 1,
+  "has_more": false,
+  "record_file": "/workspace/optical-engineer-jobs/tblXG6CvIWsapTND_20260902_112705_562.ndjson",
+  "record_file_size_bytes": 65972,
+  "manifest_file": "/workspace/optical-engineer-jobs/tblXG6CvIWsapTND_20260902_112705_562.manifest.json",
+  "columns": {
+    "record_id": {
+      "physical_type": "string",
+      "stats": {
+        "max_length": 14
+      },
+      "example": "recvu3JKt4ycF4"
+    },
+    "公司": {
+      "field_id": "fldD12DiRx",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 17
+      },
+      "example": "芯碁微装"
+    },
+    "发布日期": {
+      "field_id": "fldnp2qZxf",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 10
+      },
+      "example": "2026-08"
+    },
+    "城市": {
+      "field_id": "fld2WsY9xO",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "合肥"
+      ]
+    },
+    "学历要求": {
+      "field_id": "fldb3kwRcJ",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 8
+      },
+      "example": "硕士"
+    },
+    "岗位": {
+      "field_id": "fldekviqI7",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 21
+      },
+      "example": "光学工程师"
+    },
+    "岗位描述": {
+      "field_id": "fldRzrzjD0",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 113
+      },
+      "example": "激光器工程师。"
+    },
+    "技能标签": {
+      "field_id": "fld69HCjLc",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 34
+      },
+      "example": "光学设计"
+    },
+    "招聘链接": {
+      "field_id": "fldnFdZ1q0",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 101
+      },
+      "example": "[猎聘查看](https://m.liepin.com/)"
+    },
+    "是否最新": {
+      "field_id": "fld9skpegI",
+      "field_type": "checkbox",
+      "physical_type": "boolean",
+      "stats": {
+        "true_count": 17
+      },
+      "example": true
+    },
+    "最低薪资K": {
+      "field_id": "fld1q80t37",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 0,
+        "max": 30,
+        "avg": 10.428571428571429
+      },
+      "example": 0
+    },
+    "最高薪资K": {
+      "field_id": "fld10gFFtV",
+      "field_type": "number",
+      "physical_type": "number|null",
+      "stats": {
+        "null_count": 0,
+        "min": 0,
+        "max": 60,
+        "avg": 19.076923076923077
+      },
+      "example": 0
+    },
+    "来源": {
+      "field_id": "fldSgldcMK",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 1,
+        "avg_length": 1
+      },
+      "example": [
+        "系统收录"
+      ]
+    },
+    "电话": {
+      "field_id": "fldrNhavQR",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 90,
+        "max_length": 13
+      },
+      "example": "0551-65317745"
+    },
+    "研究方向": {
+      "field_id": "fldnr0HIPQ",
+      "field_type": "select",
+      "physical_type": "array<string>",
+      "stats": {
+        "empty_count": 0,
+        "max_length": 3,
+        "avg_length": 1.6593406593406594
+      },
+      "example": [
+        "半导体"
+      ]
+    },
+    "经验要求": {
+      "field_id": "fld7l45zqh",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 13
+      },
+      "example": "3-5年"
+    },
+    "薪资范围": {
+      "field_id": "fldcWUmZAM",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 10
+      },
+      "example": "7-12K"
+    },
+    "邮箱": {
+      "field_id": "fldBn9Y2xC",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 90,
+        "max_length": 17
+      },
+      "example": "hr@chinameyer.com"
+    },
+    "链接文字": {
+      "field_id": "fldwOwe5k7",
+      "field_type": "text",
+      "physical_type": "string|null",
+      "stats": {
+        "null_count": 0,
+        "max_length": 8
+      },
+      "example": "官网"
+    }
+  }
+}
