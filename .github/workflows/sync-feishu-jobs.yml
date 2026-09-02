@@ -16,64 +16,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Fetch from Feishu Base
+      - name: Install dependencies
+        run: pip install requests --break-system-packages -q
+
+      - name: Sync from Feishu Base
         env:
           FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
           FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
-        run: |
-          set -e
-
-          # Step 1: Get tenant access token
-          TOKEN_RESP=$(curl -s -X POST \
-            'https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal' \
-            -H 'Content-Type: application/json; charset=utf-8' \
-            -d "{\"app_id\":\"${FEISHU_APP_ID}\",\"app_secret\":\"${FEISHU_APP_SECRET}\"}")
-
-          TOKEN=$(echo "$TOKEN_RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['tenant_access_token'])")
-          echo "Token acquired"
-
-          # Step 2: List all records (paginated, columnar format)
-          BASE_TOKEN="YPSTbjYSGaKXvLsSQ3wcxilYnDd"
-          TABLE_ID="tblXG6CvIWsapTND"
-          PAGE_TOKEN=""
-          ALL_FIELDS="[]"
-          ALL_ROWS="[]"
-          ALL_RIDS="[]"
-
-          while true; do
-            URL="https://open.feishu.cn/open-apis/base/v3/bases/${BASE_TOKEN}/tables/${TABLE_ID}/records?page_size=200"
-            if [ -n "$PAGE_TOKEN" ]; then
-              URL="${URL}&page_token=${PAGE_TOKEN}"
-            fi
-
-            RESP=$(curl -s "$URL" \
-              -H "Authorization: Bearer ${TOKEN}" \
-              -H 'Content-Type: application/json; charset=utf-8')
-
-            API_CODE=$(echo "$RESP" | python3 -c "import sys,json; print(json.load(sys.stdin).get('code',-1))")
-            if [ "$API_CODE" != "0" ]; then
-              echo "Feishu API error: $RESP"
-              exit 1
-            fi
-
-            # Extract columns
-            FIELDS=$(echo "$RESP" | python3 -c "import sys,json; d=json.load(sys.stdin)['data']; print(json.dumps(d['fields']))")
-            ROWS=$(echo "$RESP" | python3 -c "import sys,json; d=json.load(sys.stdin)['data']; print(json.dumps(d['data']))")
-            RIDS=$(echo "$RESP" | python3 -c "import sys,json; d=json.load(sys.stdin)['data']; print(json.dumps(d['record_id_list']))")
-
-            ALL_FIELDS="$FIELDS"
-            ALL_ROWS=$(python3 -c "import sys,json; a=json.loads('''$ALL_ROWS'''); b=json.loads('''$ROWS'''); a.extend(b); print(json.dumps(a,ensure_ascii=False))")
-            ALL_RIDS=$(python3 -c "import sys,json; a=json.loads('''$ALL_RIDS'''); b=json.loads('''$RIDS'''); a.extend(b); print(json.dumps(a,ensure_ascii=False))")
-
-            HAS_MORE=$(echo "$RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['data'].get('has_more',False))")
-            if [ "$HAS_MORE" != "True" ]; then
-              break
-            fi
-            PAGE_TOKEN=$(echo "$RESP" | python3 -c "import sys,json; print(json.load(sys.stdin)['data']['page_token'])")
-          done
-
-          # Step 3: Build combined JSON and convert
-          python3 scripts/build-payload.py "${ALL_FIELDS}" "${ALL_ROWS}" "${ALL_RIDS}" | python3 scripts/convert-feishu.py
+        run: python3 scripts/sync-feishu.py
 
       - name: Commit and push if changed
         run: |
