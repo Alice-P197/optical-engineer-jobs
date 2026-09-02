@@ -4889,7 +4889,17 @@
   }
 
   function mergeAllJobs() {
-    jobs = baseJobs.concat(communityJobs);
+    // Feishu data is primary; baseJobs supplement with non-duplicates
+    var feishuKeys = {};
+    communityJobs.forEach(function(j) {
+      var key = (j.company + '||' + j.position + '||' + j.city).toLowerCase();
+      feishuKeys[key] = true;
+    });
+    var extra = baseJobs.filter(function(j) {
+      var key = (j.company + '||' + j.position + '||' + j.city).toLowerCase();
+      return !feishuKeys[key];
+    });
+    jobs = communityJobs.concat(extra);
     // Filter out deleted jobs
     jobs = jobs.filter(function(j) { return !deletedIds[j.id]; });
     // Mark validity from localStorage (default: valid)
@@ -4923,11 +4933,31 @@
         })
         .then(function(data) {
           if (Array.isArray(data) && data.length > 0) {
+            // Save local-only jobs before replacing with Feishu data
+            var localById = {};
+            communityJobs.forEach(function(j) {
+              if (j.id) localById[j.id] = j;
+            });
+            // Feishu data is primary — replace communityJobs
             communityJobs = data;
+            // Merge back local-only jobs not yet synced to GitHub
+            var remoteIds = {};
+            data.forEach(function(j) {
+              if (j.id) remoteIds[j.id] = true;
+            });
+            for (var lid in localById) {
+              if (localById.hasOwnProperty(lid) && !remoteIds[lid]) {
+                communityJobs.push(localById[lid]);
+              }
+            }
+            saveCommunityJobs();
             feishuJobsLoaded = true;
             refreshAll();
             var el = document.getElementById('feishuStatus');
-            if (el) { el.textContent = '社区提交 · ' + data.length + ' 岗位'; el.className = 'feishu-status live'; }
+            if (el) {
+              el.textContent = '飞书同步 · ' + data.length + ' 岗位';
+              el.className = 'feishu-status live';
+            }
           }
         })
         .catch(function() {
@@ -5121,34 +5151,6 @@
     }, 300);
   });
 
-  function fetchCommunityFromGitHub() {
-    // Use raw.githubusercontent.com — no auth needed for public repos
-    var rawUrl = 'https://raw.githubusercontent.com/' + GITHUB_REPO +
-      '/main/' + GITHUB_FILE;
-    // Add cache-busting param to avoid stale responses
-    fetch(rawUrl + '?t=' + Date.now(), { cache: 'no-store' })
-      .then(function(r) {
-        if (!r.ok) throw new Error('Not found');
-        return r.json();
-      })
-      .then(function(remote) {
-        if (!Array.isArray(remote) || remote.length === 0) return;
-        // Merge: remote data wins for same ID, keep local-only jobs
-        var localIds = {};
-        communityJobs.forEach(function(j) { localIds[j.id] = true; });
-        var merged = remote.slice();
-        communityJobs.forEach(function(j) {
-          if (!remote.some(function(rj) { return rj.id === j.id; })) {
-            merged.push(j);
-          }
-        });
-        communityJobs = merged;
-        saveCommunityJobs();
-        refreshAll();
-      })
-      .catch(function() { /* offline — use localStorage */ });
-  }
-
   // ===== Push single job to GitHub for real-time sync =====
   function pushJobToGitHub(job, callback) {
     if (!GITHUB_PAT) {
@@ -5208,7 +5210,6 @@
   // Init sort button state
   var sb = document.getElementById('sortBtn');
   if (sb && sortNewest) sb.classList.add('active');
-  fetchCommunityFromGitHub();
   fetchFromGitHub();
   updateStats();
   generateRegionChips();
