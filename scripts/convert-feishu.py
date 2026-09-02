@@ -1,34 +1,51 @@
 #!/usr/bin/env python3
-"""Convert Feishu Base records to website-compatible JSON."""
+"""Convert Feishu Base v3 columnar response to website-compatible JSON."""
 import json, sys, re
 
 def main():
-    items = json.load(sys.stdin)
+    raw = json.load(sys.stdin)
+    data = raw.get('data', {})
+    fields = data.get('fields', [])
+    rows = data.get('data', [])
+    rid_list = data.get('record_id_list', [])
+
+    if not fields or not rows:
+        print('No data found', file=sys.stderr)
+        return
+
+    # Build field index
+    field_idx = {name: i for i, name in enumerate(fields)}
+
+    def get_field(f, row):
+        i = field_idx.get(f)
+        if i is None or i >= len(row):
+            return None
+        return row[i]
+
     jobs = []
 
-    for item in items:
-        f = item.get('fields', {})
-        rid = item.get('record_id', '')
-        company = f.get('公司', '') or ''
-        position = f.get('岗位', '') or ''
+    for idx, row in enumerate(rows):
+        rid = rid_list[idx] if idx < len(rid_list) else ''
+        company = get_field('公司', row) or ''
+        position = get_field('岗位', row) or ''
         if not company or not position:
             continue
 
         # City
+        cv = get_field('城市', row)
         city = ''
-        cv = f.get('城市')
         if isinstance(cv, list) and len(cv) > 0:
             city = cv[0]
         elif isinstance(cv, str):
             city = cv
 
         # Directions
-        dirs = f.get('研究方向', [])
+        dirs = get_field('研究方向', row) or []
         dir_list = dirs if isinstance(dirs, list) else ([dirs] if dirs else [])
         dir_str = ','.join(dir_list)
 
         # Link
-        link_val = f.get('招聘链接', '')
+        link_val = get_field('招聘链接', row) or ''
         link = None
         if link_val:
             m = re.search(r'\]\(([^)]+)\)', link_val)
@@ -38,11 +55,11 @@ def main():
                 link = link_val
 
         # Tags
-        tags_str = f.get('技能标签', '') or ''
+        tags_str = get_field('技能标签', row) or ''
         tags = [t.strip() for t in tags_str.split(',') if t.strip()] if tags_str else []
 
         # Source
-        src = f.get('来源', ['系统收录'])
+        src = get_field('来源', row) or ['系统收录']
         community = isinstance(src, list) and len(src) > 0 and src[0] == '社区提交'
 
         job = {
@@ -52,19 +69,19 @@ def main():
             'position': position,
             'dir': dir_str,
             'dirList': dir_list,
-            'salary': f.get('薪资范围', '面议') or '面议',
-            'sMin': f.get('最低薪资K', 0) or 0,
-            'sMax': f.get('最高薪资K', 0) or 0,
-            'edu': f.get('学历要求', '未注明') or '未注明',
-            'exp': f.get('经验要求', '未注明') or '未注明',
-            'date': f.get('发布日期', '') or '',
-            'fresh': f.get('是否最新') == True,
-            'desc': f.get('岗位描述', '') or '',
+            'salary': get_field('薪资范围', row) or '面议',
+            'sMin': get_field('最低薪资K', row) or 0,
+            'sMax': get_field('最高薪资K', row) or 0,
+            'edu': get_field('学历要求', row) or '未注明',
+            'exp': get_field('经验要求', row) or '未注明',
+            'date': get_field('发布日期', row) or '',
+            'fresh': get_field('是否最新', row) == True,
+            'desc': get_field('岗位描述', row) or '',
             'tags': tags,
             'link': link,
-            'linkText': f.get('链接文字', '查看详情') or '查看详情',
-            'email': f.get('邮箱', None),
-            'phone': f.get('电话', None),
+            'linkText': get_field('链接文字', row) or '查看详情',
+            'email': get_field('邮箱', row),
+            'phone': get_field('电话', row),
             'community': community,
         }
         jobs.append(job)
