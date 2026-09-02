@@ -5072,14 +5072,16 @@
     document.querySelectorAll('#fjDirGroup input:checked').forEach(function(cb) {
       dirs.push(cb.value);
     });
-    var customDirs = document.getElementById('fjDirCustom').value.trim();
+    var customDirsEl = document.getElementById('fjDirCustom');
+    var customDirs = customDirsEl ? customDirsEl.value.trim() : '';
     if (customDirs) {
       dirs = dirs.concat(customDirs.split(',').map(function(d){return d.trim();}).filter(Boolean));
     }
     if (dirs.length === 0) { alert('请至少选择一个研究方向'); return; }
 
-    var tags = document.getElementById('fjTags').value.trim()
-      .split(',').map(function(t){return t.trim();}).filter(Boolean);
+    var tagsEl = document.getElementById('fjTags');
+    var tags = tagsEl ? tagsEl.value.trim()
+      .split(',').map(function(t){return t.trim();}).filter(Boolean) : [];
 
     var salaryStr = '面议';
     if (sMin > 0 && sMax > 0) salaryStr = sMin + 'K-' + sMax + 'K';
