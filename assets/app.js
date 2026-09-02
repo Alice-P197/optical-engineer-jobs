@@ -5109,7 +5109,13 @@
     refreshAll();
     window.scrollTo({top: 0, behavior: 'smooth'});
 
-    // Open Feishu form for cloud sync
+    // Push to GitHub for real-time sync across all users
+    pushJobToGitHub(newJob, function() {
+      document.getElementById('syncStatus').textContent =
+        '已同步到云端';
+    });
+
+    // Open Feishu form for cloud backup
     setTimeout(function() {
       window.open(FEISHU_FORM_URL, '_blank');
     }, 300);
@@ -5141,6 +5147,48 @@
         refreshAll();
       })
       .catch(function() { /* offline — use localStorage */ });
+  }
+
+  // ===== Push single job to GitHub for real-time sync =====
+  function pushJobToGitHub(job, callback) {
+    if (!GITHUB_PAT) {
+      if (callback) callback();
+      return;
+    }
+    var apiUrl = 'https://api.github.com/repos/' + GITHUB_REPO +
+      '/contents/' + GITHUB_FILE;
+    fetch(apiUrl, {
+      headers: {
+        'Authorization': 'Bearer ' + GITHUB_PAT,
+        'Accept': 'application/vnd.github+json'
+      }
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(fileInfo) {
+      if (!fileInfo.sha) throw new Error('No SHA');
+      var decoded = JSON.parse(atob(fileInfo.content.replace(/\n/g, '')));
+      // Prepend new job to array
+      decoded.unshift(job);
+      var newContent = btoa(unescape(encodeURIComponent(
+        JSON.stringify(decoded, null, 2))));
+      return fetch(apiUrl, {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + GITHUB_PAT,
+          'Accept': 'application/vnd.github+json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: 'Add community job: ' + job.company + ' - ' + job.position,
+          content: newContent,
+          sha: fileInfo.sha
+        })
+      });
+    })
+    .then(function(r) {
+      if (r && r.ok && callback) callback();
+    })
+    .catch(function() { /* network error - job saved locally only */ });
   }
 
   // ===== Community badge in cards =====
